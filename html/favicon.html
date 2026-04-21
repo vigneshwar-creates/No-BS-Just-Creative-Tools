@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favicon Generator — JCT</title>
+  <meta name="description" content="Generate favicons from images. Create .ico, .png in multiple sizes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="favicon.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">IMAGE TOOLS</span>
+      <h1 class="tool-page-title">[◉] FAVICON<br>GENERATOR</h1>
+      <p class="tool-page-desc">Upload an image and generate favicons in all standard sizes (16, 32, 48, 64, 128, 192, 512). Download as ZIP or individual files.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="favicon-drop-zone" style="min-height: 120px;">
+            <span class="drop-zone-icon">◈</span>
+            <p class="drop-zone-text">Drop image or click to upload</p>
+            <input type="file" accept="image/*" id="favicon-file-input" hidden>
+          </div>
+
+          <div class="control-group" style="margin-top: 20px;">
+            <label class="control-label">OUTPUT SIZES</label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="16" checked> 16×16
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="32" checked> 32×32
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="48" checked> 48×48
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="64" checked> 64×64
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="128" checked> 128×128
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="192"> 192×192
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
+                <input type="checkbox" value="512"> 512×512
+              </label>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="favicon-generate">GENERATE</button>
+            <button class="btn btn-outline" id="favicon-download">DOWNLOAD ZIP</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="favicon-preview" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding: 20px;"></div>
+          <div id="favicon-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload an image</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

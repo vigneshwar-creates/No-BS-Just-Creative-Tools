@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIF Maker — JCT</title>
+  <meta name="description" content="Create animated GIFs from images. Simple frame-based GIF creator.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="gif.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">IMAGE TOOLS</span>
+      <h1 class="tool-page-title">[↻] GIF<br>MAKER</h1>
+      <p class="tool-page-desc">Create animated GIFs from multiple images. Upload frames, set delay, and download your animation.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">FRAMES</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="gif-drop-zone" style="min-height: 100px;">
+            <span class="drop-zone-icon">◈</span>
+            <p class="drop-zone-text">Drop images (frames) or click</p>
+            <input type="file" accept="image/*" id="gif-file-input" multiple hidden>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">FRAME DELAY <span class="control-value" id="gif-delay-val">200</span>ms</label>
+            <input type="range" class="range-input" id="gif-delay" min="50" max="1000" value="200" step="50">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">OUTPUT SIZE</label>
+            <select class="select-field" id="gif-size">
+              <option value="320">320px width</option>
+              <option value="480" selected>480px width</option>
+              <option value="640">640px width</option>
+              <option value="800">800px width</option>
+              <option value="original">Original size</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="gif-generate">CREATE GIF</button>
+            <button class="btn btn-outline" id="gif-download">DOWNLOAD</button>
+            <button class="btn btn-ghost" id="gif-clear">CLEAR ALL</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 16px; min-height: 80px;" id="gif-frames-preview"></div>
+          <div id="gif-result" style="text-align: center; padding: 20px; background: #0d0d0d; border: 1px solid #222;">
+            <img id="gif-preview-img" style="max-width: 100%; display: none;">
+            <div id="gif-empty" style="color: var(--text-muted); padding: 40px;">
+              <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 16px;">↻</div>
+              <p style="font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase;">Upload frames to create GIF</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

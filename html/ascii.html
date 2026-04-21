@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0a0a0a">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,6 +16,10 @@
     <div class="header-inner">
       <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
       <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
         <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
       </div>
     </div>
@@ -129,6 +134,13 @@
     <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
   </footer>
 
+  <script src="main.js"></script>
+  <script src="shared.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
   <script src="drag.js"></script>
   <script src="ascii.js"></script>
 </body>

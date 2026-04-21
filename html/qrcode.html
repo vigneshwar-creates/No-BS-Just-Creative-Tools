@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator — JCT</title>
+  <meta name="description" content="Generate QR codes instantly. No signup required.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="qrcode.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">QR CODE</span>
+      <h1 class="tool-page-title">[▣] QR<br>CODE</h1>
+      <p class="tool-page-desc">Generate QR codes instantly. Paste a URL, text, or any data. Download as PNG or copy to clipboard.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">QR CONTENT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">CONTENT</label>
+            <textarea class="input-field" id="qr-content" placeholder="https://example.com" rows="3"></textarea>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">SIZE <span class="control-value" id="qr-size-val">256</span>px</label>
+            <input type="range" class="range-input" id="qr-size" min="128" max="512" value="256" step="64">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">ERROR CORRECTION</label>
+            <select class="select-field" id="qr-ec">
+              <option value="L">L — Low (7%)</option>
+              <option value="M" selected>M — Medium (15%)</option>
+              <option value="Q">Q — Quartile (25%)</option>
+              <option value="H">H — High (30%)</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="qr-generate">GENERATE</button>
+            <button class="btn btn-outline" id="qr-copy">COPY PNG</button>
+            <button class="btn btn-outline" id="qr-download">DOWNLOAD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body" style="align-items: center; justify-content: center; min-height: 300px;">
+          <canvas id="qr-canvas" style="display:none"></canvas>
+          <div id="qr-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Enter content and generate</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UUID & Hash Generator — JCT</title>
+  <meta name="description" content="Generate UUIDs and hash strings instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="uuid.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">DEVELOPER TOOLS</span>
+      <h1 class="tool-page-title">[#] UUID<br>HASH</h1>
+      <p class="tool-page-desc">Generate UUIDs v1, v4, and v7. Hash strings using MD5, SHA-1, SHA-256, and more.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">UUID GENERATOR</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">UUID VERSION</label>
+            <select class="select-field" id="uuid-version">
+              <option value="v4" selected>UUID v4 (Random)</option>
+              <option value="v1">UUID v1 (Timestamp)</option>
+              <option value="v7">UUID v7 (Unix Epoch)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">QUANTITY</label>
+            <input type="number" class="input-field" id="uuid-quantity" value="1" min="1" max="100">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">FORMAT</label>
+            <div class="mode-toggle">
+              <button class="mode-btn active" data-format="standard">STANDARD</button>
+              <button class="mode-btn" data-format="uppercase">UPPER</button>
+              <button class="mode-btn" data-format="nohyphen">NO HYPHENS</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="uuid-generate">GENERATE</button>
+            <button class="btn btn-outline" id="uuid-copy">COPY ALL</button>
+          </div>
+
+          <div class="control-group" style="margin-top: 16px;">
+            <label class="control-label">OUTPUT</label>
+            <div class="output-box" id="uuid-output" style="min-height: 80px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">HASH GENERATOR</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">INPUT STRING</label>
+            <textarea class="input-field" id="hash-input" placeholder="Enter text to hash..." rows="2"></textarea>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">ALGORITHM</label>
+            <div class="filter-btn-grid">
+              <button class="filter-btn active" data-algo="md5">MD5</button>
+              <button class="filter-btn" data-algo="sha1">SHA-1</button>
+              <button class="filter-btn" data-algo="sha256">SHA-256</button>
+              <button class="filter-btn" data-algo="sha384">SHA-384</button>
+              <button class="filter-btn" data-algo="sha512">SHA-512</button>
+              <button class="filter-btn" data-algo="ripemd">RIPEMD-160</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="hash-generate">HASH</button>
+            <button class="btn btn-outline" id="hash-copy">COPY</button>
+          </div>
+
+          <div class="control-group" style="margin-top: 16px;">
+            <label class="control-label">OUTPUT</label>
+            <div class="output-box" id="hash-output" style="min-height: 60px; word-break: break-all;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

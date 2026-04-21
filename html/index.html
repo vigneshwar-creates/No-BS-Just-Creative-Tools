@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
   <style>
     /* Menu page extras */
     .menu-card[style*="--card-accent: #ff2d78"] .menu-card-icon { color: #ff2d78; }
@@ -117,6 +118,10 @@
         <a href="bigtext.html" class="nav-link">BIG TEXT</a>
       </nav>
       <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
         <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
       </div>
     </div>
@@ -127,7 +132,7 @@
       <div class="hero-tag">JUST CREATIVE TOOLKIT v0.0</div>
       <h2 class="hero-title">JUST CREATIVE<br><span class="highlight">TOOLS</span></h2>
       <p class="hero-subtitle">No subscriptions. No accounts. No nonsense.</p>
-      <p class="hero-count">→ 5 TOOLS &nbsp;&nbsp; → RUNS IN BROWSER &nbsp;&nbsp; → 100% FREE</p>
+      <p class="hero-count">→ 15 TOOLS &nbsp;&nbsp; → RUNS IN BROWSER &nbsp;&nbsp; → 100% FREE</p>
     </section>
 
     <div class="ticker">
@@ -137,8 +142,11 @@
         <span class="ticker-item"><span class="dot">✦</span> COLOR PALETTE EXTRACTOR</span>
         <span class="ticker-item"><span class="dot">✦</span> GRADIENT GENERATOR</span>
         <span class="ticker-item"><span class="dot">✦</span> BIG TEXT MAKER</span>
-        <span class="ticker-item"><span class="dot">✦</span> DIGICAM EFFECTS</span>
-        <span class="ticker-item"><span class="dot">✦</span> DRAGGABLE PANELS</span>
+        <span class="ticker-item"><span class="dot">✦</span> QR CODE</span>
+        <span class="ticker-item"><span class="dot">✦</span> BASE64 ENCODER</span>
+        <span class="ticker-item"><span class="dot">✦</span> LOREM IPSUM</span>
+        <span class="ticker-item"><span class="dot">✦</span> IMAGE RESIZER</span>
+        <span class="ticker-item"><span class="dot">✦</span> COLOR MIXER</span>
         <span class="ticker-item"><span class="dot">✦</span> NO BULLSHIT</span>
         <!-- duplicated for seamless loop -->
         <span class="ticker-item"><span class="dot">✦</span> ASCII ART GENERATOR</span>
@@ -146,15 +154,18 @@
         <span class="ticker-item"><span class="dot">✦</span> COLOR PALETTE EXTRACTOR</span>
         <span class="ticker-item"><span class="dot">✦</span> GRADIENT GENERATOR</span>
         <span class="ticker-item"><span class="dot">✦</span> BIG TEXT MAKER</span>
-        <span class="ticker-item"><span class="dot">✦</span> DIGICAM EFFECTS</span>
-        <span class="ticker-item"><span class="dot">✦</span> DRAGGABLE PANELS</span>
+        <span class="ticker-item"><span class="dot">✦</span> QR CODE</span>
+        <span class="ticker-item"><span class="dot">✦</span> BASE64 ENCODER</span>
+        <span class="ticker-item"><span class="dot">✦</span> LOREM IPSUM</span>
+        <span class="ticker-item"><span class="dot">✦</span> IMAGE RESIZER</span>
+        <span class="ticker-item"><span class="dot">✦</span> COLOR MIXER</span>
         <span class="ticker-item"><span class="dot">✦</span> NO BULLSHIT</span>
       </div>
     </div>
 
     <div class="stats-row">
       <div class="stat-box">
-        <div class="stat-num">5</div>
+        <div class="stat-num">15</div>
         <div class="stat-label">Creative Tools</div>
       </div>
       <div class="stat-box">
@@ -171,9 +182,14 @@
       </div>
     </div>
 
-    <section class="menu-grid">
+    <section class="favorites-section" style="display:none; margin-top:40px;">
+    <h2>⭐ Your Favorites</h2>
+    <div id="favorites-grid" class="menu-grid"></div>
+  </section>
+
+<section class="menu-grid">
       <a href="ascii.html" class="menu-card fade-in" style="--card-accent: #ff2d78">
-        <div class="menu-card-num">01 / 05</div>
+        <div class="menu-card-num">01 / 15</div>
         <div class="menu-card-icon">[_]</div>
         <h2 class="menu-card-title">ASCII ART</h2>
         <p class="menu-card-desc">Transform text and images into ASCII masterpieces. Adjustable width, resolution, and character density.</p>
@@ -185,20 +201,19 @@
       </a>
 
       <a href="filters.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #ffcc00">
-        <div class="menu-card-num">02 / 05</div>
+        <div class="menu-card-num">02 / 15</div>
         <div class="menu-card-icon">[~]</div>
         <h2 class="menu-card-title">CAMERA FILTERS</h2>
-        <p class="menu-card-desc">28+ authentic vintage filters — 90s film stocks, digicam artifacts, Y2K trending effects, Polaroids — all built with raw canvas pixel manipulation.</p>
+        <p class="menu-card-desc">28+ authentic vintage filters — 90s film stocks, digicam artifacts, Y2K trending effects, Polaroids.</p>
         <div class="menu-card-tags">
           <span class="menu-card-tag">90S FILM</span>
           <span class="menu-card-tag">DIGICAM</span>
-          <span class="menu-card-tag">POLAROID</span>
         </div>
         <span class="menu-card-arrow">↗</span>
       </a>
 
       <a href="palette.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #7b61ff">
-        <div class="menu-card-num">03 / 05</div>
+        <div class="menu-card-num">03 / 15</div>
         <div class="menu-card-icon">[#]</div>
         <h2 class="menu-card-title">COLOR PALETTE</h2>
         <p class="menu-card-desc">Extract dominant colors from any image using quantization. Export hex codes ready for your design tools.</p>
@@ -210,7 +225,7 @@
       </a>
 
       <a href="gradient.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #00ffaa">
-        <div class="menu-card-num">04 / 05</div>
+        <div class="menu-card-num">04 / 15</div>
         <div class="menu-card-icon">[>]</div>
         <h2 class="menu-card-title">GRADIENT</h2>
         <p class="menu-card-desc">Build complex multi-stop gradients with live preview. Copy the CSS instantly.</p>
@@ -222,13 +237,133 @@
       </a>
 
       <a href="bigtext.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ff7b00">
-        <div class="menu-card-num">05 / 05</div>
+        <div class="menu-card-num">05 / 15</div>
         <div class="menu-card-icon">[T]</div>
         <h2 class="menu-card-title">BIG TEXT</h2>
         <p class="menu-card-desc">Generate figlet-style big text art with multiple font styles. Perfect for banners, READMEs, and headers.</p>
         <div class="menu-card-tags">
           <span class="menu-card-tag">FIGLET</span>
           <span class="menu-card-tag">MULTI-FONT</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="qrcode.html" class="menu-card fade-in" style="--card-accent: #ff2d78">
+        <div class="menu-card-num">06 / 15</div>
+        <div class="menu-card-icon">[▣]</div>
+        <h2 class="menu-card-title">QR CODE</h2>
+        <p class="menu-card-desc">Generate QR codes instantly. Paste a URL, text, or any data. Download as PNG.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">GENERATE</span>
+          <span class="menu-card-tag">DOWNLOAD</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="base64.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #00ffaa">
+        <div class="menu-card-num">07 / 15</div>
+        <div class="menu-card-icon">[=]</div>
+        <h2 class="menu-card-title">BASE64</h2>
+        <p class="menu-card-desc">Encode text to Base64 or decode Base64 to text. Also supports image to Base64 data URL.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">ENCODE</span>
+          <span class="menu-card-tag">DECODE</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="lorem.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ffcc00">
+        <div class="menu-card-num">08 / 15</div>
+        <div class="menu-card-icon">[·]</div>
+        <h2 class="menu-card-title">LOREM IPSUM</h2>
+        <p class="menu-card-desc">Generate placeholder text in classic or creative variations — corporate, tech, pirate, zombie, and more.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">10 VARIATIONS</span>
+          <span class="menu-card-tag">CUSTOMIZABLE</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="resize.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #7b61ff">
+        <div class="menu-card-num">09 / 15</div>
+        <div class="menu-card-icon">[⇲]</div>
+        <h2 class="menu-card-title">IMAGE RESIZER</h2>
+        <p class="menu-card-desc">Resize, compress, and convert images. All processing happens in your browser — no server uploads.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">RESIZE</span>
+          <span class="menu-card-tag">COMPRESS</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="colormixer.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ff7b00">
+        <div class="menu-card-num">10 / 15</div>
+        <div class="menu-card-icon">[◐]</div>
+        <h2 class="menu-card-title">COLOR MIXER</h2>
+        <p class="menu-card-desc">Mix two colors, generate harmonies, blend shades. Click any color to copy hex code.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">BLEND</span>
+          <span class="menu-card-tag">HARMONY</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="uuid.html" class="menu-card fade-in" style="--card-accent: #ff2d78">
+        <div class="menu-card-num">11 / 15</div>
+        <div class="menu-card-icon">[#]</div>
+        <h2 class="menu-card-title">UUID & HASH</h2>
+        <p class="menu-card-desc">Generate UUIDs v1, v4, and v7. Hash strings using MD5, SHA-1, SHA-256, and more.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">UUID</span>
+          <span class="menu-card-tag">HASH</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="favicon.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #00ffaa">
+        <div class="menu-card-num">12 / 15</div>
+        <div class="menu-card-icon">[◉]</div>
+        <h2 class="menu-card-title">FAVICON</h2>
+        <p class="menu-card-desc">Generate favicons from images. Create .png in multiple sizes — 16, 32, 48, 64, 128, 192, 512.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">MULTI-SIZE</span>
+          <span class="menu-card-tag">PNG</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="pdf.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ffcc00">
+        <div class="menu-card-num">13 / 15</div>
+        <div class="menu-card-icon">[▤]</div>
+        <h2 class="menu-card-title">PDF TO IMAGES</h2>
+        <p class="menu-card-desc">Convert PDF pages to PNG images. Extract and download as PNG. All processing in browser.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">CONVERT</span>
+          <span class="menu-card-tag">EXTRACT</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="gif.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #7b61ff">
+        <div class="menu-card-num">14 / 15</div>
+        <div class="menu-card-icon">[↻]</div>
+        <h2 class="menu-card-title">GIF MAKER</h2>
+        <p class="menu-card-desc">Create animated GIFs from multiple images. Upload frames, set delay, and download your animation.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">ANIMATE</span>
+          <span class="menu-card-tag">FRAMES</span>
+        </div>
+        <span class="menu-card-arrow">↗</span>
+      </a>
+
+      <a href="https://www.buymeacoffee.com/gammem" target="_blank" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ff7b00">
+        <div class="menu-card-num">15 / 15</div>
+        <div class="menu-card-icon">[♥]</div>
+        <h2 class="menu-card-title">SUPPORT</h2>
+        <p class="menu-card-desc">Enjoying Just Creative Tools? Support the project with a donation to keep it free forever.</p>
+        <div class="menu-card-tags">
+          <span class="menu-card-tag">DONATE</span>
+          <span class="menu-card-tag">FREE</span>
         </div>
         <span class="menu-card-arrow">↗</span>
       </a>
@@ -239,5 +374,12 @@
     <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
     <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
   </footer>
+  <script src="shared.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+<script src="../js/common.js"></script>
 </body>
 </html>

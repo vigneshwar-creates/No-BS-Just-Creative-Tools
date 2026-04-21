@@ -26,13 +26,62 @@
   let intensity      = 1.0;
   let showDateStamp  = false;
   let showGrain      = true;
+  let rotationAngle  = 0;
+  let flipH = false;
+  let flipV = false;
+
+  // Expose to window for rotation.js and other modules
+  window.JCTFilters = {
+    get canvas() { return canvas; },
+    get ctx() { return ctx; },
+    get originalImage() { return originalImage; },
+    get currentFilter() { return currentFilter; },
+    get intensity() { return intensity; },
+    get showDateStamp() { return showDateStamp; },
+    get showGrain() { return showGrain; },
+    get rotationAngle() { return rotationAngle; },
+    set rotationAngle(val) { rotationAngle = val; },
+    get flipH() { return flipH; },
+    set flipH(val) { flipH = val; },
+    get flipV() { return flipV; },
+    set flipV(val) { flipV = val; },
+    FILTERS, applyFilter, loadFile, applyGrainOverlay, drawDateStamp
+  };
 
   // ── Image Loading ─────────────────────────────────────────────────────────
   function loadFile(file) {
     if (!file || !file.type.startsWith('image/')) return;
     const img = new Image();
     img.onload = () => {
-      originalImage = img;
+      // Clean up previous image and canvas references
+      if (originalImage) {
+        URL.revokeObjectURL(originalImage.src);
+        originalImage = null;
+      }
+      
+      // Downsample large images (>4MP) to maintain performance
+      const MAX_PIXELS = 4000000; // 4MP
+      let w = img.naturalWidth;
+      let h = img.naturalHeight;
+      
+      if (w * h > MAX_PIXELS) {
+        const scale = Math.sqrt(MAX_PIXELS / (w * h));
+        w = Math.floor(w * scale);
+        h = Math.floor(h * scale);
+        
+        // Create downscaled version
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = w;
+        canvas.height = h;
+        ctx.drawImage(img, 0, 0, w, h);
+        originalImage = new Image();
+        originalImage.src = canvas.toDataURL('image/png');
+        canvas.remove(); // Clean up temporary canvas
+      } else {
+        originalImage = img;
+      }
+      
       noImg.style.display = 'none';
       canvas.style.display = 'block';
       cameraBadge.style.display = 'block';
@@ -62,10 +111,17 @@
   });
 
   // ── Intensity ──────────────────────────────────────────────────────────────
+  let filterTimeout = null;
   intensitySlider.addEventListener('input', () => {
     intensity = parseInt(intensitySlider.value) / 100;
     intensityVal.textContent = intensitySlider.value;
-    if (originalImage) applyFilter(currentFilter);
+    if (originalImage) {
+      // Throttle filter application to maintain 60fps
+      clearTimeout(filterTimeout);
+      filterTimeout = setTimeout(() => {
+        requestAnimationFrame(() => applyFilter(currentFilter));
+      }, 16); // ~60fps
+    }
   });
 
   // ── Toggles ───────────────────────────────────────────────────────────────
@@ -99,23 +155,59 @@
     let w = originalImage.naturalWidth;
     let h = originalImage.naturalHeight;
     if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
-    canvas.width  = w;
-    canvas.height = h;
 
-    // Draw original
-    ctx.drawImage(originalImage, 0, 0, w, h);
+    // Handle rotation - calculate canvas size to fit rotated image
+    const absRotation = Math.abs(rotationAngle);
+    const isRotated = absRotation % 180 !== 0;
+    let canvasW = w;
+    let canvasH = h;
 
-    const imageData = ctx.getImageData(0, 0, w, h);
+    if (isRotated && absRotation !== 0) {
+      const angleRad = (absRotation * Math.PI) / 180;
+      canvasW = Math.ceil(Math.abs(w * Math.cos(angleRad)) + Math.abs(h * Math.sin(angleRad)));
+      canvasH = Math.ceil(Math.abs(w * Math.sin(angleRad)) + Math.abs(h * Math.cos(angleRad)));
+    }
+
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+
+    // Clear canvas
+    ctx.clearRect(0, 0, canvasW, canvasH);
+
+    // Handle rotation with canvas transform
+    ctx.save();
+    if (rotationAngle !== 0) {
+      ctx.translate(canvasW / 2, canvasH / 2);
+      ctx.rotate((rotationAngle * Math.PI) / 180);
+    }
+    if (flipH || flipV) {
+      ctx.translate(flipH ? -w/2 : w/2, flipV ? -h/2 : h/2);
+      ctx.scale(flipH ? -1 : 1, flipV ? -1 : 1);
+      if (!rotationAngle) {
+        ctx.translate(-w/2, -h/2);
+      }
+    }
+    if (rotationAngle !== 0 || flipH || flipV) {
+      ctx.drawImage(originalImage, -w / 2, -h / 2, w, h);
+    } else {
+      ctx.drawImage(originalImage, 0, 0, w, h);
+    }
+    ctx.restore();
+
+    // Get the actual drawn dimensions
+    const drawnW = canvasW;
+    const drawnH = canvasH;
+    const imageData = ctx.getImageData(0, 0, drawnW, drawnH);
 
     // Apply filter to pixel data
     const fn = FILTERS[filterName] || FILTERS.normal;
-    fn(imageData.data, w, h, intensity);
+    fn(imageData.data, drawnW, drawnH, intensity);
 
     ctx.putImageData(imageData, 0, 0);
 
     // Post-effects (drawn on top via ctx)
-    if (showGrain && filterName !== 'normal') applyGrainOverlay(w, h, intensity);
-    if (showDateStamp && filterName !== 'normal') drawDateStamp(w, h);
+    if (showGrain && filterName !== 'normal') applyGrainOverlay(drawnW, drawnH, intensity);
+    if (showDateStamp && filterName !== 'normal') drawDateStamp(drawnW, drawnH);
   }
 
   // ── Grain overlay (drawn separately so it doesn't corrupt pixel data) ─────

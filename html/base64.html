@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Base64 Encoder/Decoder — JCT</title>
+  <meta name="description" content="Encode and decode Base64 instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="base64.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">DEVELOPER TOOLS</span>
+      <h1 class="tool-page-title">[=] BASE64</h1>
+      <p class="tool-page-desc">Encode text to Base64 or decode Base64 to text. Also supports image to Base64 data URL for embedding.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="mode-toggle">
+            <button class="mode-btn active" data-mode="encode" id="mode-encode">ENCODE</button>
+            <button class="mode-btn" data-mode="decode" id="mode-decode">DECODE</button>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">TEXT INPUT</label>
+            <textarea class="input-field" id="base64-input" placeholder="Enter text to encode/decode..." rows="4"></textarea>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">OR IMAGE TO BASE64</label>
+            <div class="drop-zone" id="base64-drop-zone">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Drop image or click to upload</p>
+              <input type="file" accept="image/*" id="base64-file-input" hidden>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="base64-process">PROCESS</button>
+            <button class="btn btn-outline" id="base64-clear">CLEAR</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">OUTPUT</span>
+          </div>
+          <button class="btn btn-sm btn-ghost" id="base64-copy">COPY</button>
+        </div>
+        <div class="panel-body">
+          <div class="output-box big" id="base64-output"></div>
+          <div class="control-group" style="margin-top: 16px;">
+            <label class="control-label">SIZE INFO</label>
+            <div id="base64-size" style="font-size: 0.7rem; color: var(--text-muted)">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

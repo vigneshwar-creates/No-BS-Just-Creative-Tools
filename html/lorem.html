@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lorem Ipsum Generator — JCT</title>
+  <meta name="description" content="Generate creative lorem ipsum placeholder text.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="lorem.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">DEVELOPER TOOLS</span>
+      <h1 class="tool-page-title">[·] LOREM<br>IPSUM</h1>
+      <p class="tool-page-desc">Generate placeholder text in classic or creative variations. Perfect for mockups and design prototypes.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">OPTIONS</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">VARIATION</label>
+            <select class="select-field" id="lorem-variation">
+              <option value="classic">Classic Lorem Ipsum</option>
+              <option value="corporate">Corporate Buzzwords</option>
+              <option value="tech">Tech Startup</option>
+              <option value="hipster">Hipster</option>
+              <option value="pirate">Pirate Speak</option>
+              <option value="zombie">Zombie</option>
+              <option value="meow">Cat</option>
+              <option value="chef">Chef</option>
+              <option value="hacker">Hacker</option>
+              <option value="coffee">Coffee Shop</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">PARAGRAPHS <span class="control-value" id="lorem-paras-val">3</span></label>
+            <input type="range" class="range-input" id="lorem-paras" min="1" max="10" value="3">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">WORDS PER PARAGRAPH <span class="control-value" id="lorem-words-val">50</span></label>
+            <input type="range" class="range-input" id="lorem-words" min="10" max="200" value="50">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">START WITH "LOREM..."</label>
+            <div class="mode-toggle">
+              <button class="mode-btn active" data-start="yes">YES</button>
+              <button class="mode-btn" data-start="no">NO</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="lorem-generate">GENERATE</button>
+            <button class="btn btn-outline" id="lorem-copy">COPY</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">OUTPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="output-box" id="lorem-output" style="min-height: 200px;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

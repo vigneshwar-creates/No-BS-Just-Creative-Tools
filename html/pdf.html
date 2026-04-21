@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to Images — JCT</title>
+  <meta name="description" content="Convert PDF pages to images. Extract and download as PNG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="pdf.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">IMAGE TOOLS</span>
+      <h1 class="tool-page-title">[▤] PDF TO<br>IMAGES</h1>
+      <p class="tool-page-desc">Convert PDF pages to PNG images. All processing happens in your browser — no server uploads.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="pdf-drop-zone" style="min-height: 120px;">
+            <span class="drop-zone-icon">◈</span>
+            <p class="drop-zone-text">Drop PDF or click to upload</p>
+            <input type="file" accept="application/pdf" id="pdf-file-input" hidden>
+          </div>
+
+          <div id="pdf-info" class="hidden" style="padding: 16px; background: var(--surface2); border: 1px solid #222; margin-top: 16px;">
+            <div style="font-size:0.7rem;"><span style="color:var(--text-muted)">Pages:</span> <span id="pdf-page-count">0</span></div>
+          </div>
+
+          <div class="control-group" style="margin-top: 20px;">
+            <label class="control-label">SCALE <span class="control-value" id="pdf-scale-val">2</span>x</label>
+            <input type="range" class="range-input" id="pdf-scale" min="1" max="4" value="2" step="0.5">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">FORMAT</label>
+            <select class="select-field" id="pdf-format">
+              <option value="image/png" selected>PNG</option>
+              <option value="image/jpeg">JPEG</option>
+            </select>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="pdf-convert">CONVERT</button>
+            <button class="btn btn-outline" id="pdf-download-all">DOWNLOAD ALL</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="pdf-preview" style="display: flex; flex-direction: column; gap: 16px;"></div>
+          <div id="pdf-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload a PDF</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>

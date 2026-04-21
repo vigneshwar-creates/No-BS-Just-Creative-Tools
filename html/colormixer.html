@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Mixer — JCT</title>
+  <meta name="description" content="Mix colors, blend harmonies, and generate palettes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="shared.js" defer></script>
+  <script src="colormixer.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">COLOR TOOLS</span>
+      <h1 class="tool-page-title">[◐] COLOR<br>MIXER</h1>
+      <p class="tool-page-desc">Mix two colors, generate harmonies, blend shades. Click any color to copy hex code.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">COLORS</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="control-group">
+              <label class="control-label">COLOR 1</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input type="color" class="stop-color-input" id="color1" value="#ff2d78" style="width:60px;height:40px;">
+                <input type="text" class="input-field" id="color1-hex" value="#ff2d78" style="flex:1;">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">COLOR 2</label>
+              <div style="display:flex;gap:8px;align-items:center;">
+                <input type="color" class="stop-color-input" id="color2" value="#00ffaa" style="width:60px;height:40px;">
+                <input type="text" class="input-field" id="color2-hex" value="#00ffaa" style="flex:1;">
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">BLEND RATIO <span class="control-value" id="blend-val">50</span>%</label>
+            <input type="range" class="range-input" id="blend-ratio" min="0" max="100" value="50">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">MODE</label>
+            <div class="mode-toggle">
+              <button class="mode-btn active" data-mix="blend">BLEND</button>
+              <button class="mode-btn" data-mix="add">ADD</button>
+              <button class="mode-btn" data-mix="subtract">SUB</button>
+              <button class="mode-btn" data-mix="multiply">MULT</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="mix-generate">GENERATE</button>
+          </div>
+
+          <div class="control-group" style="margin-top: 20px;">
+            <label class="control-label">HARMONY</label>
+            <select class="select-field" id="harmony-type">
+              <option value="complementary">Complementary</option>
+              <option value="triadic">Triadic</option>
+              <option value="analogous">Analogous</option>
+              <option value="split">Split Complementary</option>
+              <option value="tetradic">Tetradic</option>
+              <option value="monochromatic">Monochromatic</option>
+            </select>
+          </div>
+          <button class="btn btn-outline" id="harmony-generate" style="width:100%;">GENERATE HARMONY</button>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">RESULT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="mix-result" style="height: 80px; border: 1px solid #222; cursor: pointer; position: relative;" title="Click to copy">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);opacity:0;transition:opacity 0.2s;" id="mix-copy-hint">
+              <span style="font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:#fff;">CLICK TO COPY</span>
+            </div>
+          </div>
+          <div id="mix-result-hex" style="text-align:center;margin-top:12px;font-size:1.2rem;font-weight:700;font-family:var(--font-display);letter-spacing:2px;"></div>
+
+          <div style="margin-top: 32px;">
+            <label class="control-label">GENERATED PALETTE</label>
+            <div class="palette-grid" id="palette-grid" style="margin-top: 12px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+  </footer>
+</body>
+</html>
