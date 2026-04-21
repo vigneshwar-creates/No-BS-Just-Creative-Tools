@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#0a0a0a">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <style>
     .filter-workspace {
       display: grid;
@@ -250,7 +250,14 @@
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <a href="../index.html" class="logo">JC<span>T</span></a>
+      <nav class="nav-links">
+        <a href="ascii.html" class="nav-link">ASCII</a>
+        <a href="filters.html" class="nav-link active">FILTERS</a>
+        <a href="palette.html" class="nav-link">PALETTE</a>
+        <a href="gradient.html" class="nav-link">GRADIENT</a>
+        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
+      </nav>
       <div class="header-right">
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
@@ -309,6 +316,32 @@
             <button class="filter-btn active" data-filter="normal">
               <span class="fn">NORMAL</span>
               <span class="fs">No filter</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ BASIC ADJUST</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="grayscale">
+              <span class="fn">GRAYSCALE</span>
+              <span class="fs">B&W conversion</span>
+            </button>
+            <button class="filter-btn" data-filter="sepia">
+              <span class="fn">SEPIA</span>
+              <span class="fs">Vintage brown</span>
+            </button>
+            <button class="filter-btn" data-filter="invert">
+              <span class="fn">INVERT</span>
+              <span class="fs">Negative</span>
+            </button>
+            <button class="filter-btn" data-filter="brightness">
+              <span class="fn">BRIGHTNESS</span>
+              <span class="fs">Lighten/Darken</span>
+            </button>
+            <button class="filter-btn" data-filter="contrast">
+              <span class="fn">CONTRAST</span>
+              <span class="fs">More definition</span>
             </button>
           </div>
         </div>
@@ -465,19 +498,18 @@
 
   <footer class="footer">
     <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
-    <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
   </footer>
 
   <script src="main.js"></script>
-  <script src="shared.js" defer></script>
+  <script src="../js/shared.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
     }
   </script>
-  <script src="filters.js"></script>
-  <script src="rotation.js"></script>
-  <script src="history.js"></script>
-<script src="../js/common.js"></script>
+  <script src="../js/filters.js"></script>
+  <script src="../js/rotation.js"></script>
+  <script src="../js/history.js"></script>
 </body>
 </html>

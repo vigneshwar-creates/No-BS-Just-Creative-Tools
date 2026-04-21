@@ -9,12 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <meta name="theme-color" content="#0a0a0a">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <a href="../index.html" class="logo">JC<span>T</span></a>
+      <nav class="nav-links">
+        <a href="ascii.html" class="nav-link active">ASCII</a>
+        <a href="filters.html" class="nav-link">FILTERS</a>
+        <a href="palette.html" class="nav-link">PALETTE</a>
+        <a href="gradient.html" class="nav-link">GRADIENT</a>
+        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
+      </nav>
       <div class="header-right">
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
@@ -131,17 +138,16 @@
 
   <footer class="footer">
     <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
-    <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
   </footer>
 
-  <script src="main.js"></script>
-  <script src="shared.js" defer></script>
+  <script src="../js/shared.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
+      navigator.serviceWorker.register('../js/sw.js');
     }
   </script>
-  <script src="drag.js"></script>
-  <script src="ascii.js"></script>
+  <script src="../js/drag.js"></script>
+  <script src="../js/ascii.js"></script>
 </body>
 </html>
