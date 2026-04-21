@@ -387,6 +387,53 @@
 
     normal(d) { /* no-op */ },
 
+    // ── BASIC ADJUSTMENTS ──────────────────────────────────────────────────────
+
+    grayscale(d, w, h, str) {
+      const orig = new Uint8ClampedArray(d);
+      for (let i = 0; i < d.length; i += 4) {
+        const lum = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+        d[i] = d[i+1] = d[i+2] = lum;
+      }
+      blendOriginal(d, orig, str);
+    },
+
+    sepia(d, w, h, str) {
+      const orig = new Uint8ClampedArray(d);
+      for (let i = 0; i < d.length; i += 4) {
+        const r = d[i], g = d[i+1], b = d[i+2];
+        d[i]   = clamp(r * 0.393 + g * 0.769 + b * 0.189);
+        d[i+1] = clamp(r * 0.349 + g * 0.686 + b * 0.168);
+        d[i+2] = clamp(r * 0.272 + g * 0.534 + b * 0.131);
+      }
+      blendOriginal(d, orig, str);
+    },
+
+    invert(d, w, h, str) {
+      for (let i = 0; i < d.length; i += 4) {
+        d[i]   = clamp(255 - d[i]);
+        d[i+1] = clamp(255 - d[i+1]);
+        d[i+2] = clamp(255 - d[i+2]);
+      }
+    },
+
+    brightness(d, w, h, str) {
+      const orig = new Uint8ClampedArray(d);
+      const factor = 1 + str;
+      for (let i = 0; i < d.length; i += 4) {
+        d[i]   = clamp(d[i] * factor);
+        d[i+1] = clamp(d[i+1] * factor);
+        d[i+2] = clamp(d[i+2] * factor);
+      }
+      blendOriginal(d, orig, str);
+    },
+
+    contrast(d, w, h, str) {
+      const orig = new Uint8ClampedArray(d);
+      adjustContrast(d, 100 * str);
+      blendOriginal(d, orig, str);
+    },
+
     // ── 90s FILM STOCKS ──────────────────────────────────────────────────────
 
     kodak_gold(d, w, h, str) {

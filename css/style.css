@@ -20,6 +20,10 @@
   --font-display: "Bebas Neue", sans-serif;
   --radius: 0px;
   --transition: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  --font-heavy: 900;
+  --font-bold: 700;
+  --border-thick: 4px solid #333;
+  --border-chunky: 6px solid #222;
 }
 
 [data-theme="light"] {
@@ -37,6 +41,10 @@
   --border-bright: 2px solid #000000;
   --shadow: 6px 6px 0px #cccccc;
   --shadow-hover: 3px 3px 0px #cccccc;
+  --font-heavy: 900;
+  --font-bold: 700;
+  --border-thick: 4px solid #ccc;
+  --border-chunky: 6px solid #999;
 }
 
 *, *::before, *::after {
