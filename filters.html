@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Camera Filters — BRUTAL TOOLBOX</title>
+  <meta name="description" content="18+ authentic 90s film, digicam, disposable camera and Polaroid photo filters.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .filter-workspace {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+      align-items: start;
+      min-height: 600px;
+    }
+
+    .canvas-area {
+      background: #030303;
+      border: 1px solid #1a1a1a;
+      position: relative;
+      min-height: 480px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    #filter-canvas {
+      max-width: 100%;
+      max-height: 600px;
+      display: block;
+    }
+
+    .no-image {
+      text-align: center;
+      padding: 80px 40px;
+      pointer-events: none;
+    }
+
+    .no-image-icon {
+      font-size: 4rem;
+      display: block;
+      opacity: 0.1;
+      margin-bottom: 16px;
+      letter-spacing: -4px;
+    }
+
+    .no-image-text {
+      font-size: 0.65rem;
+      color: #333;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .drop-overlay {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .drop-overlay.active {
+      background: rgba(255,45,120,0.08);
+      border: 2px dashed var(--accent);
+    }
+
+    /* Camera info badge */
+    .camera-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(0,0,0,0.8);
+      border: 1px solid #222;
+      padding: 8px 12px;
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* Sidebar */
+    .filter-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .filter-cat-title {
+      font-size: 0.5rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 0 0 8px;
+      border-bottom: 1px solid #1a1a1a;
+      margin-top: 8px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+
+    .filter-btn {
+      padding: 12px 8px;
+      background: #0d0d0d;
+      border: 1px solid #1d1d1d;
+      color: #666;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+      position: relative;
+    }
+
+    .filter-btn .fn { display: block; color: inherit; margin-bottom: 2px; }
+    .filter-btn .fs { display: block; font-size: 0.42rem; opacity: 0.4; font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+    .filter-btn:hover {
+      background: #151515;
+      border-color: #333;
+      color: #ccc;
+    }
+
+    .filter-btn.active {
+      background: rgba(255,204,0,0.07);
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    .filter-btn.active .fs { opacity: 0.6; }
+
+    /* Intensity */
+    .intensity-box {
+      background: #0a0a0a;
+      border: 1px solid #1a1a1a;
+      padding: 16px;
+    }
+
+    /* Date stamp toggle */
+    .stamp-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-top: 1px solid #111;
+    }
+
+    .stamp-label {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .toggle-switch {
+      width: 40px;
+      height: 20px;
+      background: #222;
+      border: 1px solid #333;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .toggle-switch.on { background: var(--accent3); border-color: var(--accent3); }
+
+    .toggle-switch::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 14px;
+      height: 14px;
+      background: #666;
+      transition: all 0.2s;
+    }
+
+    .toggle-switch.on::after { left: 22px; background: #000; }
+
+    /* Download bar */
+    .download-bar {
+      display: flex;
+      gap: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .filter-workspace { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">02 / 05 — CAMERA FILTERS</span>
+      <h1 class="tool-page-title">[~] CAMERA<br>FILTERS</h1>
+      <p class="tool-page-desc">18+ authentic vintage filters using canvas pixel manipulation — no CSS tricks. 90s film stocks, early digicam artifacts, disposable cameras, Polaroids, and more.</p>
+    </div>
+
+    <div class="filter-workspace">
+      <!-- Canvas area -->
+      <div class="canvas-area" id="canvas-area">
+        <div class="drop-overlay" id="drop-overlay">
+          <div class="no-image" id="no-image">
+            <span class="no-image-icon">⬡</span>
+            <p class="no-image-text">Drop photo here</p>
+            <p class="no-image-text" style="margin-top:8px;opacity:0.4">or click to upload</p>
+          </div>
+        </div>
+        <canvas id="filter-canvas"></canvas>
+        <div class="camera-badge" id="camera-badge" style="display:none">NORMAL</div>
+        <input type="file" accept="image/*" id="filter-file" hidden>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="filter-sidebar">
+
+        <div class="intensity-box">
+          <div class="control-group">
+            <label class="control-label">
+              INTENSITY <span class="control-value" id="intensity-val">100</span>%
+            </label>
+            <input type="range" class="range-input" id="intensity-slider" min="0" max="100" value="100">
+          </div>
+          <div class="stamp-toggle">
+            <span class="stamp-label">DATE STAMP</span>
+            <div class="toggle-switch" id="date-stamp-toggle" title="Toggle retro date stamp"></div>
+          </div>
+          <div class="stamp-toggle" style="margin-top:0;padding-top:10px">
+            <span class="stamp-label">GRAIN</span>
+            <div class="toggle-switch on" id="grain-toggle"></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ ORIGINAL</div>
+          <div class="filter-grid">
+            <button class="filter-btn active" data-filter="normal">
+              <span class="fn">NORMAL</span>
+              <span class="fs">No filter</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ 90S FILM STOCK</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="kodak_gold">
+              <span class="fn">KODAK GOLD</span>
+              <span class="fs">Warm, saturated</span>
+            </button>
+            <button class="filter-btn" data-filter="fuji_velvia">
+              <span class="fn">FUJI VELVIA</span>
+              <span class="fs">Vivid colors</span>
+            </button>
+            <button class="filter-btn" data-filter="kodak_portra">
+              <span class="fn">KODAK PORTRA</span>
+              <span class="fs">Skin tones</span>
+            </button>
+            <button class="filter-btn" data-filter="agfa_vista">
+              <span class="fn">AGFA VISTA</span>
+              <span class="fs">Punchy greens</span>
+            </button>
+            <button class="filter-btn" data-filter="film_noir">
+              <span class="fn">FILM NOIR</span>
+              <span class="fs">B&W dramatic</span>
+            </button>
+            <button class="filter-btn" data-filter="lomography">
+              <span class="fn">LOMOGRAPHY</span>
+              <span class="fs">Vignette, shifted</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ DIGICAM ERA (1998–2006)</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="early_digicam">
+              <span class="fn">EARLY DIGICAM</span>
+              <span class="fs">Low-bit noise</span>
+            </button>
+            <button class="filter-btn" data-filter="digicam_2002">
+              <span class="fn">Y2K CAM</span>
+              <span class="fs">Oversaturated</span>
+            </button>
+            <button class="filter-btn" data-filter="digicam_portrait">
+              <span class="fn">DIGI PORTRAIT</span>
+              <span class="fs">Flash boost</span>
+            </button>
+            <button class="filter-btn" data-filter="camera_phone">
+              <span class="fn">CAMERA PHONE</span>
+              <span class="fs">VGA era</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ DISPOSABLE & POLAROID</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="disposable">
+              <span class="fn">DISPOSABLE</span>
+              <span class="fs">Fugichrome</span>
+            </button>
+            <button class="filter-btn" data-filter="polaroid">
+              <span class="fn">POLAROID</span>
+              <span class="fs">Faded, square</span>
+            </button>
+            <button class="filter-btn" data-filter="instax">
+              <span class="fn">INSTAX</span>
+              <span class="fs">Mini bright</span>
+            </button>
+            <button class="filter-btn" data-filter="expired_film">
+              <span class="fn">EXPIRED FILM</span>
+              <span class="fs">Color drift</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ CREATIVE</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="vhs">
+              <span class="fn">VHS</span>
+              <span class="fs">Scanlines</span>
+            </button>
+            <button class="filter-btn" data-filter="glitch">
+              <span class="fn">GLITCH</span>
+              <span class="fs">RGB shift</span>
+            </button>
+            <button class="filter-btn" data-filter="duotone">
+              <span class="fn">DUOTONE</span>
+              <span class="fs">Two-tone</span>
+            </button>
+            <button class="filter-btn" data-filter="cross_process">
+              <span class="fn">CROSS PROC</span>
+              <span class="fs">E6 in C41</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="filter-cat-title">✦ Y2K TRENDING (NEW)</div>
+          <div class="filter-grid">
+            <button class="filter-btn" data-filter="cyberpunk">
+              <span class="fn">CYBERPUNK</span>
+              <span class="fs">Teal+magenta</span>
+            </button>
+            <button class="filter-btn" data-filter="office_party">
+              <span class="fn">OFFICE PARTY</span>
+              <span class="fs">Flash hotspot</span>
+            </button>
+            <button class="filter-btn" data-filter="bayer_lcd">
+              <span class="fn">BAYER LCD</span>
+              <span class="fs">Low bit depth</span>
+            </button>
+            <button class="filter-btn" data-filter="lofi_ccd">
+              <span class="fn">LO-FI CCD</span>
+              <span class="fs">Crushed blacks</span>
+            </button>
+            <button class="filter-btn" data-filter="chromostamp">
+              <span class="fn">CHROMOSTAMP</span>
+              <span class="fs">Lens aberration</span>
+            </button>
+            <button class="filter-btn" data-filter="milky_fade">
+              <span class="fn">MILKY FADE</span>
+              <span class="fs">Pastel high-key</span>
+            </button>
+            <button class="filter-btn" data-filter="pixelcrush">
+              <span class="fn">PIXELCRUSH</span>
+              <span class="fs">Pixel grid</span>
+            </button>
+            <button class="filter-btn" data-filter="aqua_dream">
+              <span class="fn">AQUA DREAM</span>
+              <span class="fs">Fuji teal cast</span>
+            </button>
+            <button class="filter-btn" data-filter="sunset_boost">
+              <span class="fn">SUNSET BOOST</span>
+              <span class="fs">Split tone</span>
+            </button>
+            <button class="filter-btn" data-filter="silicon_valley">
+              <span class="fn">SILICON VALLEY</span>
+              <span class="fs">00s corporate</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="download-bar">
+          <button class="btn btn-primary" style="flex:1" id="download-btn">DOWNLOAD PNG</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+
+  <script src="filters.js"></script>
+</body>
+</html>

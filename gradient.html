@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Generator — JCT</title>
+  <meta name="description" content="Build complex CSS gradients with live preview. Copy the CSS instantly.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo"
+          style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">04 / 05 — GRADIENT</span>
+      <h1 class="tool-page-title">[>] GRADIENT<br>GENERATOR</h1>
+      <p class="tool-page-desc">Create beautiful CSS gradients with multiple color stops. Live preview updates
+        instantly. Copy the CSS rule when you're done.</p>
+    </div>
+
+    <div class="tool-layout fade-in">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
+            <span class="panel-label">CONTROLS</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">
+              TYPE
+            </label>
+            <select class="select-field" id="grad-type">
+              <option value="linear">LINEAR</option>
+              <option value="radial">RADIAL</option>
+              <option value="conic">CONIC</option>
+            </select>
+          </div>
+
+          <div class="control-group" id="grad-angle-group">
+            <label class="control-label">
+              ANGLE <span class="control-value" id="grad-angle-val">135</span>°
+            </label>
+            <input type="range" class="range-input" id="grad-angle" min="0" max="360" value="135">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">COLOR STOPS</label>
+            <div id="grad-stops">
+              <div class="stop-row">
+                <input type="color" class="stop-color-input" value="#ff2d78">
+                <input type="number" class="stop-pos-input" value="0" min="0" max="100">
+                <span style="font-size:0.6rem;color:#555">%</span>
+                <button class="remove-stop hidden">×</button>
+              </div>
+              <div class="stop-row">
+                <input type="color" class="stop-color-input" value="#7b61ff">
+                <input type="number" class="stop-pos-input" value="50" min="0" max="100">
+                <span style="font-size:0.6rem;color:#555">%</span>
+                <button class="remove-stop hidden">×</button>
+              </div>
+              <div class="stop-row">
+                <input type="color" class="stop-color-input" value="#00ffaa">
+                <input type="number" class="stop-pos-input" value="100" min="0" max="100">
+                <span style="font-size:0.6rem;color:#555">%</span>
+                <button class="remove-stop">×</button>
+              </div>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="add-stop-btn" style="margin-top:8px">+ ADD STOP</button>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-outline btn-sm" id="grad-preset-sunset">SUNSET</button>
+            <button class="btn btn-outline btn-sm" id="grad-preset-ocean">OCEAN</button>
+            <button class="btn btn-outline btn-sm" id="grad-preset-neon">NEON</button>
+            <button class="btn btn-outline btn-sm" id="grad-preset-mono">MONO</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
+            <span class="panel-label">PREVIEW & OUTPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div id="grad-preview"
+            style="width:100%;height:200px;border:1px solid #1a1a1a;margin-bottom:0;transition:background 0.3s;"></div>
+
+          <div class="control-group">
+            <label class="control-label">CSS OUTPUT</label>
+            <div class="code-block" id="grad-css-output">background: linear-gradient(135deg, #ff2d78 0%, #7b61ff 50%,
+              #00ffaa 100%);</div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="grad-copy-btn" style="flex:1">COPY CSS</button>
+            <button class="btn btn-outline" id="grad-copy-hex-btn">COPY STOPS</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
+        style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+
+  <script src="gradient.js"></script>
+</body>
+
+</html>

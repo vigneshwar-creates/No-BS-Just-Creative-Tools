@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Big Text Generator — JCT</title>
+  <meta name="description" content="Generate figlet-style big ASCII text art with multiple font styles.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="back-btn"><span class="arrow">←</span> <span class="logo" style="font-size:1.4rem">JC<span>T</span></span></a>
+      <div class="header-right">
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">05 / 05 — BIG TEXT</span>
+      <h1 class="tool-page-title">[T] BIG<br>TEXT</h1>
+      <p class="tool-page-desc">Generate figlet-style big ASCII text. Multiple hand-crafted font styles. Great for READMEs, banners, and terminal art. Drag panels to rearrange.</p>
+    </div>
+
+    <div class="drag-canvas" id="drag-canvas-bt">
+
+      <div class="panel draggable-mode fade-in" id="bt-input-panel" style="left:24px;top:24px;width:380px">
+        <div class="panel-header" data-drag-handle>
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">TEXT (A-Z 0-9)</label>
+            <input type="text" class="input-field" id="bt-input" placeholder="HELLO WORLD" maxlength="12">
+          </div>
+
+          <div class="control-group">
+            <label class="control-label">FONT STYLE</label>
+            <div class="bigtext-fonts">
+              <button class="font-btn active" data-font="block">BLOCK</button>
+              <button class="font-btn" data-font="thin">THIN</button>
+              <button class="font-btn" data-font="double">DOUBLE</button>
+              <button class="font-btn" data-font="shadow">SHADOW</button>
+              <button class="font-btn" data-font="retro">RETRO</button>
+              <button class="font-btn" data-font="digital">DIGITAL</button>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="bt-generate-btn">GENERATE</button>
+            <button class="btn btn-outline" id="bt-clear-btn">CLEAR</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel draggable-mode fade-in fade-in-delay-1" id="bt-output-panel" style="left:428px;top:24px;width:700px">
+        <div class="panel-header" data-drag-handle>
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">OUTPUT</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-ghost btn-sm" id="bt-copy-btn">COPY</button>
+            <button class="btn btn-ghost btn-sm" id="bt-download-btn">SAVE .TXT</button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">
+              FONT SIZE <span class="control-value" id="bt-size-val">10</span>px
+            </label>
+            <input type="range" class="range-input" id="bt-size-range" min="6" max="18" value="10">
+          </div>
+          <pre class="output-box" id="bt-output" style="font-size:10px">// Type something and click GENERATE</pre>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <a href="index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+
+  <script src="drag.js"></script>
+  <script src="bigtext.js"></script>
+</body>
+</html>
