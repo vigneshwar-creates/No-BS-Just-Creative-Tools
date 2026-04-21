@@ -1,10 +1,5 @@
 // Shared functionality for all JCT pages
 
-document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
-  initKeyboardShortcuts();
-  initHistory();
-});
 
 function initTheme() {
   const toggle = document.getElementById('theme-toggle');
@@ -76,5 +71,139 @@ function copyToClipboard(text, btn) {
       btn.textContent = original;
       btn.style.color = '';
     }, 1500);
+  });
+}
+
+// ── Favorites Logic ────────────────────────────────────────────────────────
+function initFavorites() {
+  const favButtons = document.querySelectorAll('.fav-btn');
+  const favoritesSection = document.querySelector('.favorites-section');
+  const favoritesGrid = document.getElementById('favorites-grid');
+  
+  const loadFavorites = () => {
+    if (!favoritesSection || !favoritesGrid) return;
+    const stored = JSON.parse(localStorage.getItem('jct-favorites') || '[]');
+    if (stored.length) {
+      favoritesSection.style.display = '';
+      favoritesGrid.innerHTML = '';
+      stored.forEach(tool => {
+        const origCard = document.querySelector(`a[href$="${tool}.html"]`);
+        if (origCard) {
+          const clone = origCard.cloneNode(true);
+          const btn = clone.querySelector('.fav-btn');
+          if (btn) btn.remove();
+          favoritesGrid.appendChild(clone);
+        }
+      });
+    } else {
+      favoritesSection.style.display = 'none';
+    }
+  };
+
+  const toggleFavorite = (tool, btn) => {
+    const stored = JSON.parse(localStorage.getItem('jct-favorites') || '[]');
+    const idx = stored.indexOf(tool);
+    if (idx === -1) {
+      stored.push(tool);
+      btn.textContent = '⭐';
+    } else {
+      stored.splice(idx, 1);
+      btn.textContent = '☆';
+    }
+    localStorage.setItem('jct-favorites', JSON.stringify(stored));
+    loadFavorites();
+  };
+
+  favButtons.forEach(btn => {
+    const tool = btn.getAttribute('data-tool');
+    const stored = JSON.parse(localStorage.getItem('jct-favorites') || '[]');
+    btn.textContent = stored.includes(tool) ? '⭐' : '☆';
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      toggleFavorite(tool, btn);
+    });
+  });
+  
+  loadFavorites();
+}
+
+// ── Intersection Observer ──────────────────────────────────────────────────
+function initObservers() {
+  const observerOptions = { threshold: 0.1 };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+// ── Filtering Logic ────────────────────────────────────────────────────────
+function initFiltering() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const menuCards = document.querySelectorAll('.menu-card');
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      const filter = button.getAttribute('data-filter');
+      
+      // Filter menu cards
+      menuCards.forEach(card => {
+        const categories = card.getAttribute('data-category');
+        if (filter === 'all' || categories.includes(filter)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+}
+
+// Update DOMContentLoaded to include merged logic
+document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
+  initKeyboardShortcuts();
+  initHistory();
+  initFavorites();
+  initObservers();
+  initFiltering();
+  initMobileNav();
+});
+
+// Mobile Navigation Toggle
+function initMobileNav() {
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  
+  if (!navToggle || !navLinks) return;
+  
+  navToggle.addEventListener('click', () => {
+    navToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+  });
+  
+  // Close mobile nav when clicking a link
+  navLinks.addEventListener('click', (e) => {
+    if (e.target.classList.contains('nav-link')) {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    }
+  });
+  
+  // Close mobile nav when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+      navToggle.classList.remove('active');
+      navLinks.classList.remove('active');
+    }
   });
 }

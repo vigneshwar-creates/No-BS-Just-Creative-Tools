@@ -18,14 +18,10 @@
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="../index.html" class="logo">JC<span>T</span></a>
-      <nav class="nav-links">
-        <a href="ascii.html" class="nav-link">ASCII</a>
-        <a href="filters.html" class="nav-link">FILTERS</a>
-        <a href="palette.html" class="nav-link">PALETTE</a>
-        <a href="gradient.html" class="nav-link active">GRADIENT</a>
-        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
-      </nav>
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
       <div class="header-right">
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
@@ -35,6 +31,8 @@
       </div>
     </div>
   </header>
+
+  
 
   <main class="main">
     <div class="tool-page-header fade-in">
@@ -142,10 +140,13 @@
   <footer class="footer">
     <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
         style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
     <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  
+    
   </footer>
 
-  <script src="main.js"></script>
+
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
@@ -153,6 +154,6 @@
   </script>
   <script src="../js/shared.js" defer></script>
   <script src="../js/gradient.js"></script>
-</body>
+<script src="../js/common.js"></script>`n</body>
 
 </html>

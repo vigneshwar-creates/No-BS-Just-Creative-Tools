@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Camera Filters — BRUTAL TOOLBOX</title>
+  <title>Camera Filters — JUST CREATIVE TOOLS</title>
   <meta name="description" content="18+ authentic 90s film, digicam, disposable camera and Polaroid photo filters.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="stylesheet" href="../css/style.css">
   <style>
@@ -68,7 +71,7 @@
     }
 
     .drop-overlay.active {
-      background: rgba(255,45,120,0.08);
+      background: rgba(255, 45, 120, 0.08);
       border: 2px dashed var(--accent);
     }
 
@@ -77,7 +80,7 @@
       position: absolute;
       top: 16px;
       left: 16px;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.8);
       border: 1px solid #222;
       padding: 8px 12px;
       font-size: 0.55rem;
@@ -127,8 +130,20 @@
       position: relative;
     }
 
-    .filter-btn .fn { display: block; color: inherit; margin-bottom: 2px; }
-    .filter-btn .fs { display: block; font-size: 0.42rem; opacity: 0.4; font-weight: 400; letter-spacing: 0; text-transform: none; }
+    .filter-btn .fn {
+      display: block;
+      color: inherit;
+      margin-bottom: 2px;
+    }
+
+    .filter-btn .fs {
+      display: block;
+      font-size: 0.42rem;
+      opacity: 0.4;
+      font-weight: 400;
+      letter-spacing: 0;
+      text-transform: none;
+    }
 
     .filter-btn:hover {
       background: #151515;
@@ -137,12 +152,14 @@
     }
 
     .filter-btn.active {
-      background: rgba(255,204,0,0.07);
+      background: rgba(255, 204, 0, 0.07);
       border-color: var(--accent3);
       color: var(--accent3);
     }
 
-    .filter-btn.active .fs { opacity: 0.6; }
+    .filter-btn.active .fs {
+      opacity: 0.6;
+    }
 
     /* Intensity */
     .intensity-box {
@@ -177,7 +194,10 @@
       transition: background 0.2s;
     }
 
-    .toggle-switch.on { background: var(--accent3); border-color: var(--accent3); }
+    .toggle-switch.on {
+      background: var(--accent3);
+      border-color: var(--accent3);
+    }
 
     .toggle-switch::after {
       content: '';
@@ -190,7 +210,10 @@
       transition: all 0.2s;
     }
 
-    .toggle-switch.on::after { left: 22px; background: #000; }
+    .toggle-switch.on::after {
+      left: 22px;
+      background: #000;
+    }
 
     /* Rotation controls */
     .rotation-box {
@@ -243,21 +266,20 @@
     }
 
     @media (max-width: 900px) {
-      .filter-workspace { grid-template-columns: 1fr; }
+      .filter-workspace {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="../index.html" class="logo">JC<span>T</span></a>
-      <nav class="nav-links">
-        <a href="ascii.html" class="nav-link">ASCII</a>
-        <a href="filters.html" class="nav-link active">FILTERS</a>
-        <a href="palette.html" class="nav-link">PALETTE</a>
-        <a href="gradient.html" class="nav-link">GRADIENT</a>
-        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
-      </nav>
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
       <div class="header-right">
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
@@ -268,11 +290,14 @@
     </div>
   </header>
 
+  
+
   <main class="main">
     <div class="tool-page-header fade-in">
       <span class="tool-page-tag">02 / 05 — CAMERA FILTERS</span>
       <h1 class="tool-page-title">[~] CAMERA<br>FILTERS</h1>
-      <p class="tool-page-desc">18+ authentic vintage filters using canvas pixel manipulation — no CSS tricks. 90s film stocks, early digicam artifacts, disposable cameras, Polaroids, and more.</p>
+      <p class="tool-page-desc">18+ authentic vintage filters using canvas pixel manipulation — no CSS tricks. 90s film
+        stocks, early digicam artifacts, disposable cameras, Polaroids, and more.</p>
     </div>
 
     <div class="filter-workspace">
@@ -497,11 +522,14 @@
   </main>
 
   <footer class="footer">
-    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
+        style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
     <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  
+    
   </footer>
 
-  <script src="main.js"></script>
   <script src="../js/shared.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
@@ -511,5 +539,6 @@
   <script src="../js/filters.js"></script>
   <script src="../js/rotation.js"></script>
   <script src="../js/history.js"></script>
-</body>
+<script src="../js/common.js"></script>`n</body>
+
 </html>

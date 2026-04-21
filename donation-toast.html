@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Donation Toast</title>
+<style>
+  /* Toast container */
+  #donationToast {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    max-width: 90%;
+    box-sizing: border-box;
+  }
+  #donationToast button {
+    background: #ff6b6b;
+    border: none;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 4px;
+  }
+  #donationToast button:hover {
+    opacity: 0.9;
+  }
+  #donationToast button.cancel {
+    background: #555;
+    margin-left: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div id="donationToast">
+  <span>If you find this tool useful, consider sending a donation.</span>
+  <button id="donateBtn">Donate</button>
+  <button id="cancelBtn" class="cancel">Cancel</button>
+</div>
+
+<script>
+  const toast = document.getElementById('donationToast');
+  const donateBtn = document.getElementById('donateBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+
+  // Track when page loaded
+  const pageLoadTime = Date.now();
+  const MIN_TIME_TO_SHOW = 2 * 60 * 1000; // 2 minutes in milliseconds
+  const CHECK_INTERVAL = 30 * 1000; // Check every 30 seconds after threshold
+  const SHOW_PROBABILITY = 0.3; // 30% chance to show when checked
+
+  // Example actions
+  donateBtn.addEventListener('click', () => {
+    // Redirect to a donation page or open modal
+    alert('Thank you! Redirecting to donation page...');
+    // In real implementation, you might open a payment link:
+    // window.location.href = 'https://example.com/donate';
+    toast.style.display = 'none';
+  });
+
+  cancelBtn.addEventListener('click', () => {
+    toast.style.display = 'none';
+  });
+
+  // Function to check if we should show the toast
+  function checkAndShowToast() {
+    const timeSpent = Date.now() - pageLoadTime;
+    
+    // Only show after minimum time has passed
+    if (timeSpent >= MIN_TIME_TO_SHOW) {
+      // Random chance to show
+      if (Math.random() < SHOW_PROBABILITY) {
+        toast.style.display = 'flex';
+        
+        // Auto-hide after 10 seconds if not interacted
+        setTimeout(() => {
+          if (toast && toast.style.display !== 'none') {
+            toast.style.display = 'none';
+          }
+        }, 10000);
+      }
+    }
+  }
+
+  // Start checking after page load
+  setTimeout(checkAndShowToast, MIN_TIME_TO_SHOW);
+  
+  // Continue checking periodically
+  const intervalId = setInterval(checkAndShowToast, CHECK_INTERVAL);
+  
+  // Optional: stop checking after a certain time (e.g., 30 minutes)
+  setTimeout(() => {
+    clearInterval(intervalId);
+  }, 30 * 60 * 1000); // Stop after 30 minutes
+</script>
+
+<script src="../js/common.js"></script>`n</body>
+</html>

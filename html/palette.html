@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +8,9 @@
   <meta name="description" content="Extract dominant colors from any image. Get hex codes for your design projects.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
   <meta name="theme-color" content="#0a0a0a">
   <link rel="stylesheet" href="../css/style.css">
   <style>
@@ -18,7 +21,11 @@
       align-items: start;
     }
 
-    @media (max-width: 900px) { .palette-layout { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) {
+      .palette-layout {
+        grid-template-columns: 1fr;
+      }
+    }
 
     .image-preview-area {
       background: #030303;
@@ -53,7 +60,9 @@
       transition: flex 0.25s ease;
     }
 
-    .ps-swatch:hover { flex: 2.5; }
+    .ps-swatch:hover {
+      flex: 2.5;
+    }
 
     .ps-swatch::after {
       content: attr(data-hex);
@@ -65,14 +74,16 @@
       font-weight: 700;
       letter-spacing: 1px;
       white-space: nowrap;
-      background: rgba(0,0,0,0.7);
+      background: rgba(0, 0, 0, 0.7);
       color: #fff;
       padding: 2px 6px;
       opacity: 0;
       transition: opacity 0.2s;
     }
 
-    .ps-swatch:hover::after { opacity: 1; }
+    .ps-swatch:hover::after {
+      opacity: 1;
+    }
 
     .palette-cards {
       display: grid;
@@ -87,7 +98,9 @@
       transition: transform 0.15s;
     }
 
-    .pal-card:hover { transform: scale(1.04); }
+    .pal-card:hover {
+      transform: scale(1.04);
+    }
 
     .pal-card-color {
       aspect-ratio: 1;
@@ -134,24 +147,22 @@
       flex-shrink: 0;
     }
 
-    .nc-btn:hover, .nc-btn.active {
+    .nc-btn:hover,
+    .nc-btn.active {
       background: var(--accent4);
       border-color: var(--accent4);
       color: white;
     }
   </style>
 </head>
+
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="../index.html" class="logo">JC<span>T</span></a>
-      <nav class="nav-links">
-        <a href="ascii.html" class="nav-link">ASCII</a>
-        <a href="filters.html" class="nav-link">FILTERS</a>
-        <a href="palette.html" class="nav-link active">PALETTE</a>
-        <a href="gradient.html" class="nav-link">GRADIENT</a>
-        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
-      </nav>
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
       <div class="header-right">
         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
@@ -162,18 +173,25 @@
     </div>
   </header>
 
+  
+
   <main class="main">
     <div class="tool-page-header fade-in">
       <span class="tool-page-tag">03 / 05 — COLOR PALETTE</span>
       <h1 class="tool-page-title">[#] COLOR<br>PALETTE</h1>
-      <p class="tool-page-desc">Extract the dominant colors from any photo using pixel quantization. Copy hex codes individually or all at once.</p>
+      <p class="tool-page-desc">Extract the dominant colors from any photo using pixel quantization. Copy hex codes
+        individually or all at once.</p>
     </div>
 
     <div class="palette-layout">
       <div class="panel fade-in">
         <div class="panel-header">
           <div class="panel-header-left">
-            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
             <span class="panel-label">IMAGE</span>
           </div>
           <button class="btn btn-ghost btn-sm" id="pal-load-btn">LOAD IMAGE</button>
@@ -194,7 +212,11 @@
       <div class="panel fade-in fade-in-delay-1">
         <div class="panel-header">
           <div class="panel-header-left">
-            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
             <span class="panel-label">PALETTE</span>
           </div>
           <button class="btn btn-ghost btn-sm" id="pal-copy-all-btn">COPY ALL</button>
@@ -213,7 +235,8 @@
 
           <div class="palette-strip" id="pal-strip">
             <div style="display:flex;align-items:center;justify-content:center;flex:1;text-align:center">
-              <span style="font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:#333">NO IMAGE LOADED</span>
+              <span style="font-size:0.55rem;letter-spacing:3px;text-transform:uppercase;color:#333">NO IMAGE
+                LOADED</span>
             </div>
           </div>
 
@@ -230,11 +253,13 @@
   </main>
 
   <footer class="footer">
-    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
+        style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
     <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  
+    
   </footer>
 
-  <script src="main.js"></script>
   <script src="../js/shared.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
@@ -242,5 +267,6 @@
     }
   </script>
   <script src="../js/palette.js"></script>
-</body>
+<script src="../js/common.js"></script>`n</body>
+
 </html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collage Maker — JCT</title>
+  <meta name="description" content="Create image collages from multiple photos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/shared.js" defer></script>
+  <script src="../js/collage.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">IMAGE TOOLS</span>
+      <h1 class="tool-page-title">[⊞] COLLAGE<br>MAKER</h1>
+      <p class="tool-page-desc">Create image collages from multiple photos. All processing happens in your browser.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group">
+            <label class="control-label">LAYOUT</label>
+            <div class="mode-toggle">
+              <button class="mode-btn active" data-layout="2x2" id="collage-2x2">2×2 GRID</button>
+              <button class="mode-btn" data-layout="horiz" id="collage-horiz">HORIZ</button>
+              <button class="mode-btn" data-layout="vert" id="collage-vert">VERT</button>
+            </div>
+          </div>
+
+          <div class="control-group" style="margin-top: 16px;">
+            <label class="control-label">IMAGES (up to 4)</label>
+            <div class="drop-zone" id="collage-drop-zone1" style="min-height: 80px; margin-bottom: 8px;">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Image 1</p>
+              <input type="file" accept="image/*" id="collage-file1" hidden>
+            </div>
+            <div class="drop-zone" id="collage-drop-zone2" style="min-height: 80px; margin-bottom: 8px;">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Image 2</p>
+              <input type="file" accept="image/*" id="collage-file2" hidden>
+            </div>
+            <div class="drop-zone" id="collage-drop-zone3" style="min-height: 80px; margin-bottom: 8px;">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Image 3</p>
+              <input type="file" accept="image/*" id="collage-file3" hidden>
+            </div>
+            <div class="drop-zone" id="collage-drop-zone4" style="min-height: 80px;">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Image 4</p>
+              <input type="file" accept="image/*" id="collage-file4" hidden>
+            </div>
+          </div>
+
+          <div class="btn-group" style="margin-top: 20px;">
+            <button class="btn btn-primary" id="collage-generate">GENERATE</button>
+            <button class="btn btn-outline" id="collage-download">DOWNLOAD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body" style="align-items: center; justify-content: center; min-height: 300px; background: #0d0d0d;">
+          <canvas id="collage-canvas" style="max-width: 100%; max-height: 500px; display: none;"></canvas>
+          <div id="collage-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload images</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  
+    
+  </footer>
+<script src="../js/common.js"></script>`n</body>
+</html>

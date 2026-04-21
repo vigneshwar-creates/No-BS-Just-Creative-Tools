@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +8,23 @@
   <meta name="description" content="Mix colors, blend harmonies, and generate palettes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/shared.js" defer></script>
   <script src="../js/colormixer.js" defer></script>
 </head>
+
 <body>
   <header class="header">
     <div class="header-inner">
-      <a href="../index.html" class="logo">JC<span>T</span></a>
-      <nav class="nav-links">
-        <a href="ascii.html" class="nav-link">ASCII</a>
-        <a href="filters.html" class="nav-link">FILTERS</a>
-        <a href="palette.html" class="nav-link">PALETTE</a>
-        <a href="gradient.html" class="nav-link">GRADIENT</a>
-        <a href="bigtext.html" class="nav-link">BIG TEXT</a>
-      </nav>
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
       <div class="header-right">
-        <button class="theme-toggle" id="theme-toggle" title="Toggle theme (Ctrl+T)">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
           <span class="icon-moon">◐</span>
           <span class="icon-sun">◑</span>
         </button>
@@ -32,6 +32,8 @@
       </div>
     </div>
   </header>
+
+  
 
   <main class="main">
     <div class="tool-page-header fade-in">
@@ -44,7 +46,11 @@
       <div class="panel fade-in">
         <div class="panel-header">
           <div class="panel-header-left">
-            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
             <span class="panel-label">COLORS</span>
           </div>
         </div>
@@ -53,14 +59,16 @@
             <div class="control-group">
               <label class="control-label">COLOR 1</label>
               <div style="display:flex;gap:8px;align-items:center;">
-                <input type="color" class="stop-color-input" id="color1" value="#ff2d78" style="width:60px;height:40px;">
+                <input type="color" class="stop-color-input" id="color1" value="#ff2d78"
+                  style="width:60px;height:40px;">
                 <input type="text" class="input-field" id="color1-hex" value="#ff2d78" style="flex:1;">
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">COLOR 2</label>
               <div style="display:flex;gap:8px;align-items:center;">
-                <input type="color" class="stop-color-input" id="color2" value="#00ffaa" style="width:60px;height:40px;">
+                <input type="color" class="stop-color-input" id="color2" value="#00ffaa"
+                  style="width:60px;height:40px;">
                 <input type="text" class="input-field" id="color2-hex" value="#00ffaa" style="flex:1;">
               </div>
             </div>
@@ -103,17 +111,27 @@
       <div class="panel fade-in">
         <div class="panel-header">
           <div class="panel-header-left">
-            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <div class="panel-dots">
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+              <div class="panel-dot"></div>
+            </div>
             <span class="panel-label">RESULT</span>
           </div>
         </div>
         <div class="panel-body">
-          <div id="mix-result" style="height: 80px; border: 1px solid #222; cursor: pointer; position: relative;" title="Click to copy">
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);opacity:0;transition:opacity 0.2s;" id="mix-copy-hint">
-              <span style="font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:#fff;">CLICK TO COPY</span>
+          <div id="mix-result" style="height: 80px; border: 1px solid #222; cursor: pointer; position: relative;"
+            title="Click to copy">
+            <div
+              style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);opacity:0;transition:opacity 0.2s;"
+              id="mix-copy-hint">
+              <span style="font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:#fff;">CLICK TO
+                COPY</span>
             </div>
           </div>
-          <div id="mix-result-hex" style="text-align:center;margin-top:12px;font-size:1.2rem;font-weight:700;font-family:var(--font-display);letter-spacing:2px;"></div>
+          <div id="mix-result-hex"
+            style="text-align:center;margin-top:12px;font-size:1.2rem;font-weight:700;font-family:var(--font-display);letter-spacing:2px;">
+          </div>
 
           <div style="margin-top: 32px;">
             <label class="control-label">GENERATED PALETTE</label>
@@ -125,7 +143,13 @@
   </main>
 
   <footer class="footer">
-    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — MIT LICENSE</p>
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
+        style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  
+    
   </footer>
-</body>
+<script src="../js/common.js"></script>`n</body>
+
 </html>

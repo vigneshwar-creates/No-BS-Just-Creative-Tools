@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Favicon Generator — JCT</title>
-  <meta name="description" content="Generate favicons from images. Create .ico, .png in multiple sizes.">
+  <title>Image Validator — JCT</title>
+  <meta name="description" content="Validate image files and check for corruption.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/shared.js" defer></script>
-  <script src="../js/favicon.js" defer></script>
+  <script src="../js/validate.js"></script>
 </head>
 <body>
   <header class="header">
@@ -34,8 +34,8 @@
   <main class="main">
     <div class="tool-page-header fade-in">
       <span class="tool-page-tag">IMAGE TOOLS</span>
-      <h1 class="tool-page-title">[◉] FAVICON<br>GENERATOR</h1>
-      <p class="tool-page-desc">Upload an image and generate favicons in all standard sizes (16, 32, 48, 64, 128, 192, 512). Download as ZIP or individual files.</p>
+      <h1 class="tool-page-title">[✓] IMAGE<br>VALIDATOR</h1>
+      <p class="tool-page-desc">Validate image files and check for corruption. All processing happens in your browser.</p>
     </div>
 
     <div class="tool-layout">
@@ -47,42 +47,24 @@
           </div>
         </div>
         <div class="panel-body">
-          <div class="drop-zone" id="favicon-drop-zone" style="min-height: 120px;">
+          <div class="drop-zone" id="validate-drop-zone" style="min-height: 150px;">
             <span class="drop-zone-icon">◈</span>
-            <p class="drop-zone-text">Drop image or click to upload</p>
-            <input type="file" accept="image/*" id="favicon-file-input" hidden>
+            <p class="drop-zone-text">Drop image here or click</p>
+            <input type="file" accept="image/*" id="validate-file-input" hidden>
           </div>
 
-          <div class="control-group" style="margin-top: 20px;">
-            <label class="control-label">OUTPUT SIZES</label>
-            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="16" checked> 16×16
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="32" checked> 32×32
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="48" checked> 48×48
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="64" checked> 64×64
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="128" checked> 128×128
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="192"> 192×192
-              </label>
-              <label style="display:flex;align-items:center;gap:6px;font-size:0.7rem;">
-                <input type="checkbox" value="512"> 512×512
-              </label>
+          <div id="validate-file-info" class="hidden" style="padding: 16px; background: var(--surface2); border: 1px solid #222; margin-top: 16px; font-size: 0.7rem;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div><span style="color:var(--text-muted)">Name:</span> <span id="validate-filename">—</span></div>
+              <div><span style="color:var(--text-muted)">Size:</span> <span id="validate-filesize">—</span></div>
+              <div><span style="color:var(--text-muted)">Type:</span> <span id="validate-filetype">—</span></div>
+              <div><span style="color:var(--text-muted)">Dimensions:</span> <span id="validate-dims">—</span></div>
             </div>
           </div>
 
-          <div class="btn-group">
-            <button class="btn btn-primary" id="favicon-generate">GENERATE</button>
-            <button class="btn btn-outline" id="favicon-download">DOWNLOAD ZIP</button>
+          <div class="btn-group" style="margin-top: 20px;">
+            <button class="btn btn-primary" id="validate-btn">VALIDATE</button>
+            <button class="btn btn-outline" id="validate-clear">CLEAR</button>
           </div>
         </div>
       </div>
@@ -91,14 +73,17 @@
         <div class="panel-header">
           <div class="panel-header-left">
             <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
-            <span class="panel-label">PREVIEW</span>
+            <span class="panel-label">RESULT</span>
           </div>
         </div>
-        <div class="panel-body">
-          <div id="favicon-preview" style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; padding: 20px;"></div>
-          <div id="favicon-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+        <div class="panel-body" style="min-height: 300px; background: #0d0d0d;">
+          <div id="validate-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
             <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
             <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload an image</p>
+          </div>
+          <div id="validate-result" class="hidden" style="padding: 20px; text-align: center;">
+            <div id="validate-status" style="font-size: 1.5rem; letter-spacing: 3px; margin-bottom: 16px;"></div>
+            <div id="validate-details" style="font-size: 0.7rem; line-height: 2; color: var(--text-muted);"></div>
           </div>
         </div>
       </div>
