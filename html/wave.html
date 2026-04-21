@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SVG Wave Generator — JCT</title>
+  <meta name="description"
+    content="Generate customizable SVG waves and blobs for backgrounds, illustrations, and more.">
+  <link rel="manifest" href="../manifest.json">
+  <meta name="theme-color" content="#0a0a0a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .wave-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .control-group label {
+      margin-bottom: 6px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    .control-group input,
+    .control-group select {
+      padding: 8px 12px;
+      border: var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: var(--radius);
+    }
+
+    .control-group input[type="range"] {
+      padding: 0;
+      height: 4px;
+    }
+
+    .control-group input[type="color"] {
+      padding: 0;
+      height: 32px;
+    }
+
+    .preview {
+      background: var(--surface);
+      border: var(--border);
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .preview svg {
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 24px;
+      border: var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: var(--primary);
+    }
+
+    .btn:hover {
+      background: var(--accent2);
+      color: var(--primary);
+    }
+
+    .btn.secondary {
+      background: transparent;
+    }
+
+    .btn.secondary:hover {
+      background: var(--surface2);
+    }
+
+    .output {
+      background: var(--surface);
+      border: var(--border);
+      padding: 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      overflow: auto;
+      max-height: 200px;
+    }
+
+    .output pre {
+      margin: 0;
+    }
+
+    .copy-btn {
+      margin-top: 8px;
+      padding: 8px 16px;
+      background: var(--surface2);
+      border: var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  
+
+  <main class="main">
+    <div class="wave-container">
+      <h1 style="text-align: center; margin-bottom: 24px;">SVG Wave Generator</h1>
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="waveType">Wave Type</label>
+          <select id="waveType">
+            <option value="sine">Sine Wave</option>
+            <option value="blob">Organic Blob</option>
+            <option value="triangular">Triangular Wave</Option>
+            <option value="square">Square Wave</Option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="amplitude">Amplitude</label>
+          <input type="range" id="amplitude" min="10" max="100" value="50">
+          <span id="ampValue">50</span>px
+        </div>
+
+        <div class="control-group">
+          <label for="wavelength">Wavelength</label>
+          <input type="range" id="wavelength" min="50" max="300" value="150">
+          <span id="waveValue">150</span>px
+        </div>
+
+        <div class="control-group">
+          <label for="segments">Segments</label>
+          <input type="range" id="segments" min="4" max="24" value="12">
+          <span id="segValue">12</span>
+        </div>
+
+        <div class="control-group">
+          <label for="complexity">Complexity</label>
+          <input type="range" id="complexity" min="0" max="1" step="0.1" value="0.5">
+          <span id="compValue">0.5</span>
+        </div>
+
+        <div class="control-group">
+          <label for="waveColor">Wave Color</label>
+          <input type="color" id="waveColor" value="#ff2d78">
+        </div>
+
+        <div class="control-group">
+          <label for="bgColor">Background Color</label>
+          <input type="color" id="bgColor" value="#0a0a0a">
+        </div>
+      </div>
+
+      <div class="preview">
+        <div id="wavePreview">Loading preview...</div>
+      </div>
+
+      <div class="buttons">
+        <button class="btn primary" id="generateBtn">Generate Wave</button>
+        <button class="btn secondary" id="downloadSvg">Download SVG</button>
+        <button class="btn secondary" id="downloadPng">Download PNG</button>
+      </div>
+
+      <div class="output">
+        <h3>SVG Code:</h3>
+        <div id="svgOutput">
+          <pre>&lt;!-- SVG will appear here --&gt;</pre>
+        </div>
+        <button class="copy-btn" id="copySvg">Copy SVG Code</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE"
+        style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+  
+    
+  </footer>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/shared.js" defer></script>
+  <script src="../js/wave.js"></script>
+<script src="../js/common.js"></script>`n</body>
+
+</html>

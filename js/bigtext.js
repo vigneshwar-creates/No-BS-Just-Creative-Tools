@@ -25,7 +25,7 @@
   // VISIBLE characters so padEnd(colW) is consistent.
   // Glyph column width (colW) is defined per font below.
 
-  const FONT_COLW = { block: 4, thin: 6, shadow: 6, double: 4, retro: 4, digital: 7, bold: 5, simple: 4, bubble: 5, script: 5, 3d: 5, crypto: 5, weird: 5 };
+  const FONT_COLW = { block: 4, thin: 6, shadow: 6, double: 4, retro: 4, digital: 7, bold: 5, simple: 4, bubble: 5, script: 5, '3d': 5, crypto: 5, weird: 5 };
 
   const FONTS = {
     // ── BLOCK: 4-wide glyphs, box-drawing only ──────────────────────────────
@@ -589,38 +589,89 @@
   });
 
   // ── Generate ──────────────────────────────────────────────────────────────
-  function generateBigText(text, fontName) {
+  function generateBigText(text, fontName, options = {}) {
     const font = FONTS[fontName] || FONTS.block;
     text = text.toUpperCase().replace(/[^A-Z0-9 ]/g, '');
     if (!text) return 'USE A-Z 0-9 ONLY';
 
+    const { align = 'left', fillChar = null } = options;
     const ROWS = 5;
-    const lines = Array(ROWS).fill('');
+    let lines = Array(ROWS).fill('');
 
-    // Determine per-char column width for this font (use max of all rows for each glyph)
     for (const ch of text) {
       const glyph = font[ch] || font[' '];
-      // Each glyph row should already be padded — but let's normalise
-      const colW = Math.max(...glyph.map(r => [...r].length)); // Unicode-aware length
+      const colW = Math.max(...glyph.map(r => [...r].length));
       for (let r = 0; r < ROWS; r++) {
-        const row = glyph[r] || '';
-        // PAD using spaces to ensure alignment
+        let row = glyph[r] || '';
+        if (fillChar) {
+          row = row.replace(/[#*=█▓░▐■▄▀╔║╚╗╝═│]/g, fillChar);
+        }
         const padded = row + ' '.repeat(Math.max(0, colW - [...row].length));
         lines[r] += padded;
       }
-      // Add a 1-space gap between chars
       for (let r = 0; r < ROWS; r++) lines[r] += ' ';
+    }
+
+    if (align !== 'left') {
+      const maxLen = Math.max(...lines.map(l => l.length));
+      lines = lines.map(l => {
+        const pad = maxLen - l.length;
+        return align === 'center' 
+          ? ' '.repeat(Math.floor(pad/2)) + l + ' '.repeat(Math.ceil(pad/2))
+          : ' '.repeat(pad) + l;
+      });
     }
 
     return lines.join('\n');
   }
 
+  function getAllFontNames() {
+    return Object.keys(FONTS);
+  }
+
   // ── UI ───────────────────────────────────────────────────────────────────
+  let alignment = 'left';
+  let fillChar = null;
+
+  const alignBtns = document.querySelectorAll('[data-align]');
+  alignBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      alignBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      alignment = btn.dataset.align;
+      if (btInput.value) btInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  const fillBtns = document.querySelectorAll('.fill-btn');
+  fillBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      fillBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      fillChar = btn.dataset.fill || null;
+      if (btInput.value) btInput.dispatchEvent(new Event('input'));
+    });
+  });
+
+  const randomBtn = document.getElementById('bt-random-btn');
+  if (randomBtn) {
+    randomBtn.addEventListener('click', () => {
+      const fonts = getAllFontNames();
+      const randomFont = fonts[Math.floor(Math.random() * fonts.length)];
+      currentFont = randomFont;
+      fontBtns.forEach(b => {
+        b.classList.toggle('active', b.dataset.font === randomFont);
+      });
+      if (btInput.value) btInput.dispatchEvent(new Event('input'));
+    });
+  }
+
   fontBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       fontBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFont = btn.dataset.font;
+      if (btInput.value) btInput.dispatchEvent(new Event('input'));
     });
   });
 
@@ -629,9 +680,14 @@
     btOutput.style.fontSize = btSizeRange.value + 'px';
   });
 
+  btInput.addEventListener('input', () => {
+    const text = btInput.value || 'HELLO';
+    btOutput.textContent = generateBigText(text, currentFont, { align: alignment, fillChar });
+  });
+
   btGenerateBtn.addEventListener('click', () => {
     const text = btInput.value || 'HELLO';
-    btOutput.textContent = generateBigText(text, currentFont);
+    btOutput.textContent = generateBigText(text, currentFont, { align: alignment, fillChar });
   });
 
   btClearBtn.addEventListener('click', () => {
@@ -667,4 +723,8 @@
     btn.textContent = msg;
     setTimeout(() => { btn.textContent = orig; }, 1200);
   }
+
+  // Initialize with default text on load
+  btInput.value = 'OPENCODE';
+  btInput.dispatchEvent(new Event('input'));
 })();

@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base64 Encoder/Decoder — JCT</title>
-  <meta name="description" content="Encode and decode Base64 instantly.">
+  <title>Image Diff — JCT</title>
+  <meta name="description" content="Compare two images and see the differences.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <script src="../js/shared.js" defer></script>
-  <script src="../js/base64.js"></script>
+  <script src="../js/imagediff.js"></script>
 </head>
 <body>
   <header class="header">
@@ -29,11 +29,13 @@
     </div>
   </header>
 
+  
+
   <main class="main">
     <div class="tool-page-header fade-in">
-      <span class="tool-page-tag">DEVELOPER TOOLS</span>
-      <h1 class="tool-page-title">[=] BASE64</h1>
-      <p class="tool-page-desc">Encode text to Base64 or decode Base64 to text. Also supports image to Base64 data URL for embedding.</p>
+      <span class="tool-page-tag">IMAGE TOOLS</span>
+      <h1 class="tool-page-title">[≠] IMAGE<br>DIFF</h1>
+      <p class="tool-page-desc">Compare two images and visualize the differences. All processing happens in your browser.</p>
     </div>
 
     <div class="tool-layout">
@@ -45,28 +47,34 @@
           </div>
         </div>
         <div class="panel-body">
-          <div class="mode-toggle">
-            <button class="mode-btn active" data-mode="encode" id="mode-encode">ENCODE</button>
-            <button class="mode-btn" data-mode="decode" id="mode-decode">DECODE</button>
-          </div>
-
           <div class="control-group">
-            <label class="control-label">TEXT INPUT</label>
-            <textarea class="input-field" id="base64-input" placeholder="Enter text to encode/decode..." rows="4"></textarea>
-          </div>
-
-          <div class="control-group">
-            <label class="control-label">OR IMAGE TO BASE64</label>
-            <div class="drop-zone" id="base64-drop-zone">
+            <label class="control-label">IMAGE 1</label>
+            <div class="drop-zone" id="diff-drop-zone1" style="min-height: 100px;">
               <span class="drop-zone-icon">◈</span>
-              <p class="drop-zone-text">Drop image or click to upload</p>
-              <input type="file" accept="image/*" id="base64-file-input" hidden>
+              <p class="drop-zone-text">Drop image 1</p>
+              <input type="file" accept="image/*" id="diff-file-input1" hidden>
             </div>
           </div>
 
-          <div class="btn-group">
-            <button class="btn btn-primary" id="base64-process">PROCESS</button>
-            <button class="btn btn-outline" id="base64-clear">CLEAR</button>
+          <div class="control-group" style="margin-top: 16px;">
+            <label class="control-label">IMAGE 2</label>
+            <div class="drop-zone" id="diff-drop-zone2" style="min-height: 100px;">
+              <span class="drop-zone-icon">◈</span>
+              <p class="drop-zone-text">Drop image 2</p>
+              <input type="file" accept="image/*" id="diff-file-input2" hidden>
+            </div>
+          </div>
+
+          <div id="diff-info" class="hidden" style="padding: 16px; background: var(--surface2); border: 1px solid #222; margin-top: 16px; font-size: 0.7rem;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div><span style="color:var(--text-muted)">Image 1:</span> <span id="diff-size1">—</span></div>
+              <div><span style="color:var(--text-muted)">Image 2:</span> <span id="diff-size2">—</span></div>
+            </div>
+          </div>
+
+          <div class="btn-group" style="margin-top: 20px;">
+            <button class="btn btn-primary" id="diff-compare">COMPARE</button>
+            <button class="btn btn-outline" id="diff-clear">CLEAR</button>
           </div>
         </div>
       </div>
@@ -75,15 +83,14 @@
         <div class="panel-header">
           <div class="panel-header-left">
             <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
-            <span class="panel-label">OUTPUT</span>
+            <span class="panel-label">DIFF PREVIEW</span>
           </div>
-          <button class="btn btn-sm btn-ghost" id="base64-copy">COPY</button>
         </div>
-        <div class="panel-body">
-          <div class="output-box big" id="base64-output"></div>
-          <div class="control-group" style="margin-top: 16px;">
-            <label class="control-label">SIZE INFO</label>
-            <div id="base64-size" style="font-size: 0.7rem; color: var(--text-muted)">—</div>
+        <div class="panel-body" style="align-items: center; justify-content: center; min-height: 300px; background: #0d0d0d;">
+          <canvas id="diff-canvas" style="max-width: 100%; max-height: 500px; display: none;"></canvas>
+          <div id="diff-empty" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:3rem;opacity:0.2;margin-bottom:16px">◫</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload two images</p>
           </div>
         </div>
       </div>
