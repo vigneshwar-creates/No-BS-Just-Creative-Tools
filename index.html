@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
  
 <head>
@@ -68,6 +68,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
   <link rel="manifest" href="/assets/manifest.json">
+  <link rel="manifest" href="assets/manifest.json">
   <link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="/assets/browserconfig.xml">
@@ -1022,6 +1023,38 @@
     })();
   </script>
 <script src="../js/common.js"></script>
+
+  <!-- PWA: Install Banner + Service Worker -->
+  <div id="pwa-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#111;border-top:1px solid #ff2d78;padding:14px 20px;z-index:9999;align-items:center;justify-content:space-between;gap:12px;font-family:'Space Mono',monospace;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:1.4rem;">📲</span>
+      <div>
+        <div style="font-size:0.65rem;letter-spacing:2px;color:#fff;text-transform:uppercase;">Install Just Creative Tools</div>
+        <div style="font-size:0.55rem;color:#666;letter-spacing:1px;margin-top:2px;">Add to home screen — works offline too</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button id="pwa-install-btn" style="padding:8px 16px;background:#ff2d78;border:none;color:#fff;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">INSTALL</button>
+      <button id="pwa-dismiss-btn" style="padding:8px 12px;background:transparent;border:1px solid #333;color:#666;font-family:'Space Mono',monospace;font-size:0.6rem;cursor:pointer;">X</button>
+    </div>
+  </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js')
+          .then(function(r) { console.log('[JCT] SW:', r.scope); })
+          .catch(function(e) { console.warn('[JCT] SW failed:', e); });
+      });
+    }
+    var _dp = null;
+    var _b = document.getElementById('pwa-banner');
+    var _dis = localStorage.getItem('jct-pwa-dismissed');
+    var _ok = _dis && (Date.now() - Number(_dis) < 604800000);
+    window.addEventListener('beforeinstallprompt', function(e) { e.preventDefault(); _dp = e; if (!_ok) _b.style.display='flex'; });
+    document.getElementById('pwa-install-btn').addEventListener('click', function() { if (_dp) { _b.style.display='none'; _dp.prompt(); _dp=null; } });
+    document.getElementById('pwa-dismiss-btn').addEventListener('click', function() { _b.style.display='none'; localStorage.setItem('jct-pwa-dismissed', Date.now()); });
+    window.addEventListener('appinstalled', function() { _b.style.display='none'; });
+  </script>
 </body>
 
 </html>

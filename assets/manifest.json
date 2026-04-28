@@ -1,26 +1,48 @@
 {
-  "name": "JUST CREATIVE TOOLS",
+  "name": "Just Creative Tools",
   "short_name": "JCT",
-  "description": "5 creative visual tools with brutalist design",
+  "description": "29 free browser-based creative tools. No subscriptions, no accounts, no nonsense.",
   "start_url": "/",
-  "scope": ".",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#F5F5F5",
-  "theme_color": "#000000",
+  "orientation": "any",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/assets/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "/assets/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["utilities", "design", "creative"]
+  "categories": ["utilities", "design", "creative"],
+  "shortcuts": [
+    {
+      "name": "QR Code Maker",
+      "url": "/html/qrcode.html",
+      "description": "Generate QR codes instantly"
+    },
+    {
+      "name": "Image Resizer",
+      "url": "/html/resize.html",
+      "description": "Resize and compress images"
+    },
+    {
+      "name": "Camera Filters",
+      "url": "/html/filters.html",
+      "description": "28+ vintage camera filters"
+    },
+    {
+      "name": "Color Mixer",
+      "url": "/html/colormixer.html",
+      "description": "Mix colors and generate palettes"
+    }
+  ]
 }
