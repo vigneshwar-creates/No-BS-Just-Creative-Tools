@@ -40,24 +40,26 @@
       "@type": "Organization",
       "name": "Just Creative Tools"
     },
-    "featureList": [
-      "ASCII Art Generator",
-      "SVG Wave Generator", 
-      "Gradient Generator",
-      "QR Code Maker",
-      "Base64 Encoder/Decoder",
-      "Color Palette Extractor",
-      "Color Mixer",
-      "Image Resizer",
-      "Big Text Generator",
-      "Lorem Ipsum Generator",
-      "UUID & Hash Generator",
-      "Favicon Generator",
-      "GIF Maker",
-      "PDF to Images Converter",
-      "Image Filters (90s vintage effects)",
-      "Vintage Camera Filters"
-    ]
+     "featureList": [
+       "ASCII Art Generator",
+       "SVG Wave Generator", 
+       "Gradient Generator",
+       "QR Code Maker",
+       "Base64 Encoder/Decoder",
+       "Color Palette Extractor",
+       "Color Mixer",
+       "Image Resizer",
+       "Big Text Generator",
+       "Lorem Ipsum Generator",
+       "UUID & Hash Generator",
+       "Favicon Generator",
+       "GIF Maker",
+       "PDF to Images Converter",
+       "Image Filters (90s vintage effects)",
+       "Vintage Camera Filters",
+       "Audio Format Converter",
+       "Audio Waveform Visualizer"
+     ]
   }
   </script>
   
@@ -390,22 +392,72 @@
 </head>
 
 <body>
-   <header class="header">
-     <div class="header-inner">
-       <div style="display: flex; align-items: center; gap: 24px;">
-         <a href="index.html" class="logo">JC<span>T</span></a>
-         
-       </div>
-       
-       <div class="header-right">
-         <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
-           <span class="icon-moon">◐</span>
-           <span class="icon-sun">◑</span>
-         </button>
-         <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
-       </div>
-     </div>
-   </header>
+    <header class="header">
+      <div class="header-inner">
+        <div style="display: flex; align-items: center; gap: 24px;">
+          <a href="index.html" class="logo">JC<span>T</span></a>
+          
+        </div>
+        
+        <div class="header-right">
+          <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+            <span class="icon-moon">◐</span>
+            <span class="icon-sun">◑</span>
+          </button>
+          <button class="nav-toggle" id="nav-toggle" title="Menu">
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+            <span class="hamburger"></span>
+          </button>
+          <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <nav class="nav-links" id="nav-links">
+          <div class="nav-section">
+            <h3 class="nav-section-title">TOOLS</h3>
+            <a href="html/ascii.html" class="nav-link">ASCII ART</a>
+            <a href="html/bigtext.html" class="nav-link">BIG TEXT</a>
+            <a href="html/lorem.html" class="nav-link">LOREM IPSUM</a>
+            <a href="html/base64.html" class="nav-link">BASE64</a>
+            <a href="html/uuid.html" class="nav-link">UUID & HASH</a>
+            <a href="html/qrcode.html" class="nav-link">QR CODE</a>
+            <a href="html/gradient.html" class="nav-link">GRADIENT</a>
+            <a href="html/colormixer.html" class="nav-link">COLOR MIXER</a>
+          </div>
+          <div class="nav-section">
+            <h3 class="nav-section-title">IMAGE</h3>
+            <a href="html/filters.html" class="nav-link">CAMERA FILTERS</a>
+            <a href="html/resize.html" class="nav-link">IMAGE RESIZER</a>
+            <a href="html/crop.html" class="nav-link">IMAGE CROP</a>
+            <a href="html/flip.html" class="nav-link">IMAGE FLIP</a>
+            <a href="html/blur.html" class="nav-link">BLUR TOOL</a>
+            <a href="html/brightness.html" class="nav-link">BRIGHTNESS</a>
+            <a href="html/convert.html" class="nav-link">FORMAT CONVERT</a>
+            <a href="html/heic.html" class="nav-link">HEIC CONVERTER</a>
+            <a href="html/steganography.html" class="nav-link">STEGANOGRAPHY</a>
+            <a href="html/imagediff.html" class="nav-link">IMAGE DIFF</a>
+            <a href="html/collage.html" class="nav-link">COLLAGE MAKER</a>
+            <a href="html/watermark.html" class="nav-link">WATERMARK</a>
+            <a href="html/metadata.html" class="nav-link">IMAGE METADATA</a>
+            <a href="html/pdf.html" class="nav-link">PDF TO IMAGES</a>
+            <a href="html/gif.html" class="nav-link">GIF MAKER</a>
+            <a href="html/favicon.html" class="nav-link">FAVICON</a>
+            <a href="html/validate.html" class="nav-link">IMAGE VALIDATOR</a>
+          </div>
+           <div class="nav-section">
+             <h3 class="nav-section-title">MORE</h3>
+             <a href="html/palette.html" class="nav-link">COLOR PALETTE</a>
+             <a href="https://www.buymeacoffee.com/gammem" target="_blank" class="nav-link">SUPPORT</a>
+           </div>
+           <div class="nav-section">
+             <h3 class="nav-section-title">AUDIO</h3>
+             <a href="html/audio-convert.html" class="nav-link">AUDIO CONVERT</a>
+             <a href="html/waveform.html" class="nav-link">WAVEFORM</a>
+           </div>
+        </nav>
+      </div>
+    </header>
 
    
 
@@ -414,7 +466,7 @@
       <div class="hero-tag">JUST CREATIVE TOOLKIT v0.0</div>
       <h2 class="hero-title">JUST CREATIVE<br><span class="highlight">TOOLS</span></h2>
       <p class="hero-subtitle">No subscriptions. No accounts. No nonsense.</p>
-      <p class="hero-count">→ 27 TOOLS &nbsp;&nbsp; → RUNS IN BROWSER &nbsp;&nbsp; → 100% FREE</p>
+       <p class="hero-count">→ 29 TOOLS &nbsp;&nbsp; → RUNS IN BROWSER &nbsp;&nbsp; → 100% FREE</p>
     </section>
 
     <div class="ticker">
@@ -470,16 +522,18 @@
          <span class="ticker-item"><span class="dot">?</span> STEGANOGRAPHY TOOL</span>
          <span class="ticker-item"><span class="dot">?</span> UUID & HASH GENERATOR</span>
          <span class="ticker-item"><span class="dot">?</span> VALIDATION TOOL</span>
-         <span class="ticker-item"><span class="dot">?</span> WATERMARK TOOL</span>
-         <span class="ticker-item"><span class="dot">?</span> SVG WAVE GENERATOR</span>
-</div>
+          <span class="ticker-item"><span class="dot">?</span> WATERMARK TOOL</span>
+          <span class="ticker-item"><span class="dot">?</span> SVG WAVE GENERATOR</span>
+          <span class="ticker-item"><span class="dot">?</span> AUDIO CONVERTER</span>
+          <span class="ticker-item"><span class="dot">?</span> WAVEFORM VISUALIZER</span>
+        </div>
     </div>
 
     <div class="stats-row">
-      <div class="stat-box">
-        <div class="stat-num">27</div>
-        <div class="stat-label">Creative Tools</div>
-      </div>
+     <div class="stat-box">
+       <div class="stat-num">29</div>
+       <div class="stat-label">Creative Tools</div>
+     </div>
       <div class="stat-box">
         <div class="stat-num">28+</div>
         <div class="stat-label">Vintage Filters</div>
@@ -501,13 +555,14 @@
 
     <div class="tool-filters">
       <input type="text" id="tool-search" class="search-input" placeholder="SEARCH TOOLS...">
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">ALL</button>
-        <button class="filter-btn" data-filter="image">IMAGE</button>
-        <button class="filter-btn" data-filter="text">TEXT</button>
-        <button class="filter-btn" data-filter="color">COLOR</button>
-        <button class="filter-btn" data-filter="dev">DEV</button>
-      </div>
+     <div class="filter-buttons">
+       <button class="filter-btn active" data-filter="all">ALL</button>
+       <button class="filter-btn" data-filter="image">IMAGE</button>
+       <button class="filter-btn" data-filter="text">TEXT</button>
+       <button class="filter-btn" data-filter="color">COLOR</button>
+       <button class="filter-btn" data-filter="dev">DEV</button>
+       <button class="filter-btn" data-filter="audio">AUDIO</button>
+     </div>
     </div>
 
     <section class="menu-grid">
@@ -823,31 +878,91 @@
         <span class="menu-card-arrow">↗</span>
       </a>
 
-      <a href="html/validate.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ffcc00" data-category="image">
-        <div class="menu-card-num">26 / 27</div>
-        <div class="menu-card-icon">[✓]</div>
-        <h2 class="menu-card-title">IMAGE VALIDATOR</h2>
-        <p class="menu-card-desc">Check image integrity and view details. Validate PNG/JPG signatures.</p>
-        <div class="menu-card-tags">
-          <span class="menu-card-tag">CHECK</span>
-          <span class="menu-card-tag">VERIFY</span>
-        </div>
-        <span class="menu-card-arrow">↗</span>
-      </a>
+        <a href="html/validate.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #ffcc00" data-category="image">
+          <div class="menu-card-num">26 / 29</div>
+          <div class="menu-card-icon">[✓]</div>
+          <h2 class="menu-card-title">IMAGE VALIDATOR</h>
+          <p class="menu-card-desc">Check image integrity and view details. Validate PNG/JPG signatures.</p>
+          <div class="menu-card-tags">
+            <span class="menu-card-tag">CHECK</span>
+            <span class="menu-card-tag">VERIFY</span>
+          </div>
+          <span class="menu-card-arrow">↗</span>
+        </a>
 
-      <a href="https://www.buymeacoffee.com/gammem" target="_blank" class="menu-card fade-in fade-in-delay-2"
-        style="--card-accent: #ff7b00">
-        <div class="menu-card-num">27 / 27</div>
-        <div class="menu-card-icon">[♥]</div>
-        <h2 class="menu-card-title">SUPPORT</h2>
-        <p class="menu-card-desc">Enjoying Just Creative Tools? Support the project with a donation to keep it free
-          forever.</p>
-        <div class="menu-card-tags">
-          <span class="menu-card-tag">DONATE</span>
-          <span class="menu-card-tag">FREE</span>
-        </div>
-        <span class="menu-card-arrow">↗</span>
-      </a>
+        <a href="html/mockup.html" class="menu-card fade-in" style="--card-accent: #ff2d78" data-category="image dev">
+          <div class="menu-card-num">27 / 29</div>
+          <div class="menu-card-icon">[📱]</div>
+          <h2 class="menu-card-title">SMART MOCKUP</h>
+          <p class="menu-card-desc">Place your designs on realistic product templates. Smart perspective correction and effects.</p>
+          <div class="menu-card-tags">
+            <span class="menu-card-tag">PRODUCT</span>
+            <span class="menu-card-tag">PRESENTATION</span>
+          </div>
+          <span class="menu-card-arrow">↗</span>
+        </a>
+
+        <a href="html/audio-convert.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #ff2d78" data-category="audio">
+          <div class="menu-card-num">28 / 29</div>
+          <div class="menu-card-icon">[♪]</div>
+          <h2 class="menu-card-title">AUDIO CONVERT</h>
+          <p class="menu-card-desc">Convert audio files between MP3, WAV, OGG, and FLAC formats. All processing happens in your browser.</p>
+          <div class="menu-card-tags">
+            <span class="menu-card-tag">CONVERT</span>
+            <span class="menu-card-tag">AUDIO</span>
+          </div>
+          <span class="menu-card-arrow">↗</span>
+        </a>
+
+        <a href="html/waveform.html" class="menu-card fade-in fade-in-delay-2" style="--card-accent: #00ffaa" data-category="audio">
+          <div class="menu-card-num">29 / 29</div>
+          <div class="menu-card-icon">[∾]</div>
+          <h2 class="menu-card-title">WAVEFORM VISUALIZER</h>
+          <p class="menu-card-desc">See the shape of your sound. Visualize audio waveforms from files or microphone input.</p>
+          <div class="menu-card-tags">
+            <span class="menu-card-tag">WAVEFORM</span>
+            <span class="menu-card-tag">AUDIO</span>
+          </div>
+          <span class="menu-card-arrow">↗</span>
+        </a>
+
+       <a href="html/mockup.html" class="menu-card fade-in" style="--card-accent: #ff2d78" data-category="image dev">
+         <div class="menu-card-num">27 / 28</div>
+         <div class="menu-card-icon">[📱]</div>
+         <h2 class="menu-card-title">SMART MOCKUP</h2>
+         <p class="menu-card-desc">Place your designs on realistic product templates. Smart perspective correction and effects.</p>
+         <div class="menu-card-tags">
+           <span class="menu-card-tag">PRODUCT</span>
+           <span class="menu-card-tag">PRESENTATION</span>
+         </div>
+         <span class="menu-card-arrow">↗</span>
+       </a>
+
+       <a href="html/audio-convert.html" class="menu-card fade-in fade-in-delay-1" style="--card-accent: #ff2d78" data-category="audio">
+         <div class="menu-card-num">27 / 28</div>
+         <div class="menu-card-icon">[♪]</div>
+         <h2 class="menu-card-title">AUDIO CONVERT</h>
+         <p class="menu-card-desc">Convert audio files between MP3, WAV, OGG, and FLAC formats. All processing happens in your browser.</p>
+         <div class="menu-card-tags">
+           <span class="menu-card-tag">CONVERT</span>
+           <span class="menu-card-tag">AUDIO</span>
+         </div>
+         <span class="menu-card-arrow">↗</span>
+       </a>
+
+       <a href="https://www.buymeacoffee.com/gammem" target="_blank" class="menu-card fade-in fade-in-delay-2"
+         style="--card-accent: #ff7b00">
+         <div class="menu-card-num">29 / 29</div>
+         <div class="menu-card-icon">[♥]</div>
+         <h2 class="menu-card-title">SUPPORT</h2>
+         <p class="menu-card-desc">Enjoying Just Creative Tools? Support the project with a donation to keep it free
+           forever.</p>
+         <div class="menu-card-tags">
+           <span class="menu-card-tag">DONATE</span>
+           <span class="menu-card-tag">FREE</span>
+         </div>
+         <span class="menu-card-arrow">↗</span>
+       </a>
     </section>
   </main>
 

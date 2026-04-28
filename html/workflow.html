@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workflow Builder — JCT</title>
+  <meta name="description" content="Create and save sequences of tool operations for batch processing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/shared.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">WORKFLOW TOOLS</span>
+      <h1 class="tool-page-title">[⚙️] WORKFLOW<br>BUILDER</h1>
+      <p class="tool-page-desc">Create custom workflows by chaining multiple tools together. Save your favorite combinations for one-click processing.</p>
+    </div>
+
+    <div class="tool-layout">
+      <!-- Workflow Builder Panel -->
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">WORKFLOW BUILDER</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="workflow-header">
+            <div class="workflow-title">
+              <input type="text" id="workflow-name" placeholder="Enter workflow name..." class="workflow-input">
+            </div>
+            <div class="workflow-actions">
+              <button class="btn btn-outline" id="clear-workflow">CLEAR</button>
+              <button class="btn btn-primary" id="save-workflow">SAVE</button>
+              <button class="btn btn-primary" id="run-workflow">RUN WORKFLOW</button>
+            </div>
+          </div>
+          
+          <div class="workflow-steps" id="workflow-steps">
+            <!-- Workflow steps will be added here dynamically -->
+          </div>
+          
+          <div class="add-step-btn">
+            <button class="btn btn-outline" id="add-step">ADD STEP</button>
+          </div>
+          
+          <div class="workflow-footer">
+            <p class="workflow-hint">Drag steps to reorder • Click gear icon to configure • Click X to remove</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Available Tools Panel -->
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">AVAILABLE TOOLS</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="tool-search">
+            <input type="text" id="tool-search" placeholder="SEARCH TOOLS..." class="search-input">
+          </div>
+          
+          <div class="tool-filters">
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn" data-filter="image">IMAGE</button>
+            <button class="filter-btn" data-filter="text">TEXT</button>
+            <button class="filter-btn" data-filter="color">COLOR</button>
+            <button class="filter-btn" data-filter="dev">DEV</button>
+          </div>
+          
+          <div class="tool-grid" id="available-tools">
+            <!-- Tool cards will be populated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+  <script src="../js/workflow.js"></script>
+  <script src="../js/common.js"></script>
+</body>
+</html>

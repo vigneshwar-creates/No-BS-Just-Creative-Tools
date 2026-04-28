@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Waveform Visualizer — JCT</title>
+  <meta name="description" content="Visualize audio waveforms from files or microphone input. See the shape of your sound.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/shared.js" defer></script>
+  <script src="../js/drag.js"></script>
+  <script src="../js/waveform.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">AUDIO TOOLS</span>
+      <h1 class="tool-page-title">[♪] WAVEFORM<br>VISUALIZER</h1>
+      <p class="tool-page-desc">See the shape of your sound. Visualize audio waveforms from files or microphone input.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">SOURCE</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="control-group" style="margin-bottom: 20px;">
+            <label class="control-label">INPUT METHOD</label>
+            <div class="radio-group">
+              <label class="radio-label">
+                <input type="radio" name="input-method" value="file" checked>
+                FILE
+              </label>
+              <label class="radio-label">
+                <input type="radio" name="input-method" value="mic">
+                MICROPHONE
+              </label>
+            </div>
+          </div>
+          
+          <div id="file-input-section">
+            <div class="drop-zone" id="waveform-drop-zone" style="min-height: 150px;">
+              <span class="drop-zone-icon">♪</span>
+              <p class="drop-zone-text">Drop audio file here or click</p>
+              <input type="file" accept="audio/*" id="waveform-file-input" hidden>
+            </div>
+          </div>
+          
+          <div id="mic-input-section" class="hidden">
+            <div class="control-group">
+              <label class="control-label">MICROPHONE ACCESS</label>
+              <button class="btn btn-outline" id="mic-btn">ENABLE MICROPHONE</button>
+            </div>
+            <div id="mic-status" style="margin-top: 12px; font-size: 0.7rem; text-align: center;"></div>
+            <div class="control-group" style="margin-top: 20px;">
+              <label class="control-label">RECORDING TIME</label>
+              <select class="select-field" id="record-time">
+                <option value="5">5 seconds</option>
+                <option value="10">10 seconds</option>
+                <option value="15">15 seconds</option>
+                <option value="30">30 seconds</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="waveform-info" class="hidden" style="padding: 16px; background: var(--surface2); border: 1px solid #222; margin-top: 16px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.7rem;">
+              <div><span style="color:var(--text-muted)">Duration:</span> <span id="waveform-duration">—</span></div>
+              <div><span style="color:var(--text-muted)">Sample Rate:</span> <span id="waveform-sample-rate">—</span> Hz</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">WAVEFORM</span>
+          </div>
+        </div>
+        <div class="panel-body" style="background: #0d0d0d; overflow: hidden;">
+          <div id="waveform-container">
+            <canvas id="waveform-canvas" width="800" height="200"></canvas>
+          </div>
+          <div id="waveform-empty" style="text-align:center;padding:60px;color:var(--text-muted);width:100%;">
+            <div style="font-size:4rem;opacity:0.2;margin-bottom:16px">♪</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Load audio to see waveform</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+<script src="../js/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio Format Converter — JCT</title>
+  <meta name="description" content="Convert audio files between MP3, WAV, OGG, and FLAC formats.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="../js/shared.js" defer></script>
+  <script src="../js/drag.js"></script>
+  <script src="../js/audio-convert.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div style="display: flex; align-items: center; gap: 24px;">
+        <a href="../index.html" class="logo">JC<span>T</span></a>
+        <a href="../index.html" class="back-btn" style="font-size: 0.65rem;">← BACK</a>
+      </div>
+      <div class="header-right">
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <span class="icon-moon">◐</span>
+          <span class="icon-sun">◑</span>
+        </button>
+        <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="tool-page-header fade-in">
+      <span class="tool-page-tag">AUDIO TOOLS</span>
+      <h1 class="tool-page-title">[⇄] AUDIO<br>CONVERTER</h1>
+      <p class="tool-page-desc">Convert audio files between MP3, WAV, OGG, and FLAC formats. All processing happens in your browser.</p>
+    </div>
+
+    <div class="tool-layout">
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">INPUT</span>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="drop-zone" id="audio-convert-drop-zone" style="min-height: 150px;">
+            <span class="drop-zone-icon">♪</span>
+            <p class="drop-zone-text">Drop audio file here or click</p>
+            <input type="file" accept="audio/*" id="audio-convert-file-input" hidden>
+          </div>
+          
+          <div id="audio-convert-info" class="hidden" style="padding: 16px; background: var(--surface2); border: 1px solid #222; margin-top: 16px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:0.7rem;">
+              <div><span style="color:var(--text-muted)">Duration:</span> <span id="audio-convert-duration">—</span></div>
+              <div><span style="color:var(--text-muted)">Format:</span> <span id="audio-convert-orig-format">—</span></div>
+            </div>
+          </div>
+
+          <div class="control-group" style="margin-top: 20px;">
+            <label class="control-label">OUTPUT FORMAT</label>
+            <select class="select-field" id="audio-convert-format">
+              <option value="audio/mpeg">MP3</option>
+              <option value="audio/wav">WAV</option>
+              <option value="audio/ogg">OGG</option>
+              <option value="audio/flac">FLAC</option>
+            </select>
+          </div>
+
+          <div class="control-group" id="audio-convert-bitrate-group">
+            <label class="control-label">BITRATE <span class="control-value" id="audio-convert-bitrate-val">192</span> kbps</label>
+            <input type="range" class="range-input" id="audio-convert-bitrate" min="64" max="320" step="32" value="192">
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" id="audio-convert-btn">CONVERT</button>
+            <button class="btn btn-outline" id="audio-convert-download">DOWNLOAD</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel fade-in">
+        <div class="panel-header">
+          <div class="panel-header-left">
+            <div class="panel-dots"><div class="panel-dot"></div><div class="panel-dot"></div><div class="panel-dot"></div></div>
+            <span class="panel-label">PREVIEW</span>
+          </div>
+        </div>
+        <div class="panel-body" style="align-items: center; justify-content: center; min-height: 300px; background: #0d0d0d;">
+          <div id="audio-convert-preview" style="text-align:center;padding:60px;color:var(--text-muted)">
+            <div style="font-size:4rem;opacity:0.2;margin-bottom:16px">♪</div>
+            <p style="font-size:0.65rem;letter-spacing:3px;text-transform:uppercase">Upload an audio file</p>
+          </div>
+          <audio id="audio-convert-player" controls style="width: 100%; max-width: 400px; display: none; margin-top: 20px;"></audio>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+    <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    <a href="../index.html" class="footer-text" style="color:var(--accent)">← ALL TOOLS</a>
+  </footer>
+<script src="../js/common.js"></script>
+</body>
+</html>
