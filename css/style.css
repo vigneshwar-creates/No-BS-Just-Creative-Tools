@@ -1248,26 +1248,132 @@ textarea.input-field {
 @media (max-width: 768px) {
   .header {
     padding: 0 20px;
+    height: 56px;
   }
-
+  
   .main {
     padding: 24px 20px;
   }
-
+  
   .hero-title {
     font-size: 3.5rem;
   }
-
+  
   .menu-card {
     grid-column: span 12;
   }
-
+  
   .nav-links {
     display: none;
   }
-
+  
   .filter-sidebar {
     grid-template-columns: 1fr;
+  }
+  
+  /* Optimize touch targets for mobile */
+  .btn {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+  }
+  
+  .btn-sm {
+    min-height: 40px;
+    min-width: 40px;
+    padding: 10px;
+  }
+  
+  .btn-icon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .nav-toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .nav-toggle .hamburger {
+    height: 3px;
+  }
+  
+  .filter-btn {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 0.7rem;
+  }
+  
+  .search-input {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .mode-btn {
+    min-height: 44px;
+    padding: 12px 16px;
+    font-size: 0.7rem;
+  }
+  
+  .panel-body {
+    padding: 20px;
+  }
+  
+  .control-group {
+    margin-bottom: 16px;
+  }
+  
+  .input-field,
+  .select-field,
+  .textarea.input-field {
+    min-height: 44px;
+    font-size: 0.9rem;
+  }
+  
+  .range-input {
+    height: 4px;
+  }
+  
+  .range-input::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .drop-zone {
+    padding: 30px;
+  }
+  
+  .drop-zone-icon {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+  }
+  
+  .drop-zone-text {
+    font-size: 0.8rem;
+  }
+  
+  /* Adjust header elements for mobile */
+  .logo {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+  }
+  
+  .header-right {
+    gap: 8px;
+  }
+  
+  .theme-toggle,
+  .donate-btn {
+    width: 36px;
+    height: 36px;
+    padding: 8px;
+  }
+  
+  .donate-btn {
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    padding: 6px 12px;
   }
 }
 

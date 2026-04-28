@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Mockup Generator - Just Creative Tools</title>
+    <meta name="description" content="Create realistic product mockups from your designs. Place your artwork on devices, apparel, and more - all in your browser, free.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div style="display: flex; align-items: center; gap: 24px;">
+                <a href="../index.html" class="logo">JC<span>T</span></a>
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                    <span class="icon-moon">◐</span>
+                    <span class="icon-sun">◑</span>
+                </button>
+                <a href="https://www.buymeacoffee.com/gammem" target="_blank" rel="noopener" class="donate-btn">DONATE</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <section class="hero scanline-hero">
+            <div class="hero-tag">JUST CREATIVE TOOLKIT v0.0</div>
+            <h2 class="hero-title">SMART MOCKUP<br><span class="highlight">GENERATOR</span></h2>
+            <p class="hero-subtitle">Place your designs on realistic product templates. No subscriptions. No accounts.</p>
+            <p class="hero-count">→ DRAG & DROP &nbsp;&nbsp; → ADJUST PERSPECTIVE &nbsp;&nbsp; → EXPORT HIGH-RES</p>
+        </section>
+
+        <div class="tool-filters">
+            <input type="text" id="tool-search" class="search-input" placeholder="SEARCH TOOLS..." disabled>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">MOCKUP</button>
+            </div>
+        </div>
+
+        <section class="menu-grid" style="justify-content: center;">
+            <div class="mockup-container" style="max-width: 1200px; width: 90%; margin: 0 auto;">
+                <div class="mockup-header">
+                    <h2>Smart Mockup Generator</h2>
+                    <p>Upload your design and place it on a product template</p>
+                </div>
+
+                <div class="mockup-controls">
+                    <div class="control-group">
+                        <label for="template-select">Choose Template:</label>
+                        <select id="template-select">
+                            <option value="smartphone">Smartphone (iPhone 14 style)</option>
+                            <option value="laptop">Laptop (MacBook style)</option>
+                            <option value="mug">Mug</option>
+                            <option value="tshirt">T-Shirt</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="design-upload">Upload Your Design:</label>
+                        <input type="file" id="design-upload" accept="image/*">
+                    </div>
+                    <div class="control-group">
+                        <button id="reset-btn" class="secondary-btn">Reset Mockup</button>
+                    </div>
+                </div>
+
+                <div class="mockup-canvas-container">
+                    <canvas id="mockup-canvas"></canvas>
+                </div>
+
+                <div class="mockup-adjustments" style="display: none;">
+                    <h3>Adjust Design</h3>
+                    <div class="adjustment-group">
+                        <label for="scale-slider">Scale:</label>
+                        <input type="range" id="scale-slider" min="10" max="200" value="100">
+                        <span id="scale-value">100%</span>
+                    </div>
+                    <div class="adjustment-group">
+                        <label for="rotation-slider">Rotation:</label>
+                        <input type="range" id="rotation-slider" min="-180" max="180" value="0">
+                        <span id="rotation-value">0°</span>
+                    </div>
+                    <div class="adjustment-group">
+                        <label for="opacity-slider">Opacity:</label>
+                        <input type="range" id="opacity-slider" min="0" max="100" value="100">
+                        <span id="opacity-value">100%</span>
+                    </div>
+                </div>
+
+                <div class="mockup-actions">
+                    <button id="export-png" class="primary-btn">Export as PNG</button>
+                    <button id="export-jpg" class="secondary-btn">Export as JPG</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-text">JUST CREATIVE TOOLS © 2026 — <a href="../LICENSE" style="color: inherit; text-decoration: underline;">MIT LICENSE</a></p>
+        <p class="footer-text">BUILT BRUTAL — NO DEPENDENCIES — RUNS IN YOUR BROWSER</p>
+    </footer>
+
+    <script src="../js/shared.js" defer></script>
+    <script src="mockup.js"></script>
+</body>
+</html>
