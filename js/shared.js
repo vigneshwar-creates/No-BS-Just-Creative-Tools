@@ -1,5 +1,15 @@
 // Shared functionality for all JCT pages
 
+// ── Service Worker Registration (runs on every page) ────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(r) { console.log('[JCT] SW active:', r.scope); })
+      .catch(function(e) { console.warn('[JCT] SW failed:', e); });
+  });
+}
+
+
 
 function initTheme() {
   const toggle = document.getElementById('theme-toggle');
