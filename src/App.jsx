@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { UploadCloud, Image as ImageIcon, Music, FileText, Download, RotateCcw, Sparkles, ArrowLeft } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, Music, FileText, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
+import ImageCropper from './components/ImageCropper';
 
 export default function App({ activeTool, onBack }) {
   const [currentTool, setCurrentTool] = useState(activeTool);
@@ -93,6 +94,20 @@ export default function App({ activeTool, onBack }) {
     );
   }
 
+  // If the user selected the Organic Image Cropper tool
+  if (currentTool === 'image-crop') {
+    return (
+      <ImageCropper 
+        onBack={onBack} 
+        onSave={async (newProj) => {
+          await saveProject(newProj);
+          setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
+          showToast('Image loaded into Smart-Fit Canvas');
+        }}
+      />
+    );
+  }
+
   const getExpectedType = () => {
     if (currentTool === 'smart-fit') return { label: 'Image', icon: <ImageIcon size={48} /> };
     if (currentTool === 'audio') return { label: 'Audio file (MP3/WAV)', icon: <Music size={48} /> };
@@ -107,6 +122,12 @@ export default function App({ activeTool, onBack }) {
           <h3 className="header-font" style={{fontSize: '16px'}}>Choose a Workspace</h3>
           <button className={`btn ${currentTool === 'smart-fit' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('smart-fit')}>
             <ImageIcon size={16} /> Smart-Fit Canvas
+          </button>
+          <button className={`btn ${currentTool === 'image-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('image-crop')}>
+            <Scissors size={16} /> Organic Image Cropper
+          </button>
+          <button className={`btn ${currentTool === 'camera-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('camera-crop')}>
+            <Camera size={16} /> Local Camera Cropper
           </button>
           <button className={`btn ${currentTool === 'audio' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('audio')}>
             <Music size={16} /> Voice &amp; Reverb Engine
