@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { UploadCloud, Image as ImageIcon, Music, FileText, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
 import ImageCropper from './components/ImageCropper';
@@ -55,15 +55,15 @@ export default function App({ activeTool, onBack }) {
       const file = e.dataTransfer.files[0];
       const type = file.type;
       
+      if (!type.startsWith('image/')) {
+        showToast('Only image files are supported');
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = async (event) => {
         const dataUrl = event.target.result;
-        let projType = 'unknown';
-        if (type.startsWith('image/')) projType = 'image';
-        else if (type.startsWith('audio/')) projType = 'audio';
-        else if (type === 'application/pdf' || type.startsWith('text/')) projType = 'document';
-        
-        await saveProject({ id: Date.now(), type: projType, name: file.name, dataUrl });
+        await saveProject({ id: Date.now(), type: 'image', name: file.name, dataUrl });
       };
       reader.readAsDataURL(file);
     }
@@ -108,13 +108,6 @@ export default function App({ activeTool, onBack }) {
     );
   }
 
-  const getExpectedType = () => {
-    if (currentTool === 'smart-fit') return { label: 'Image', icon: <ImageIcon size={48} /> };
-    if (currentTool === 'audio') return { label: 'Audio file (MP3/WAV)', icon: <Music size={48} /> };
-    if (currentTool === 'document') return { label: 'Document (PDF/TXT)', icon: <FileText size={48} /> };
-    return { label: 'File', icon: <UploadCloud size={48} /> };
-  };
-
   const renderSidebar = () => {
     if (!project) {
       return (
@@ -129,75 +122,6 @@ export default function App({ activeTool, onBack }) {
           <button className={`btn ${currentTool === 'camera-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('camera-crop')}>
             <Camera size={16} /> Local Camera Cropper
           </button>
-          <button className={`btn ${currentTool === 'audio' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('audio')}>
-            <Music size={16} /> Voice &amp; Reverb Engine
-          </button>
-          <button className={`btn ${currentTool === 'document' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('document')}>
-            <FileText size={16} /> Magnetic Doc Editor
-          </button>
-        </div>
-      );
-    }
-
-    if (project.type === 'image') {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div>
-            <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Smart-Fit Canvas</h2>
-            <p className="text-12" style={{ color: 'var(--text-secondary)' }}>
-              Resize your photo for any platform without awkward cropping.
-            </p>
-          </div>
-          
-          <button className="btn btn-primary" onClick={expandCanvas}>
-            <Sparkles size={16} /> Expand Canvas (AI)
-          </button>
-          
-          <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
-            <button className="btn" onClick={clearProject} style={{ flex: 1 }}>
-              <RotateCcw size={16} /> Reset
-            </button>
-            <button className="btn" style={{ flex: 1 }}>
-              <Download size={16} /> Export
-            </button>
-          </div>
-        </div>
-      );
-    }
-    
-    if (project.type === 'audio') {
-      return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          <div>
-            <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Audio Engine</h2>
-            <p className="text-12" style={{ color: 'var(--text-secondary)' }}>
-              Real-time waveform analysis &amp; processing.
-            </p>
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Voice Enhancement</label>
-            <input type="range" min="0" max="100" defaultValue="50" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Background Noise Reduction</label>
-            <input type="range" min="0" max="100" defaultValue="80" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Reverb</label>
-            <input type="range" min="0" max="100" defaultValue="20" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
-          </div>
-
-          <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
-            <button className="btn" onClick={clearProject} style={{ flex: 1 }}>
-              <RotateCcw size={16} /> Reset
-            </button>
-            <button className="btn btn-primary" style={{ flex: 1 }}>
-              <Download size={16} /> Export
-            </button>
-          </div>
         </div>
       );
     }
@@ -205,14 +129,22 @@ export default function App({ activeTool, onBack }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Document Editor</h2>
+          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Smart-Fit Canvas</h2>
           <p className="text-12" style={{ color: 'var(--text-secondary)' }}>
-            Block-based, magnetic layout engine.
+            Resize your photo for any platform without awkward cropping.
           </p>
         </div>
+        
+        <button className="btn btn-primary" onClick={expandCanvas}>
+          <Sparkles size={16} /> Expand Canvas (AI)
+        </button>
+        
         <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
           <button className="btn" onClick={clearProject} style={{ flex: 1 }}>
             <RotateCcw size={16} /> Reset
+          </button>
+          <button className="btn" style={{ flex: 1 }}>
+            <Download size={16} /> Export
           </button>
         </div>
       </div>
@@ -221,7 +153,6 @@ export default function App({ activeTool, onBack }) {
 
   const renderCanvas = () => {
     if (!project) {
-      const expected = getExpectedType();
       return (
         <div 
           className={`drop-zone ${isDragging ? 'active' : ''}`}
@@ -231,6 +162,7 @@ export default function App({ activeTool, onBack }) {
           onClick={() => {
             const input = document.createElement('input');
             input.type = 'file';
+            input.accept = 'image/*';
             input.onchange = (e) => {
               if (e.target.files.length > 0) {
                 handleDrop({ preventDefault: () => {}, dataTransfer: { files: e.target.files } });
@@ -239,73 +171,43 @@ export default function App({ activeTool, onBack }) {
             input.click();
           }}
         >
-          {expected.icon}
+          <ImageIcon size={48} />
           <div>
-            <h2 className="header-font">Drop your {expected.label} here</h2>
+            <h2 className="header-font">Drop your Image here</h2>
             <p className="text-14">or click to browse local files</p>
           </div>
         </div>
       );
     }
 
-    if (project.type === 'image') {
-      return (
-        <div style={{ position: 'relative', width: '80%', height: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ 
-            position: 'relative', 
-            transition: 'all 0.5s ease',
-            padding: smartFitMode ? '40px' : '0',
-            background: smartFitMode ? 'var(--bg-panel)' : 'transparent',
-            boxShadow: smartFitMode ? '4px 4px 0px var(--text-primary)' : 'none',
-            borderRadius: smartFitMode ? '16px' : '0',
-            border: smartFitMode ? '2px dashed var(--text-primary)' : 'none',
-            transform: smartFitMode ? 'rotate(0.5deg)' : 'none'
-          }}>
-            <img 
-              src={project.dataUrl} 
-              alt="Project" 
-              style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain', display: 'block', borderRadius: '4px' }} 
-            />
-            {smartFitMode && (
-              <>
-                <div className="crop-handle" style={{ top: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
-                <div className="crop-handle" style={{ bottom: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
-                <div className="crop-handle" style={{ left: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
-                <div className="crop-handle" style={{ right: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
-                <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', color: 'var(--text-primary)', fontSize: '12px', fontWeight: 'bold', background: 'var(--accent-highlight)', border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px' }}>
-                  AI Background Generated
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      );
-    }
-
-    if (project.type === 'audio') {
-      return (
-        <div style={{ width: '80%', textAlign: 'center' }}>
-          <Music size={64} style={{ color: 'var(--accent-secondary)', marginBottom: '1rem' }} />
-          <h2 className="header-font">{project.name}</h2>
-          <div style={{ width: '100%', height: '120px', background: 'var(--bg-panel)', marginTop: '2rem', borderRadius: '16px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            <div style={{ display: 'flex', gap: '4px', alignItems: 'center', height: '100%', padding: '0 20px' }}>
-              {Array.from({ length: 40 }).map((_, i) => (
-                <div key={i} style={{ width: '6px', height: `${Math.max(10, Math.random() * 100)}%`, background: 'var(--accent-secondary)', borderRadius: '3px', opacity: 0.8 }}></div>
-              ))}
-            </div>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div style={{ width: '80%', maxWidth: '800px', height: '80%', background: '#fff', color: '#000', borderRadius: '12px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px var(--text-primary)', padding: '2rem', overflowY: 'auto' }}>
-        <h2 className="header-font" style={{ borderBottom: '2px solid #eee', paddingBottom: '1rem', marginBottom: '1rem' }}>{project.name}</h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ height: '20px', background: '#f0f0f0', borderRadius: '4px', width: '100%' }}></div>
-          <div style={{ height: '20px', background: '#f0f0f0', borderRadius: '4px', width: '90%' }}></div>
-          <div style={{ height: '20px', background: '#f0f0f0', borderRadius: '4px', width: '95%' }}></div>
-          <div style={{ height: '20px', background: '#f0f0f0', borderRadius: '4px', width: '80%' }}></div>
+      <div style={{ position: 'relative', width: '80%', height: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ 
+          position: 'relative', 
+          transition: 'all 0.5s ease',
+          padding: smartFitMode ? '40px' : '0',
+          background: smartFitMode ? 'var(--bg-panel)' : 'transparent',
+          boxShadow: smartFitMode ? '4px 4px 0px var(--text-primary)' : 'none',
+          borderRadius: smartFitMode ? '16px' : '0',
+          border: smartFitMode ? '2px dashed var(--text-primary)' : 'none',
+          transform: smartFitMode ? 'rotate(0.5deg)' : 'none'
+        }}>
+          <img 
+            src={project.dataUrl} 
+            alt="Project" 
+            style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain', display: 'block', borderRadius: '4px' }} 
+          />
+          {smartFitMode && (
+            <>
+              <div className="crop-handle" style={{ top: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
+              <div className="crop-handle" style={{ bottom: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
+              <div className="crop-handle" style={{ left: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
+              <div className="crop-handle" style={{ right: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
+              <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', color: 'var(--text-primary)', fontSize: '12px', fontWeight: 'bold', background: 'var(--accent-highlight)', border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px' }}>
+                AI Background Generated
+              </div>
+            </>
+          )}
         </div>
       </div>
     );
