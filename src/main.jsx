@@ -6,11 +6,18 @@ import './index.css';
 
 function RootComponent() {
   const [showWorkspace, setShowWorkspace] = useState(false);
+  const [activeTool, setActiveTool] = useState('smart-fit'); // 'smart-fit', 'camera-crop', 'audio', 'document'
 
   return showWorkspace ? (
-    <App />
+    <App 
+      activeTool={activeTool} 
+      onBack={() => setShowWorkspace(false)} 
+    />
   ) : (
-    <Landing onEnter={() => setShowWorkspace(true)} />
+    <Landing onEnter={(tool) => {
+      setActiveTool(tool || 'smart-fit');
+      setShowWorkspace(true);
+    }} />
   );
 }
 

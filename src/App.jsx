@@ -1,16 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { UploadCloud, Image as ImageIcon, Music, FileText, Download, RotateCcw, Sparkles } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, Music, FileText, Download, RotateCcw, Sparkles, ArrowLeft } from 'lucide-react';
 import { get, set } from 'idb-keyval';
+import CameraCropper from './components/CameraCropper';
 
-export default function App() {
+export default function App({ activeTool, onBack }) {
+  const [currentTool, setCurrentTool] = useState(activeTool);
   const [project, setProject] = useState(null);
   const [toastMsg, setToastMsg] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   
   // Smart-Fit specific state
   const [smartFitMode, setSmartFitMode] = useState(false);
-  const [canvasWidth, setCanvasWidth] = useState(100); // percentage or pixels, let's say percentages for mock
   
+  useEffect(() => {
+    // Make sure currentTool keeps up if parent changes it
+    setCurrentTool(activeTool);
+  }, [activeTool]);
+
   useEffect(() => {
     // Attempt to load from IndexedDB
     get('jct-project').then((saved) => {
@@ -73,8 +79,44 @@ export default function App() {
     showToast('AI generating missing background...');
   };
 
+  // If the user selected the Camera Cropper tool directly
+  if (currentTool === 'camera-crop') {
+    return (
+      <CameraCropper 
+        onBack={onBack} 
+        onSave={async (newProj) => {
+          await saveProject(newProj);
+          setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
+          showToast('Image loaded into Smart-Fit Canvas');
+        }}
+      />
+    );
+  }
+
+  const getExpectedType = () => {
+    if (currentTool === 'smart-fit') return { label: 'Image', icon: <ImageIcon size={48} /> };
+    if (currentTool === 'audio') return { label: 'Audio file (MP3/WAV)', icon: <Music size={48} /> };
+    if (currentTool === 'document') return { label: 'Document (PDF/TXT)', icon: <FileText size={48} /> };
+    return { label: 'File', icon: <UploadCloud size={48} /> };
+  };
+
   const renderSidebar = () => {
-    if (!project) return null;
+    if (!project) {
+      return (
+        <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <h3 className="header-font" style={{fontSize: '16px'}}>Choose a Workspace</h3>
+          <button className={`btn ${currentTool === 'smart-fit' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('smart-fit')}>
+            <ImageIcon size={16} /> Smart-Fit Canvas
+          </button>
+          <button className={`btn ${currentTool === 'audio' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('audio')}>
+            <Music size={16} /> Voice &amp; Reverb Engine
+          </button>
+          <button className={`btn ${currentTool === 'document' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('document')}>
+            <FileText size={16} /> Magnetic Doc Editor
+          </button>
+        </div>
+      );
+    }
 
     if (project.type === 'image') {
       return (
@@ -114,17 +156,17 @@ export default function App() {
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Voice Enhancement</label>
-            <input type="range" min="0" max="100" defaultValue="50" style={{ width: '100%', accentColor: 'var(--accent-cyan)' }} />
+            <input type="range" min="0" max="100" defaultValue="50" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Background Noise Reduction</label>
-            <input type="range" min="0" max="100" defaultValue="80" style={{ width: '100%', accentColor: 'var(--accent-cyan)' }} />
+            <input type="range" min="0" max="100" defaultValue="80" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <label className="text-12" style={{ color: 'var(--text-secondary)' }}>Reverb</label>
-            <input type="range" min="0" max="100" defaultValue="20" style={{ width: '100%', accentColor: 'var(--accent-cyan)' }} />
+            <input type="range" min="0" max="100" defaultValue="20" style={{ width: '100%', accentColor: 'var(--accent-primary)' }} />
           </div>
 
           <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
@@ -158,6 +200,7 @@ export default function App() {
 
   const renderCanvas = () => {
     if (!project) {
+      const expected = getExpectedType();
       return (
         <div 
           className={`drop-zone ${isDragging ? 'active' : ''}`}
@@ -169,17 +212,16 @@ export default function App() {
             input.type = 'file';
             input.onchange = (e) => {
               if (e.target.files.length > 0) {
-                // mock drop event
                 handleDrop({ preventDefault: () => {}, dataTransfer: { files: e.target.files } });
               }
             };
             input.click();
           }}
         >
-          <UploadCloud size={48} />
+          {expected.icon}
           <div>
-            <h2 className="header-font">Drop any file here</h2>
-            <p className="text-14">Image, Audio, or Document</p>
+            <h2 className="header-font">Drop your {expected.label} here</h2>
+            <p className="text-14">or click to browse local files</p>
           </div>
         </div>
       );
@@ -192,10 +234,11 @@ export default function App() {
             position: 'relative', 
             transition: 'all 0.5s ease',
             padding: smartFitMode ? '40px' : '0',
-            background: smartFitMode ? 'linear-gradient(45deg, #2a2a2a, #1a1a1a)' : 'transparent',
-            boxShadow: smartFitMode ? '0 0 40px rgba(0, 243, 255, 0.1)' : 'none',
-            borderRadius: '12px',
-            border: smartFitMode ? '2px dashed var(--accent-cyan)' : 'none'
+            background: smartFitMode ? 'var(--bg-panel)' : 'transparent',
+            boxShadow: smartFitMode ? '4px 4px 0px var(--text-primary)' : 'none',
+            borderRadius: smartFitMode ? '16px' : '0',
+            border: smartFitMode ? '2px dashed var(--text-primary)' : 'none',
+            transform: smartFitMode ? 'rotate(0.5deg)' : 'none'
           }}>
             <img 
               src={project.dataUrl} 
@@ -208,7 +251,7 @@ export default function App() {
                 <div className="crop-handle" style={{ bottom: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
                 <div className="crop-handle" style={{ left: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
                 <div className="crop-handle" style={{ right: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
-                <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', color: 'var(--accent-cyan)', fontSize: '12px', fontWeight: 'bold', background: 'rgba(0,0,0,0.7)', padding: '4px 8px', borderRadius: '4px' }}>
+                <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', color: 'var(--text-primary)', fontSize: '12px', fontWeight: 'bold', background: 'var(--accent-highlight)', border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px' }}>
                   AI Background Generated
                 </div>
               </>
@@ -221,13 +264,12 @@ export default function App() {
     if (project.type === 'audio') {
       return (
         <div style={{ width: '80%', textAlign: 'center' }}>
-          <Music size={64} style={{ color: 'var(--accent-cyan)', marginBottom: '1rem', opacity: 0.8 }} />
+          <Music size={64} style={{ color: 'var(--accent-secondary)', marginBottom: '1rem' }} />
           <h2 className="header-font">{project.name}</h2>
-          <div style={{ width: '100%', height: '120px', background: 'var(--bg-panel)', marginTop: '2rem', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-            {/* Fake waveform */}
+          <div style={{ width: '100%', height: '120px', background: 'var(--bg-panel)', marginTop: '2rem', borderRadius: '16px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px var(--text-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
             <div style={{ display: 'flex', gap: '4px', alignItems: 'center', height: '100%', padding: '0 20px' }}>
               {Array.from({ length: 40 }).map((_, i) => (
-                <div key={i} style={{ width: '6px', height: `${Math.max(10, Math.random() * 100)}%`, background: 'var(--accent-cyan)', borderRadius: '3px', opacity: 0.8 }}></div>
+                <div key={i} style={{ width: '6px', height: `${Math.max(10, Math.random() * 100)}%`, background: 'var(--accent-secondary)', borderRadius: '3px', opacity: 0.8 }}></div>
               ))}
             </div>
           </div>
@@ -236,7 +278,7 @@ export default function App() {
     }
 
     return (
-      <div style={{ width: '80%', maxWidth: '800px', height: '80%', background: '#fff', color: '#000', borderRadius: '8px', padding: '2rem', overflowY: 'auto' }}>
+      <div style={{ width: '80%', maxWidth: '800px', height: '80%', background: '#fff', color: '#000', borderRadius: '12px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px var(--text-primary)', padding: '2rem', overflowY: 'auto' }}>
         <h2 className="header-font" style={{ borderBottom: '2px solid #eee', paddingBottom: '1rem', marginBottom: '1rem' }}>{project.name}</h2>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <div style={{ height: '20px', background: '#f0f0f0', borderRadius: '4px', width: '100%' }}></div>
@@ -255,8 +297,10 @@ export default function App() {
       </div>
       
       <div className="sidebar">
-        <div style={{ marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <div style={{ width: '24px', height: '24px', background: 'var(--accent-cyan)', borderRadius: '4px' }}></div>
+        <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <button className="btn back-btn" onClick={onBack} style={{padding: '0.4rem', boxShadow: '2px 2px 0px black'}}>
+            <ArrowLeft size={16} />
+          </button>
           <h1 className="header-font" style={{ fontSize: '20px', letterSpacing: '-0.5px' }}>JCT</h1>
         </div>
         
