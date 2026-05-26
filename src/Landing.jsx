@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors } from 'lucide-react';
+import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers } from 'lucide-react';
 import { get } from 'idb-keyval';
 import './Landing.css';
 
@@ -23,7 +23,8 @@ export default function Landing({ onEnter }) {
     const toolNames = {
       'smart-fit': 'Smart-Fit Canvas Project',
       'image-crop': 'Organic Crop Project',
-      'camera-crop': 'Camera Capture Project'
+      'camera-crop': 'Camera Capture Project',
+      'design-canvas': 'Advanced Design Canvas'
     };
     setNewProjectName(toolNames[toolId] || 'New Workspace Project');
     setShowNameModal(true);
@@ -70,6 +71,12 @@ export default function Landing({ onEnter }) {
       title: 'Local Camera Cropper',
       desc: 'Snap frame captures using your webcam and instantly crop them locally.',
       icon: <Camera size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
+    },
+    {
+      id: 'design-canvas',
+      title: 'Advanced Design Canvas',
+      desc: 'Layers, color adjustments, custom text, custom font uploads, and drawing.',
+      icon: <Layers size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     }
   ];
 
