@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera } from 'lucide-react';
+import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera, Layers } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
 import ImageCropper from './components/ImageCropper';
+import DesignCanvas from './components/DesignCanvas';
 
 export default function App({ activeTool, projectName, onBack }) {
   const [currentTool, setCurrentTool] = useState(activeTool);
@@ -114,6 +115,16 @@ export default function App({ activeTool, projectName, onBack }) {
     );
   }
 
+  // If the user selected the Advanced Design Canvas tool
+  if (currentTool === 'design-canvas') {
+    return (
+      <DesignCanvas 
+        onBack={onBack} 
+        projectName={projectName}
+      />
+    );
+  }
+
   const renderSidebar = () => {
     if (!project) {
       return (
@@ -127,6 +138,9 @@ export default function App({ activeTool, projectName, onBack }) {
           </button>
           <button className={`btn ${currentTool === 'camera-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('camera-crop')}>
             <Camera size={16} /> Local Camera Cropper
+          </button>
+          <button className={`btn ${currentTool === 'design-canvas' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('design-canvas')}>
+            <Layers size={16} /> Advanced Design Canvas
           </button>
         </div>
       );
