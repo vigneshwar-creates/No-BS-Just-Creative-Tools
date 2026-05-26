@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, FileText, Image as ImageIcon, Music, Sparkles, Camera } from 'lucide-react';
+import { ArrowRight, Search, FileText, Image as ImageIcon, Music, Sparkles, Camera, Scissors } from 'lucide-react';
 import { get } from 'idb-keyval';
 import './Landing.css';
 
@@ -44,6 +44,12 @@ export default function Landing({ onEnter }) {
       title: 'Smart-Fit Canvas',
       desc: 'Intelligent crop & expand. Seamlessly generate background edges locally.',
       icon: <ImageIcon size={32} className="tool-icon icon-image" />
+    },
+    {
+      id: 'image-crop',
+      title: 'Organic Image Cropper',
+      desc: 'Crop local photos in standard dimensions or draw a freehand lasso cutout.',
+      icon: <Scissors size={32} className="tool-icon" style={{color: 'var(--accent-secondary)'}} />
     },
     {
       id: 'camera-crop',
