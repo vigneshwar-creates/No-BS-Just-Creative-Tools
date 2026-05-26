@@ -6,6 +6,9 @@ import './Landing.css';
 export default function Landing({ onEnter }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [recentProject, setRecentProject] = useState(null);
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [selectedTool, setSelectedTool] = useState(null);
+  const [newProjectName, setNewProjectName] = useState('');
 
   useEffect(() => {
     get('jct-project').then(saved => {
@@ -14,6 +17,23 @@ export default function Landing({ onEnter }) {
       }
     });
   }, []);
+
+  const handleToolSelect = (toolId) => {
+    setSelectedTool(toolId);
+    const toolNames = {
+      'smart-fit': 'Smart-Fit Canvas Project',
+      'image-crop': 'Organic Crop Project',
+      'camera-crop': 'Camera Capture Project'
+    };
+    setNewProjectName(toolNames[toolId] || 'New Workspace Project');
+    setShowNameModal(true);
+  };
+
+  const handleConfirmName = (e) => {
+    if (e) e.preventDefault();
+    setShowNameModal(false);
+    onEnter(selectedTool, newProjectName.trim() || 'Untitled Workspace');
+  };
 
   const defaultProjects = [
     { id: 1, name: 'Summer Campaign Poster', type: 'image', date: 'Last week' },
@@ -57,7 +77,7 @@ export default function Landing({ onEnter }) {
     <div className="landing-container">
       <nav className="landing-nav">
         <div className="logo header-font">JCT <Sparkles size={16} color="var(--accent-highlight)" style={{display: 'inline', marginLeft: '4px'}}/></div>
-        <button className="btn" onClick={() => onEnter('smart-fit')}>
+        <button className="btn" onClick={() => handleToolSelect('smart-fit')}>
           New Workspace
         </button>
       </nav>
@@ -82,7 +102,7 @@ export default function Landing({ onEnter }) {
         </div>
         <div className="tools-grid">
           {creativeTools.map(tool => (
-            <div key={tool.id} className="tool-card card-imperfect" onClick={() => onEnter(tool.id)}>
+            <div key={tool.id} className="tool-card card-imperfect" onClick={() => handleToolSelect(tool.id)}>
               <div className="tool-card-header">{tool.icon}</div>
               <h3 className="header-font" style={{marginTop: '1rem'}}>{tool.title}</h3>
               <p style={{color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '0.5rem'}}>{tool.desc}</p>
@@ -126,6 +146,46 @@ export default function Landing({ onEnter }) {
           )}
         </div>
       </section>
+
+      {showNameModal && (
+        <div className="modal-overlay">
+          <div className="modal-content card-imperfect">
+            <h2 className="header-font" style={{marginBottom: '1rem', fontSize: '24px'}}>Name Your Project</h2>
+            <p style={{color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem'}}>
+              Give your workspace a name so you can search for it easily later.
+            </p>
+            <form onSubmit={handleConfirmName}>
+              <input 
+                type="text"
+                value={newProjectName}
+                onChange={(e) => setNewProjectName(e.target.value)}
+                style={{
+                  width: '100%',
+                  marginBottom: '1.5rem',
+                  padding: '0.75rem 1rem',
+                  fontSize: '1rem',
+                  background: 'var(--bg-app)',
+                  border: '2px solid var(--text-primary)',
+                  borderRadius: '8px',
+                  boxShadow: 'inset 2px 2px 0px rgba(0,0,0,0.1)',
+                  outline: 'none'
+                }}
+                placeholder="Enter project name..."
+                autoFocus
+                required
+              />
+              <div style={{display: 'flex', gap: '0.75rem', justifyContent: 'flex-end'}}>
+                <button type="button" className="btn" onClick={() => setShowNameModal(false)}>
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Create Workspace
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

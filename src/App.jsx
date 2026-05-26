@@ -4,7 +4,7 @@ import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
 import ImageCropper from './components/ImageCropper';
 
-export default function App({ activeTool, onBack }) {
+export default function App({ activeTool, projectName, onBack }) {
   const [currentTool, setCurrentTool] = useState(activeTool);
   const [project, setProject] = useState(null);
   const [toastMsg, setToastMsg] = useState(null);
@@ -63,7 +63,7 @@ export default function App({ activeTool, onBack }) {
       const reader = new FileReader();
       reader.onload = async (event) => {
         const dataUrl = event.target.result;
-        await saveProject({ id: Date.now(), type: 'image', name: file.name, dataUrl });
+        await saveProject({ id: Date.now(), type: 'image', name: projectName || file.name, dataUrl });
       };
       reader.readAsDataURL(file);
     }
@@ -86,6 +86,9 @@ export default function App({ activeTool, onBack }) {
       <CameraCropper 
         onBack={onBack} 
         onSave={async (newProj) => {
+          if (projectName) {
+            newProj.name = projectName;
+          }
           await saveProject(newProj);
           setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
           showToast('Image loaded into Smart-Fit Canvas');
@@ -100,6 +103,9 @@ export default function App({ activeTool, onBack }) {
       <ImageCropper 
         onBack={onBack} 
         onSave={async (newProj) => {
+          if (projectName) {
+            newProj.name = projectName;
+          }
           await saveProject(newProj);
           setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
           showToast('Image loaded into Smart-Fit Canvas');
