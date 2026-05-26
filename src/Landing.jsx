@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, FileText, Image as ImageIcon, Music, Sparkles, Camera, Scissors } from 'lucide-react';
+import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors } from 'lucide-react';
 import { get } from 'idb-keyval';
 import './Landing.css';
 
@@ -16,9 +16,8 @@ export default function Landing({ onEnter }) {
   }, []);
 
   const defaultProjects = [
-    { id: 1, name: 'Podcast Intro Edit', type: 'audio', date: '2 days ago' },
-    { id: 2, name: 'Summer Campaign Poster', type: 'image', date: 'Last week' },
-    { id: 3, name: 'Q3 Financial Report', type: 'document', date: '2 weeks ago' },
+    { id: 1, name: 'Summer Campaign Poster', type: 'image', date: 'Last week' },
+    { id: 2, name: 'Autumn Creative Overlay', type: 'image', date: '2 weeks ago' },
   ];
 
   const displayProjects = recentProject 
@@ -30,12 +29,7 @@ export default function Landing({ onEnter }) {
   );
 
   const getIconForType = (type) => {
-    switch (type) {
-      case 'image': return <ImageIcon size={24} className="project-icon icon-image" />;
-      case 'audio': return <Music size={24} className="project-icon icon-audio" />;
-      case 'document': return <FileText size={24} className="project-icon icon-doc" />;
-      default: return <FileText size={24} className="project-icon" />;
-    }
+    return <ImageIcon size={24} className="project-icon icon-image" />;
   };
 
   const creativeTools = [
@@ -56,18 +50,6 @@ export default function Landing({ onEnter }) {
       title: 'Local Camera Cropper',
       desc: 'Snap frame captures using your webcam and instantly crop them locally.',
       icon: <Camera size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
-    },
-    {
-      id: 'audio',
-      title: 'Voice & Reverb Engine',
-      desc: 'Isolate vocal audio and strip noise via local DSP processing sliders.',
-      icon: <Music size={32} className="tool-icon icon-audio" />
-    },
-    {
-      id: 'document',
-      title: 'Magnetic Document Editor',
-      desc: 'Fluid block-based layouts. Text magnetically wraps around objects.',
-      icon: <FileText size={32} className="tool-icon icon-doc" />
     }
   ];
 
