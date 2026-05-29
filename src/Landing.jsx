@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers } from 'lucide-react';
-import { get } from 'idb-keyval';
+import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers, Upload } from 'lucide-react';
+import { get, set } from 'idb-keyval';
 import './Landing.css';
 
 export default function Landing({ onEnter }) {
@@ -9,6 +9,7 @@ export default function Landing({ onEnter }) {
   const [showNameModal, setShowNameModal] = useState(false);
   const [selectedTool, setSelectedTool] = useState(null);
   const [newProjectName, setNewProjectName] = useState('');
+  const [showSafeInfo, setShowSafeInfo] = useState(false);
 
   useEffect(() => {
     get('jct-project').then(saved => {
@@ -21,11 +22,11 @@ export default function Landing({ onEnter }) {
   const handleToolSelect = (toolId) => {
     setSelectedTool(toolId);
     const toolNames = {
-      'smart-fit': 'Smart-Fit Canvas Project',
-      'image-crop': 'Organic Crop Project',
-      'camera-crop': 'Camera Capture Project',
-      'design-canvas': 'Advanced Design Canvas',
-      'gif-editor': 'Creative GIF Project'
+      'smart-fit': 'Smart Resize Project',
+      'image-crop': 'Picture Cutter Project',
+      'camera-crop': 'Camera Picture Project',
+      'design-canvas': 'Ultimate Picture Editor Project',
+      'gif-editor': 'Moving Picture GIF Project'
     };
     setNewProjectName(toolNames[toolId] || 'New Workspace Project');
     setShowNameModal(true);
@@ -37,52 +38,62 @@ export default function Landing({ onEnter }) {
     onEnter(selectedTool, newProjectName.trim() || 'Untitled Workspace');
   };
 
-  const defaultProjects = [
-    { id: 1, name: 'Summer Campaign Poster', type: 'image', date: 'Last week' },
-    { id: 2, name: 'Autumn Creative Overlay', type: 'image', date: '2 weeks ago' },
-  ];
+  const handleJCTImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const displayProjects = recentProject 
-    ? [{...recentProject, date: 'Just now'}, ...defaultProjects] 
-    : defaultProjects;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const parsedData = JSON.parse(event.target.result);
+        if (parsedData.fileType !== 'JCT_PROJECT') {
+          alert('Invalid file format. Please upload a valid .jct project file.');
+          return;
+        }
 
-  const filteredProjects = displayProjects.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+        const projName = parsedData.projectName || 'Imported Project';
+        await set(`jct-canvas-project-${projName}`, {
+          layers: parsedData.layers || [],
+          importedFonts: parsedData.importedFonts || []
+        });
 
-  const getIconForType = (type) => {
-    return <ImageIcon size={24} className="project-icon icon-image" />;
+        onEnter('design-canvas', projName);
+      } catch (err) {
+        alert('Could not read the .jct file. It may be corrupted.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   const creativeTools = [
     {
       id: 'smart-fit',
-      title: 'Smart-Fit Canvas',
-      desc: 'Intelligent crop & expand. Seamlessly generate background edges locally.',
+      title: 'Smart Picture Resizer',
+      desc: 'Change the size of your picture to fit social media without losing the important parts.',
       icon: <ImageIcon size={32} className="tool-icon icon-image" />
     },
     {
       id: 'image-crop',
-      title: 'Organic Image Cropper',
-      desc: 'Crop local photos in standard dimensions or draw a freehand lasso cutout.',
+      title: 'Picture Shape Cutter',
+      desc: 'Cut your picture into rectangles or draw with your mouse to cut out any shape.',
       icon: <Scissors size={32} className="tool-icon" style={{color: 'var(--accent-secondary)'}} />
     },
     {
       id: 'camera-crop',
-      title: 'Local Camera Cropper',
-      desc: 'Snap frame captures using your webcam and instantly crop them locally.',
+      title: 'Webcam Camera Cutter',
+      desc: 'Take a picture using your webcam camera and cut it instantly.',
       icon: <Camera size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     },
     {
       id: 'design-canvas',
-      title: 'Advanced Design Canvas',
-      desc: 'Layers, color adjustments, custom text, custom font uploads, and drawing.',
+      title: 'Ultimate Picture Editor & Layer Board',
+      desc: 'Add text, draw sketches, use layered boards, and adjust colors to make cool pictures.',
       icon: <Layers size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     },
     {
       id: 'gif-editor',
-      title: 'Creative GIF Editor',
-      desc: 'Upload GIFs or record webcam bursts. Overlay text, emojis, and custom drawings.',
+      title: 'Moving Picture (GIF) Maker',
+      desc: 'Make moving pictures with text, fun emojis, and custom drawings.',
       icon: <Sparkles size={32} className="tool-icon" style={{color: 'var(--accent-highlight)'}} />
     }
   ];
@@ -125,39 +136,87 @@ export default function Landing({ onEnter }) {
         </div>
       </section>
 
-      <section className="showcase-section" style={{marginTop: '4rem'}}>
-        <div className="showcase-header">
-          <h2 className="header-font">Your Projects</h2>
-          <div className="search-bar">
-            <Search size={18} className="search-icon" />
-            <input 
-              type="text" 
-              placeholder="Search past work..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
-            />
-          </div>
+      <section className="showcase-section" style={{marginTop: '4rem', padding: '2rem', background: 'var(--bg-panel)', borderRadius: '12px', border: '2px solid var(--text-primary)', boxShadow: '4px 4px 0px var(--text-primary)'}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem'}}>
+          <h2 className="header-font" style={{fontSize: '22px', margin: 0}}>Import Project using JCT</h2>
+          <span 
+            className="help-icon"
+            onClick={() => setShowSafeInfo(!showSafeInfo)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '24px',
+              height: '24px',
+              borderRadius: '50%',
+              background: 'white',
+              border: '2px solid var(--text-primary)',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              boxShadow: '1px 1px 0px black'
+            }}
+            title="Click to learn why JCT is safe!"
+          >
+            ?
+          </span>
         </div>
 
-        <div className="projects-grid">
-          {filteredProjects.length > 0 ? (
-            filteredProjects.map(project => (
-              <div key={project.id} className="project-card" onClick={() => onEnter(project.type)}>
-                <div className="project-card-header">
-                  {getIconForType(project.type)}
-                </div>
-                <div className="project-card-body">
-                  <h3 className="header-font">{project.name}</h3>
-                  <p>{project.date}</p>
-                </div>
-              </div>
-            ))
-          ) : (
-            <div className="no-results">
-              <p>No projects found matching "{searchQuery}".</p>
-            </div>
-          )}
+        {/* Expandable security box explaining why it is safe */}
+        {showSafeInfo && (
+          <div style={{
+            background: 'var(--bg-app)',
+            border: '2px solid var(--text-primary)',
+            borderRadius: '8px',
+            padding: '1.25rem',
+            marginBottom: '1.5rem',
+            fontSize: '0.95rem',
+            boxShadow: '3px 3px 0px black',
+            lineHeight: '1.5'
+          }}>
+            <h4 className="header-font" style={{margin: '0 0 0.5rem 0', color: 'var(--accent-secondary)', fontSize: '16px'}}>🔒 Why is JCT 100% Safe?</h4>
+            <p style={{margin: 0}}>
+              Your files never go to the internet or any company! Everything runs right inside your own web browser. The `.jct` project files are just simple documents saved directly on your computer's hard drive. Nobody else can ever see your images.
+            </p>
+          </div>
+        )}
+
+        {/* Warning Auto-Save Prompt */}
+        <div style={{
+          background: 'rgba(234, 84, 85, 0.08)',
+          border: '2px solid #ea5455',
+          borderRadius: '8px',
+          padding: '1.25rem',
+          marginBottom: '1.5rem',
+          fontSize: '0.95rem',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '0.5rem',
+          boxShadow: '3px 3px 0px rgba(234, 84, 85, 0.15)',
+          lineHeight: '1.5'
+        }}>
+          <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold', color: '#ea5455'}}>
+            <span>⚠️ Important Auto-Save Notice:</span>
+          </div>
+          <p style={{margin: 0}}>
+            Your changes are auto-saved in your browser's temporary memory. But <strong>your projects will be lost when you quit the tab or clear your browser history/cache!</strong> We strongly recommend clicking <strong>"Export .JCT"</strong> inside the canvas to save your work permanently on your computer.
+          </p>
+        </div>
+
+        {/* Import Action */}
+        <div style={{display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap'}}>
+          <label className="btn btn-primary" style={{cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}>
+            <Upload size={18} /> Open `.jct` Project File
+            <input 
+              type="file" 
+              accept=".jct" 
+              onChange={handleJCTImport} 
+              style={{display: 'none'}} 
+            />
+          </label>
+          <span style={{fontSize: '0.9rem', color: 'var(--text-secondary)'}}>
+            Select a `.jct` project file from your computer to pick up right where you left off.
+          </span>
         </div>
       </section>
 
