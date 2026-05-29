@@ -141,19 +141,19 @@ export default function App({ activeTool, projectName, onBack }) {
         <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3 className="header-font" style={{fontSize: '16px'}}>Choose a Workspace</h3>
           <button className={`btn ${currentTool === 'smart-fit' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('smart-fit')}>
-            <ImageIcon size={16} /> Smart Picture Resizer
+            <ImageIcon size={16} /> Smart Image Resizer
           </button>
           <button className={`btn ${currentTool === 'image-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('image-crop')}>
-            <Scissors size={16} /> Picture Shape Cutter
+            <Scissors size={16} /> Freehand &amp; Shape Cropper
           </button>
           <button className={`btn ${currentTool === 'camera-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('camera-crop')}>
-            <Camera size={16} /> Webcam Camera Cutter
+            <Camera size={16} /> Webcam Photo Cropper
           </button>
           <button className={`btn ${currentTool === 'design-canvas' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('design-canvas')}>
-            <Layers size={16} /> Ultimate Picture Editor &amp; Layer Board
+            <Layers size={16} /> Canvas Image &amp; Text Editor
           </button>
           <button className={`btn ${currentTool === 'gif-editor' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('gif-editor')}>
-            <Sparkles size={16} /> Moving Picture (GIF) Maker
+            <Sparkles size={16} /> GIF Creator &amp; Editor
           </button>
         </div>
       );
@@ -162,9 +162,9 @@ export default function App({ activeTool, projectName, onBack }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Smart Picture Resizer</h2>
+          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Smart Image Resizer</h2>
           <p className="text-12" style={{ color: 'var(--text-secondary)' }}>
-            Change the size of your picture to fit social media without losing the important parts.
+            Resize your photos to fit any social media layout perfectly without losing details.
           </p>
         </div>
         
