@@ -22,11 +22,11 @@ export default function Landing({ onEnter }) {
   const handleToolSelect = (toolId) => {
     setSelectedTool(toolId);
     const toolNames = {
-      'smart-fit': 'Smart Resize Project',
-      'image-crop': 'Picture Cutter Project',
-      'camera-crop': 'Camera Picture Project',
-      'design-canvas': 'Ultimate Picture Editor Project',
-      'gif-editor': 'Moving Picture GIF Project'
+      'smart-fit': 'Smart Resizer Project',
+      'image-crop': 'Shape Cropper Project',
+      'camera-crop': 'Webcam Cropper Project',
+      'design-canvas': 'Canvas Editor Project',
+      'gif-editor': 'GIF Creator Project'
     };
     setNewProjectName(toolNames[toolId] || 'New Workspace Project');
     setShowNameModal(true);
@@ -68,32 +68,32 @@ export default function Landing({ onEnter }) {
   const creativeTools = [
     {
       id: 'smart-fit',
-      title: 'Smart Picture Resizer',
-      desc: 'Change the size of your picture to fit social media without losing the important parts.',
+      title: 'Smart Image Resizer',
+      desc: 'Resize your photos to fit any social media layout perfectly without losing details.',
       icon: <ImageIcon size={32} className="tool-icon icon-image" />
     },
     {
       id: 'image-crop',
-      title: 'Picture Shape Cutter',
-      desc: 'Cut your picture into rectangles or draw with your mouse to cut out any shape.',
+      title: 'Freehand & Shape Cropper',
+      desc: 'Crop your photos into rectangles or draw a freehand loop to cut out any object.',
       icon: <Scissors size={32} className="tool-icon" style={{color: 'var(--accent-secondary)'}} />
     },
     {
       id: 'camera-crop',
-      title: 'Webcam Camera Cutter',
-      desc: 'Take a picture using your webcam camera and cut it instantly.',
+      title: 'Webcam Photo Cropper',
+      desc: 'Take a quick picture using your webcam and crop it instantly.',
       icon: <Camera size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     },
     {
       id: 'design-canvas',
-      title: 'Ultimate Picture Editor & Layer Board',
-      desc: 'Add text, draw sketches, use layered boards, and adjust colors to make cool pictures.',
+      title: 'Canvas Image & Text Editor',
+      desc: 'Add text layers, draw, use layered boards, and adjust colors on a graphic design canvas.',
       icon: <Layers size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     },
     {
       id: 'gif-editor',
-      title: 'Moving Picture (GIF) Maker',
-      desc: 'Make moving pictures with text, fun emojis, and custom drawings.',
+      title: 'GIF Creator & Editor',
+      desc: 'Make moving pictures (GIFs) and customize them with text overlays and custom drawings.',
       icon: <Sparkles size={32} className="tool-icon" style={{color: 'var(--accent-highlight)'}} />
     }
   ];
