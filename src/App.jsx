@@ -4,6 +4,7 @@ import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
 import ImageCropper from './components/ImageCropper';
 import DesignCanvas from './components/DesignCanvas';
+import GifEditor from './components/GifEditor';
 
 export default function App({ activeTool, projectName, onBack }) {
   const [currentTool, setCurrentTool] = useState(activeTool);
@@ -125,6 +126,15 @@ export default function App({ activeTool, projectName, onBack }) {
     );
   }
 
+  // If the user selected the Creative GIF Editor tool
+  if (currentTool === 'gif-editor') {
+    return (
+      <GifEditor 
+        onBack={onBack}
+      />
+    );
+  }
+
   const renderSidebar = () => {
     if (!project) {
       return (
@@ -141,6 +151,9 @@ export default function App({ activeTool, projectName, onBack }) {
           </button>
           <button className={`btn ${currentTool === 'design-canvas' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('design-canvas')}>
             <Layers size={16} /> Advanced Design Canvas
+          </button>
+          <button className={`btn ${currentTool === 'gif-editor' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('gif-editor')}>
+            <Sparkles size={16} /> Creative GIF Editor
           </button>
         </div>
       );
