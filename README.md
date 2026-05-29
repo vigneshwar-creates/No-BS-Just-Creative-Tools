@@ -5,6 +5,7 @@ Just Creative Tools is a collection of super simple design tools. Everything run
 ## What is inside?
 
 * **Advanced Design Canvas**: Add photos and transparent elements onto a multi-layer canvas. Draw sketches with the brush, add custom text layers, and import your own custom font files. Adjust colors using controls for brightness, contrast, saturation, hue, and blur. You can also re-order layers, hide layers, change opacity, and resize elements freely or with a locked aspect ratio.
+* **Portable .JCT Project Files**: Save your projects permanently. Similar to Photoshop's `.psd` or Pixlr's `.pxz`, you can export your canvas workspace as a `.jct` file on your hard drive to back it up, share it, or import it later to restore all your layers, data, and custom fonts.
 * **Smart-Fit Canvas**: Resize your photo for any social media site or platform without weird cropping. It fills in the background automatically.
 * **Organic Image Cropper**: Crop your photos to standard sizes or draw a freehand line with your mouse to cut out any shape you want.
 * **Local Camera Cropper**: Take a photo using your computer's webcam and crop it instantly.

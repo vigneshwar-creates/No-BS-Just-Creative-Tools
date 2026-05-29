@@ -180,6 +180,7 @@ export default function DesignCanvas({ onBack, projectName }) {
 
   const startDrawing = (e) => {
     if (toolMode !== 'draw') return;
+    e.preventDefault();
     setIsDrawing(true);
     const canvas = drawingCanvasRef.current;
     const rect = canvas.getBoundingClientRect();
@@ -245,6 +246,7 @@ export default function DesignCanvas({ onBack, projectName }) {
   // Selection Dragging and Resizing Logic
   const handleViewportMouseDown = (e, layer, handle = 'move') => {
     if (toolMode !== 'select') return;
+    e.preventDefault();
     e.stopPropagation();
     setSelectedLayerId(layer.id);
     setActiveHandle(handle);
@@ -450,6 +452,62 @@ export default function DesignCanvas({ onBack, projectName }) {
     link.download = `${projectName || 'JCT-Design'}.png`;
     link.href = dataUrl;
     link.click();
+  };
+
+  // Export project state as a portable .jct JSON file
+  const exportAsJCT = () => {
+    const projectData = {
+      fileType: 'JCT_PROJECT',
+      version: '1.0',
+      projectName: projectName || 'Untitled Design',
+      layers,
+      importedFonts
+    };
+
+    const jsonString = JSON.stringify(projectData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.download = `${projectName || 'JCT-Design'}.jct`;
+    link.href = url;
+    link.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  // Import project state from a uploaded .jct file
+  const handleJCTImport = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const parsedData = JSON.parse(event.target.result);
+        if (parsedData.fileType !== 'JCT_PROJECT') {
+          alert('Invalid file format. Please upload a valid .jct project file.');
+          return;
+        }
+
+        // Restore layers
+        setLayers(parsedData.layers || []);
+
+        // Restore custom fonts if present
+        if (parsedData.importedFonts) {
+          parsedData.importedFonts.forEach(fontData => {
+            loadFontFromDataUrl(fontData.name, fontData.dataUrl);
+          });
+          setImportedFonts(parsedData.importedFonts);
+        }
+
+        setSelectedLayerId(null);
+      } catch (err) {
+        console.error('Error importing .jct file:', err);
+        alert('Could not read .jct file. It may be corrupted.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   const selectedLayer = getSelectedLayer();
@@ -689,6 +747,17 @@ export default function DesignCanvas({ onBack, projectName }) {
                 style={{ display: 'none' }} 
               />
             </label>
+
+            {/* Custom .jct file import */}
+            <label className="btn btn-small" style={{ cursor: 'pointer', background: 'rgba(116, 160, 137, 0.15)', border: '2px solid var(--accent-secondary)' }}>
+              <Upload size={14} /> Import .JCT
+              <input 
+                type="file" 
+                accept=".jct" 
+                onChange={handleJCTImport} 
+                style={{ display: 'none' }} 
+              />
+            </label>
           </div>
 
           <div className="tool-group-horizontal">
@@ -711,6 +780,11 @@ export default function DesignCanvas({ onBack, projectName }) {
             {/* Export PNG */}
             <button className="btn btn-small" style={{ background: 'var(--accent-highlight)' }} onClick={exportCanvasAsPNG}>
               <Download size={14} /> Export PNG
+            </button>
+
+            {/* Export .jct project */}
+            <button className="btn btn-small btn-primary" onClick={exportAsJCT}>
+              <Download size={14} /> Export .JCT
             </button>
           </div>
         </div>
@@ -739,12 +813,17 @@ export default function DesignCanvas({ onBack, projectName }) {
                     opacity: layer.opacity / 100
                   }}
                   onMouseDown={(e) => handleViewportMouseDown(e, layer, 'move')}
+                  onClick={(e) => e.stopPropagation()}
+                  draggable="false"
+                  onDragStart={(e) => e.preventDefault()}
                 >
                   {layer.type === 'image' ? (
                     <img 
                       src={layer.dataUrl} 
                       alt={layer.name}
                       style={{ filter: getFilterString(layer) }}
+                      draggable="false"
+                      onDragStart={(e) => e.preventDefault()}
                     />
                   ) : (
                     <p style={{ 
@@ -784,12 +863,13 @@ export default function DesignCanvas({ onBack, projectName }) {
                   height: `${selectedLayer.height}px`,
                   zIndex: 9999
                 }}
+                onClick={(e) => e.stopPropagation()}
               >
                 {/* Resize corner handles */}
-                <div className="resize-handle handle-nw" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'nw')} />
-                <div className="resize-handle handle-ne" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'ne')} />
-                <div className="resize-handle handle-sw" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'sw')} />
-                <div className="resize-handle handle-se" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'se')} />
+                <div className="resize-handle handle-nw" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'nw')} onClick={(e) => e.stopPropagation()} />
+                <div className="resize-handle handle-ne" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'ne')} onClick={(e) => e.stopPropagation()} />
+                <div className="resize-handle handle-sw" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'sw')} onClick={(e) => e.stopPropagation()} />
+                <div className="resize-handle handle-se" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'se')} onClick={(e) => e.stopPropagation()} />
               </div>
             )}
           </div>
@@ -832,6 +912,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedLayerId(layer.id);
+                  setToolMode('select');
                 }}
               >
                 <div style={{ marginRight: '4px' }}>
