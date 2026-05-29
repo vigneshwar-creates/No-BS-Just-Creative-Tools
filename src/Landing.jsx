@@ -24,7 +24,8 @@ export default function Landing({ onEnter }) {
       'smart-fit': 'Smart-Fit Canvas Project',
       'image-crop': 'Organic Crop Project',
       'camera-crop': 'Camera Capture Project',
-      'design-canvas': 'Advanced Design Canvas'
+      'design-canvas': 'Advanced Design Canvas',
+      'gif-editor': 'Creative GIF Project'
     };
     setNewProjectName(toolNames[toolId] || 'New Workspace Project');
     setShowNameModal(true);
@@ -77,6 +78,12 @@ export default function Landing({ onEnter }) {
       title: 'Advanced Design Canvas',
       desc: 'Layers, color adjustments, custom text, custom font uploads, and drawing.',
       icon: <Layers size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
+    },
+    {
+      id: 'gif-editor',
+      title: 'Creative GIF Editor',
+      desc: 'Upload GIFs or record webcam bursts. Overlay text, emojis, and custom drawings.',
+      icon: <Sparkles size={32} className="tool-icon" style={{color: 'var(--accent-highlight)'}} />
     }
   ];
 
