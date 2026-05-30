@@ -104,7 +104,7 @@ export default function Landing({ onEnter }) {
   return (
     <div className="landing-container">
       <nav className="landing-nav">
-        <div className="logo header-font">JCT <Sparkles size={16} color="var(--accent-highlight)" style={{display: 'inline', marginLeft: '4px'}}/></div>
+        <div className="logo">Just Creative Tools</div>
         <button className="btn" onClick={() => handleToolSelect('smart-fit')}>
           New Workspace
         </button>

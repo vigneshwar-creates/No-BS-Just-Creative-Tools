@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Sprat Condensed Light';
+  src: url('/assets/videos/font/Sprat-CondensedLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
 .landing-container {
   min-height: 100vh;
   width: 100vw;
@@ -25,11 +32,14 @@
 }
 
 .logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: -1px;
-  transform: rotate(-2deg);
+  font-family: 'Sprat Condensed Light', serif;
+  font-size: 2.2rem; /* Clean large serif display size */
+  font-weight: 300; /* Ultra-elegant light weight */
+  letter-spacing: 0.5px;
+  color: #ffffff; /* Premium white for overlay readability */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   display: inline-block;
+  transform: none; /* Keep text clean and perfectly aligned */
 }
 
 .hero-section {

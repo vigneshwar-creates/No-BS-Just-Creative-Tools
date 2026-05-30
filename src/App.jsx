@@ -25,7 +25,7 @@ export default function App({ activeTool, projectName, onBack }) {
     get('jct-project').then((saved) => {
       if (saved) {
         setProject(saved);
-        showToast('Restored your session');
+        showToast('Session Restored');
       }
     });
   }, []);
