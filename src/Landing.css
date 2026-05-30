@@ -36,10 +36,10 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Position content near the top */
   align-items: center;
   text-align: center;
-  padding: 12rem 2rem 10rem; /* Increased padding */
+  padding: 7rem 2rem 10rem; /* Shift padding upwards so text sits near the top navbar */
   min-height: 85vh; /* Extended vertical footprint (2x taller showcase) */
   position: relative;
   overflow: visible; /* Prevent clipping of overflowing bottom graphics! */
@@ -75,7 +75,7 @@
   z-index: 2;
 }
 
-/* Centered hero content card wrapper with fully transparent background and borders removed */
+/* Centered hero content card wrapper positioned at the top and extended downwards */
 .hero-glass-card {
   position: relative;
   z-index: 3;
@@ -88,6 +88,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 1rem; /* Push slightly down below nav */
+  margin-bottom: 12rem; /* Extended 8 lines down (1.5rem * 8 = 12rem) to create breathing room */
 }
 
 /* Mathematically centers the transparent PNG/WebP showcase graphics exactly on the boundary between video hero and tools section */
