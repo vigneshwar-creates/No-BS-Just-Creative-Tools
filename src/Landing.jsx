@@ -129,7 +129,7 @@ export default function Landing({ onEnter }) {
 
         {/* Premium Neo-Brutalist transparent card floating near the top of the looping video background */}
         <div className="hero-content hero-glass-card">
-          <h1 className="hero-title header-font">
+          <h1 className="hero-title">
             Create <span className="highlight-text">freely</span>.
           </h1>
           <p className="hero-subtitle">
