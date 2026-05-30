@@ -95,7 +95,7 @@
   position: absolute;
   bottom: 4px; /* Shifted 4px upwards from the bottom edge! */
   left: 50%;
-  transform: translateX(-50%) translateY(18%); /* Adjusted 4% downwards (from 14% to 18%) */
+  transform: translateX(-50%) translateY(20%); /* Adjusted 2% downwards (from 18% to 20%) */
   z-index: 20; /* Brought forward over both sections! */
   max-width: 960px; /* Scaled up in dimensions (approx. 4x larger display area!) */
   width: 92%;
@@ -112,8 +112,8 @@
   width: 100%;
   height: auto;
   display: block;
-  /* Elite drop-shadow wrapping perfectly around the transparent graphics outlines */
-  filter: drop-shadow(0px 10px 20px rgba(45, 42, 38, 0.18));
+  /* Premium ambient drop shadow: 10% vertical offset (40px) and 40% blur (160px) */
+  filter: drop-shadow(0px 40px 160px rgba(0, 0, 0, 0.35));
 }
 
 .hero-content {
