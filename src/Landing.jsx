@@ -133,7 +133,7 @@ export default function Landing({ onEnter }) {
             Create <span className="highlight-text">freely</span>
           </h1>
           <p className="hero-subtitle">
-            Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
+            Your files stay on your device. Just powerful, lightning-fast tools that feel like magic
           </p>
         </div>
 
