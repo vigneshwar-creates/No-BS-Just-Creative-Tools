@@ -108,16 +108,31 @@ export default function Landing({ onEnter }) {
       </nav>
 
       <main className="hero-section">
-        <h1 className="hero-title header-font">
-          Create <span className="highlight-text">freely</span>.<br/>No subscriptions. No servers.
-        </h1>
-        <p className="hero-subtitle">
-          Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
-        </p>
-        <div style={{display: 'flex', gap: '1rem'}}>
-          <a href="#tools-hub" className="btn btn-primary cta-btn" style={{textDecoration: 'none'}}>
-            Explore Tools <ArrowRight size={20} />
-          </a>
+        {/* Background Looping Showcase Video (Muted, playsInline, autoPlay) */}
+        <div className="hero-video-container">
+          <video 
+            className="hero-video"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            src="/assets/videos/header-loop.mp4"
+          />
+          <div className="hero-video-overlay"></div>
+        </div>
+
+        <div className="hero-content">
+          <h1 className="hero-title header-font">
+            Create <span className="highlight-text">freely</span>.<br/>No subscriptions. No servers.
+          </h1>
+          <p className="hero-subtitle">
+            Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
+          </p>
+          <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
+            <a href="#tools-hub" className="btn btn-primary cta-btn" style={{textDecoration: 'none'}}>
+              Explore Tools <ArrowRight size={20} />
+            </a>
+          </div>
         </div>
       </main>
 
