@@ -42,7 +42,6 @@
   padding: 10rem 2rem 8rem; /* Padding adjusted to accommodate top absolute nav */
   position: relative;
   overflow: hidden;
-  border-bottom: 2px solid var(--text-primary);
   background-color: #000;
   animation: floatUp 0.6s ease-out;
 }
@@ -71,8 +70,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  /* Light cream blend overlay to tint the loop video and guarantee excellent readability for dark charcoal text */
-  background: radial-gradient(circle, rgba(252, 250, 246, 0.55) 10%, var(--bg-color) 85%);
+  background: transparent; /* White blur at the edges removed completely! */
   z-index: 2;
 }
 
