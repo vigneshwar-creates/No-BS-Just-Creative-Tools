@@ -17,13 +17,14 @@
 
 .landing-nav {
   display: flex;
-  justify-content: flex-end; /* Align JCT and new workspace to the top right */
+  justify-content: space-between; /* Just Creative Tools on the top left, New Workspace on the top right */
   align-items: center;
   gap: 2rem;
   padding: 2rem 3rem;
   background-color: transparent;
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
   width: 100%;
   z-index: 10;
