@@ -432,10 +432,6 @@
   background-size: auto 32px; /* Scales to exact height, keeps aspect ratio */
   background-repeat: repeat-x; /* Seamless horizontal tiling */
   
-  /* Thick black pixel-art outlines matching the retro hardware styling */
-  border-top: 3px solid var(--text-primary); /* Heavy black outline */
-  border-bottom: 4px solid var(--text-primary); /* Heavy bottom base shadow line */
-  
   /* Cast drop shadow over the light cream tools section below */
   box-shadow: 
     0 10px 25px rgba(45, 42, 38, 0.35);
