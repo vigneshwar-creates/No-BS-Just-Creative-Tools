@@ -71,33 +71,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 40%, rgba(45, 42, 38, 0.5) 100%);
+  /* Light cream blend overlay to tint the loop video and guarantee excellent readability for dark charcoal text */
+  background: radial-gradient(circle, rgba(252, 250, 246, 0.55) 10%, var(--bg-color) 85%);
   z-index: 2;
 }
 
-/* Neo-brutalist glassmorphic card layered perfectly over background video */
+/* Centered hero content card wrapper with fully transparent background and borders removed */
 .hero-glass-card {
   position: relative;
   z-index: 3;
   width: 90%;
   max-width: 680px;
-  background: rgba(252, 250, 246, 0.92); /* Cream theme background with light opacity */
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 3px solid var(--text-primary);
-  border-radius: 24px;
-  padding: 3.5rem 3rem;
-  box-shadow: 8px 8px 0px var(--text-primary);
+  background: transparent; /* Background color removed! */
+  border: none; /* Borders removed! */
+  box-shadow: none; /* Shadow removed! */
+  padding: 1.5rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  transform: rotate(-0.5deg); /* Organic quirky tilt */
-  transition: all 0.3s ease;
-}
-
-.hero-glass-card:hover {
-  transform: rotate(0deg) scale(1.005);
-  box-shadow: 10px 10px 0px var(--text-primary);
 }
 
 .hero-content {
