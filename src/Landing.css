@@ -112,8 +112,8 @@
   width: 100%;
   height: auto;
   display: block;
-  /* Premium ambient drop shadow: 10% vertical offset (40px) and 40% blur (160px) */
-  filter: drop-shadow(0px 40px 160px rgba(0, 0, 0, 0.35));
+  /* Premium ambient drop shadow: 13% vertical offset (52px) and 40% blur (160px) */
+  filter: drop-shadow(0px 52px 160px rgba(0, 0, 0, 0.35));
 }
 
 .hero-content {
