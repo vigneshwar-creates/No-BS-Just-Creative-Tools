@@ -93,12 +93,12 @@
 /* Mathematically centers the transparent PNG/WebP showcase graphics exactly on the boundary between video hero and tools section */
 .hero-bottom-showcase-wrapper {
   position: absolute;
-  bottom: 0;
+  bottom: 4px; /* Shifted 4px upwards from the bottom edge! */
   left: 50%;
-  transform: translateX(-50%) translateY(50%); /* Centers the image exactly on the boundary line */
+  transform: translateX(-50%) translateY(50%); /* Centers the image exactly on the shifted boundary line */
   z-index: 20; /* Brought forward over both sections! */
-  max-width: 600px;
-  width: 85%;
+  max-width: 960px; /* Scaled up in dimensions (approx. 4x larger display area!) */
+  width: 92%;
   background: transparent; /* Seamless transparent card */
   border: none; /* No box borders */
   box-shadow: none; /* No box shadows */
@@ -177,7 +177,7 @@
   max-width: 1000px;
   margin: 0 auto 3rem;
   width: 100%;
-  padding: 0 2rem;
+  padding: 8rem 2rem 0; /* Pushes the 'Select a Tool' section down to prevent any image overlaps! */
   scroll-margin-top: 100px;
 }
 
