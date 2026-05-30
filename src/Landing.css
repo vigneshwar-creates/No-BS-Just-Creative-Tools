@@ -95,7 +95,7 @@
   position: absolute;
   bottom: 4px; /* Shifted 4px upwards from the bottom edge! */
   left: 50%;
-  transform: translateX(-50%) translateY(50%); /* Centers the image exactly on the shifted boundary line */
+  transform: translateX(-50%) translateY(30%); /* Shifted 20% upwards (from 50% to 30%) */
   z-index: 20; /* Brought forward over both sections! */
   max-width: 960px; /* Scaled up in dimensions (approx. 4x larger display area!) */
   width: 92%;
