@@ -129,7 +129,7 @@
   font-family: 'Bebas Neue', sans-serif; /* High-fidelity tall long font */
   font-size: 8.24rem; /* Large base size increased by 3% */
   line-height: 0.95;
-  margin-bottom: 3.5rem; /* Increased margin to accommodate vertical scale stretch */
+  margin-bottom: 2.2rem; /* Adjusted margin so subtitle sits snugly and perfectly nested under the stretched text */
   max-width: 800px;
   letter-spacing: 3px;
   color: #ffffff; /* Premium white color */
@@ -149,7 +149,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.275rem; /* Increased size by 2% for extra premium presence */
+  font-size: 1.35rem; /* Increased size a little more for outstanding premium presence */
   color: rgba(255, 255, 255, 0.9); /* Premium white color for high readability */
   max-width: 900px; /* Increased max-width to guarantee the description fits perfectly on 1 line */
   width: 100%;
