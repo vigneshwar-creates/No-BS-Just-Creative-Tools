@@ -127,14 +127,19 @@
 
 .hero-title {
   font-family: 'Bebas Neue', sans-serif; /* High-fidelity tall long font */
-  font-size: 7.5rem; /* Large size to showcase Bebas Neue's impact */
+  font-size: 8rem; /* Large base size */
   line-height: 0.95;
-  margin-bottom: 1.5rem;
+  margin-bottom: 3.5rem; /* Increased margin to accommodate vertical scale stretch */
   max-width: 800px;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   color: #ffffff; /* Premium white color */
   text-transform: uppercase; /* Spectacular look in Bebas Neue */
   text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* High contrast over background video */
+  
+  /* Make letters extra long and narrow (reduced width) */
+  display: inline-block;
+  transform: scale(0.75, 1.3); /* 75% width, 130% height stretch */
+  transform-origin: center top;
 }
 
 .highlight-text {
