@@ -123,7 +123,7 @@ export default function Landing({ onEnter }) {
 
         <div className="hero-content">
           <h1 className="hero-title header-font">
-            Create <span className="highlight-text">freely</span>.<br/>No subscriptions. No servers.
+            Create <span className="highlight-text">freely</span>.
           </h1>
           <p className="hero-subtitle">
             Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
