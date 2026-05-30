@@ -10,15 +10,18 @@
 
 .landing-nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* Align JCT and new workspace to the top right */
   align-items: center;
-  padding: 1.5rem 3rem;
-  border-bottom: 2px solid var(--border-color);
-  background-color: var(--bg-panel);
-  position: sticky;
+  gap: 2rem;
+  padding: 2rem 3rem;
+  background-color: transparent;
+  position: absolute;
   top: 0;
+  right: 0;
+  width: 100%;
   z-index: 10;
-  box-shadow: 0 4px 0px rgba(45, 42, 38, 0.05);
+  border-bottom: none;
+  box-shadow: none;
 }
 
 .logo {
