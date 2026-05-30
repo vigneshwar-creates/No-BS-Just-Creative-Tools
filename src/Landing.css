@@ -416,3 +416,27 @@
   from { transform: scale(0.95); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+/* Premium photo-realistic 3D wooden workbench trim */
+.hero-wooden-trim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 28px; /* Thick wooden board trim */
+  z-index: 10; /* Sits below showcase graphics but on top of video background */
+  
+  /* Wood-plank grain texture overlays and teak/walnut bevels */
+  background: 
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 40px, rgba(0,0,0,0.04) 40px, rgba(0,0,0,0.04) 80px),
+    linear-gradient(to bottom, #9c6644 0%, #7f5539 12%, #582f0e 65%, #3f2305 100%);
+    
+  /* Bevel border highlights to give a 3D physical block feeling */
+  border-top: 2px solid rgba(255, 255, 255, 0.2); /* Top shine highlight */
+  border-bottom: 3px solid #231203; /* Dark under-shadow block */
+  
+  /* Deep shadow cast over the tools section below */
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
