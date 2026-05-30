@@ -3,6 +3,7 @@ import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Lay
 import { get, set } from 'idb-keyval';
 import './Landing.css';
 import headerVideo from '../assets/videos/0530.mp4';
+import mediaImage from '../assets/images/media.jpg_202605301114.jpeg_202605301129.jpeg_202605301244.webp';
 
 export default function Landing({ onEnter }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -122,7 +123,7 @@ export default function Landing({ onEnter }) {
           <div className="hero-video-overlay"></div>
         </div>
 
-        {/* Premium Neo-Brutalist Glassmorphic Card floating on top of the looping video background */}
+        {/* Premium Neo-Brutalist transparent card floating near the top of the looping video background */}
         <div className="hero-content hero-glass-card">
           <h1 className="hero-title header-font">
             Create <span className="highlight-text">freely</span>.
@@ -130,6 +131,15 @@ export default function Landing({ onEnter }) {
           <p className="hero-subtitle">
             Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
           </p>
+        </div>
+
+        {/* Tactile Centered Showcase Image anchored at the bottom edge transitioning to the next page */}
+        <div className="hero-bottom-showcase-wrapper">
+          <img 
+            className="hero-bottom-showcase-img" 
+            src={mediaImage} 
+            alt="Just Creative Tools Workbench Showcase" 
+          />
         </div>
       </main>
 
