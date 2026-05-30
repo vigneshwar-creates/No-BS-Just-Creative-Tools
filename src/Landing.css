@@ -95,7 +95,7 @@
   position: absolute;
   bottom: 4px; /* Shifted 4px upwards from the bottom edge! */
   left: 50%;
-  transform: translateX(-50%) translateY(14%); /* Adjusted 4% downwards (from 10% to 14%) */
+  transform: translateX(-50%) translateY(18%); /* Adjusted 4% downwards (from 14% to 18%) */
   z-index: 20; /* Brought forward over both sections! */
   max-width: 960px; /* Scaled up in dimensions (approx. 4x larger display area!) */
   width: 92%;
