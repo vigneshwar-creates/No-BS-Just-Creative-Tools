@@ -108,7 +108,21 @@ export default function Landing({ onEnter }) {
       </nav>
 
       <main className="hero-section">
-        <div className="hero-content">
+        {/* Full-Fidelity Background Video loop playing fully visible in the background */}
+        <div className="hero-video-container">
+          <video 
+            className="hero-video"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            src="/assets/videos/header-loop.mp4"
+          />
+          <div className="hero-video-overlay"></div>
+        </div>
+
+        {/* Premium Neo-Brutalist Glassmorphic Card floating on top of the looping video background */}
+        <div className="hero-content hero-glass-card">
           <h1 className="hero-title header-font">
             Create <span className="highlight-text">freely</span>.
           </h1>
@@ -116,19 +130,7 @@ export default function Landing({ onEnter }) {
             Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
           </p>
 
-          {/* Centered Loop Preview Showcase Video brought forward with neo-brutalist border styling */}
-          <div className="hero-showcase-video-wrapper">
-            <video 
-              className="hero-showcase-video"
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-              src="/assets/videos/header-loop.mp4"
-            />
-          </div>
-
-          <div style={{display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '2.5rem'}}>
+          <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
             <a href="#tools-hub" className="btn btn-primary cta-btn" style={{textDecoration: 'none'}}>
               Explore Tools <ArrowRight size={20} />
             </a>
