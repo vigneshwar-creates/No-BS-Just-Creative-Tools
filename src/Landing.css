@@ -126,39 +126,30 @@
 }
 
 .hero-title {
-  font-size: 4.5rem;
-  line-height: 1.1;
+  font-family: 'Bebas Neue', sans-serif; /* High-fidelity tall long font */
+  font-size: 7.5rem; /* Large size to showcase Bebas Neue's impact */
+  line-height: 0.95;
   margin-bottom: 1.5rem;
   max-width: 800px;
-  letter-spacing: -1px;
+  letter-spacing: 2px;
+  color: #ffffff; /* Premium white color */
+  text-transform: uppercase; /* Spectacular look in Bebas Neue */
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* High contrast over background video */
 }
 
 .highlight-text {
   position: relative;
   display: inline-block;
-  color: var(--accent-primary);
-  transform: rotate(1deg);
-}
-
-.highlight-text::after {
-  content: '';
-  position: absolute;
-  bottom: 8px;
-  left: -5px;
-  right: -5px;
-  height: 12px;
-  background-color: var(--accent-highlight);
-  z-index: -1;
-  transform: rotate(-2deg);
-  border-radius: 4px;
+  color: var(--accent-highlight); /* Premium sun yellow */
 }
 
 .hero-subtitle {
   font-size: 1.25rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.9); /* Premium white color for high readability */
   max-width: 600px;
   margin-bottom: 2.5rem;
   line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Ambient shadow for perfect contrast on dynamic background */
 }
 
 .cta-btn {
