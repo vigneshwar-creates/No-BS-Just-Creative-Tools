@@ -417,26 +417,44 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Premium photo-realistic 3D wooden workbench trim */
+/* Custom matched 3D Natural Oak Workbench board from the pixel art graphics */
 .hero-wooden-trim {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 28px; /* Thick wooden board trim */
+  height: 32px; /* Thick desk board trim */
   z-index: 10; /* Sits below showcase graphics but on top of video background */
   
-  /* Wood-plank grain texture overlays and teak/walnut bevels */
-  background: 
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 40px, rgba(0,0,0,0.04) 40px, rgba(0,0,0,0.04) 80px),
-    linear-gradient(to bottom, #9c6644 0%, #7f5539 12%, #582f0e 65%, #3f2305 100%);
-    
-  /* Bevel border highlights to give a 3D physical block feeling */
-  border-top: 2px solid rgba(255, 255, 255, 0.2); /* Top shine highlight */
-  border-bottom: 3px solid #231203; /* Dark under-shadow block */
+  /* Natural Oak base background color */
+  background-color: #cda275;
   
-  /* Deep shadow cast over the tools section below */
+  /* Multi-layered wood texture: vertical plank lines + warm natural wood grain variations */
+  background-image: 
+    /* 1. Stark vertical hand-drawn board gaps matching the pixel-art panels exactly */
+    repeating-linear-gradient(
+      90deg,
+      transparent 0px,
+      transparent 90px,
+      rgba(69, 44, 30, 0.22) 90px,
+      rgba(69, 44, 30, 0.22) 93px,
+      rgba(245, 225, 200, 0.15) 93px,
+      rgba(245, 225, 200, 0.15) 95px
+    ),
+    /* 2. Soft vertical highlight shading and warm oak grain linear gradient */
+    linear-gradient(
+      to bottom,
+      #e8cfa7 0%,     /* Light top beveled edge sun shine */
+      #cda275 15%,    /* Warm natural honey oak main body */
+      #b28659 70%,    /* Darker golden oak grain shadow */
+      #785330 100%    /* Deep bottom shadow core */
+    );
+
+  /* Solid stark borders matching the retro hand-drawn outlines of the computers */
+  border-top: 3px solid var(--text-primary); /* Heavy black outline */
+  border-bottom: 4px solid var(--text-primary); /* Heavy bottom base line */
+  
+  /* Cast drop shadow over the light cream tools section below */
   box-shadow: 
-    0 8px 20px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    0 10px 25px rgba(45, 42, 38, 0.35);
 }
