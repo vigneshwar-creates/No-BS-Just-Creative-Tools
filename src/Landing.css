@@ -88,35 +88,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: auto; /* Pushes the showcase image card to the very bottom! */
 }
 
-/* Center showcase image card at the bottom transitioning to next section */
+/* Mathematically centers the transparent PNG/WebP showcase graphics exactly on the boundary between video hero and tools section */
 .hero-bottom-showcase-wrapper {
-  position: relative;
-  z-index: 3;
-  max-width: 680px;
-  width: 90%;
-  border: 3px solid var(--text-primary);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 6px 6px 0px var(--text-primary);
-  background-color: var(--bg-panel);
-  transition: all 0.2s ease-in-out;
-  transform: rotate(0.5deg); /* Slight organic neo-brutalist tilt */
-  margin-top: 2rem;
-  margin-bottom: -3.5rem; /* Negative margin pulls it down to seamlessly overlap and transition to the next page tools section! */
-}
-
-.hero-bottom-showcase-wrapper:hover {
-  transform: rotate(0deg) scale(1.015);
-  box-shadow: 8px 8px 0px var(--text-primary);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%); /* Centers the image exactly on the boundary line */
+  z-index: 5;
+  max-width: 600px;
+  width: 85%;
+  background: transparent; /* Seamless transparent card */
+  border: none; /* No box borders */
+  box-shadow: none; /* No box shadows */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none; /* Allows clicks to pass through transparent areas to tool cards underneath */
 }
 
 .hero-bottom-showcase-img {
   width: 100%;
   height: auto;
   display: block;
+  /* Elite drop-shadow wrapping perfectly around the transparent graphics outlines */
+  filter: drop-shadow(0px 10px 20px rgba(45, 42, 38, 0.18));
 }
 
 .hero-content {
