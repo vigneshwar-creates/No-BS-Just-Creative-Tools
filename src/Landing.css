@@ -42,7 +42,7 @@
   padding: 12rem 2rem 10rem; /* Increased padding */
   min-height: 85vh; /* Extended vertical footprint (2x taller showcase) */
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Prevent clipping of overflowing bottom graphics! */
   background-color: #000;
   animation: floatUp 0.6s ease-out;
 }
@@ -96,7 +96,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(50%); /* Centers the image exactly on the boundary line */
-  z-index: 5;
+  z-index: 20; /* Brought forward over both sections! */
   max-width: 600px;
   width: 85%;
   background: transparent; /* Seamless transparent card */
