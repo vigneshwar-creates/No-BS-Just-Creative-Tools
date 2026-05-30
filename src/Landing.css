@@ -417,7 +417,7 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Custom matched 3D Natural Oak Workbench board from the pixel art graphics */
+/* Exact custom-matched 3D Wood Log Desk trim from the retro close-up image */
 .hero-wooden-trim {
   position: absolute;
   bottom: 0;
@@ -426,33 +426,17 @@
   height: 32px; /* Thick desk board trim */
   z-index: 10; /* Sits below showcase graphics but on top of video background */
   
-  /* Natural Oak base background color */
-  background-color: #cda275;
+  /* Wood base color matching the pixel art teak desk exactly */
+  background-color: #8e5e36;
   
-  /* Multi-layered wood texture: vertical plank lines + warm natural wood grain variations */
-  background-image: 
-    /* 1. Stark vertical hand-drawn board gaps matching the pixel-art panels exactly */
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 90px,
-      rgba(69, 44, 30, 0.22) 90px,
-      rgba(69, 44, 30, 0.22) 93px,
-      rgba(245, 225, 200, 0.15) 93px,
-      rgba(245, 225, 200, 0.15) 95px
-    ),
-    /* 2. Soft vertical highlight shading and warm oak grain linear gradient */
-    linear-gradient(
-      to bottom,
-      #e8cfa7 0%,     /* Light top beveled edge sun shine */
-      #cda275 15%,    /* Warm natural honey oak main body */
-      #b28659 70%,    /* Darker golden oak grain shadow */
-      #785330 100%    /* Deep bottom shadow core */
-    );
-
-  /* Solid stark borders matching the retro hand-drawn outlines of the computers */
+  /* Custom-designed inline SVG representing the exact retro wood knots, grains, and paneling from the close-up image */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='32' viewBox='0 0 360 32' preserveAspectRatio='none'%3E%3Crect width='360' height='32' fill='%238e5e36'/%3E%3Cpath d='M10,0 L10,32 M45,0 C50,10 50,22 45,32 M90,0 L90,32 M120,0 L120,32 M180,0 L180,32 M240,0 L240,32 M300,0 L300,32' stroke='%23b48554' stroke-width='2' fill='none'/%3E%3Cpath d='M22,0 C22,6 20,8 18,10 C16,12 16,14 18,16 C20,18 22,20 22,32' stroke='%2358361b' stroke-width='2' fill='none'/%3E%3Cpath d='M26,0 C26,8 24,10 24,12 C24,14 26,16 26,32' stroke='%23b48554' stroke-width='2' fill='none'/%3E%3Cpath d='M55,0 C60,10 60,22 55,32 M98,0 C98,12 102,18 98,32 M145,0 L145,32 M200,0 C195,10 195,22 200,32 M265,0 L265,32 M325,0 C330,10 330,22 325,32' stroke='%2358361b' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-size: 360px 32px; /* Loops perfectly horizontally! */
+  background-repeat: repeat-x;
+  
+  /* Thick black pixel-art outlines matching the retro hardware styling */
   border-top: 3px solid var(--text-primary); /* Heavy black outline */
-  border-bottom: 4px solid var(--text-primary); /* Heavy bottom base line */
+  border-bottom: 4px solid var(--text-primary); /* Heavy bottom base shadow line */
   
   /* Cast drop shadow over the light cream tools section below */
   box-shadow: 
