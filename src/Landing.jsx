@@ -123,6 +123,9 @@ export default function Landing({ onEnter }) {
           <div className="hero-video-overlay"></div>
         </div>
 
+        {/* 3D Wooden Workbench Trim running absolutely along the bottom edge of the video section */}
+        <div className="hero-wooden-trim"></div>
+
         {/* Premium Neo-Brutalist transparent card floating near the top of the looping video background */}
         <div className="hero-content hero-glass-card">
           <h1 className="hero-title header-font">
