@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers, Upload } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import './Landing.css';
+import headerVideo from '../assets/videos/0530.mp4';
 
 export default function Landing({ onEnter }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -116,7 +117,7 @@ export default function Landing({ onEnter }) {
             loop 
             muted 
             playsInline
-            src={`${import.meta.env.BASE_URL}assets/videos/header-loop.mp4`}
+            src={headerVideo}
           />
           <div className="hero-video-overlay"></div>
         </div>
@@ -129,12 +130,6 @@ export default function Landing({ onEnter }) {
           <p className="hero-subtitle">
             Your files stay on your device. Just powerful, lightning-fast tools that feel like magic.
           </p>
-
-          <div style={{display: 'flex', gap: '1rem', justifyContent: 'center'}}>
-            <a href="#tools-hub" className="btn btn-primary cta-btn" style={{textDecoration: 'none'}}>
-              Explore Tools <ArrowRight size={20} />
-            </a>
-          </div>
         </div>
       </main>
 
