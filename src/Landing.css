@@ -149,7 +149,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: 1.275rem; /* Increased size by 2% for extra premium presence */
   color: rgba(255, 255, 255, 0.9); /* Premium white color for high readability */
   max-width: 900px; /* Increased max-width to guarantee the description fits perfectly on 1 line */
   width: 100%;
