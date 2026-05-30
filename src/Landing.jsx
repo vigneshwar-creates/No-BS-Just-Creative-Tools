@@ -116,7 +116,7 @@ export default function Landing({ onEnter }) {
             loop 
             muted 
             playsInline
-            src="/assets/videos/header-loop.mp4"
+            src={`${import.meta.env.BASE_URL}assets/videos/header-loop.mp4`}
           />
           <div className="hero-video-overlay"></div>
         </div>
