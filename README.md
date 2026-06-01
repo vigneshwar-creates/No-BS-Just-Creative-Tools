@@ -1,38 +1,61 @@
-![Banner](assets/images/JCT.jpeg)
+<div align="center">
+  <img src="assets/images/JCT.jpeg" alt="Banner" width="100%">
+  
+  <h1 align="center">Just Creative Tools (JCT) 🎨</h1>
 
-# Just Creative Tools (JCT)
+  <p align="center">
+    <a href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/stargazers"><img src="https://img.shields.io/github/stars/vigneshwar-creates/No-BS-Just-Creative-Tools.svg?style=for-the-badge" alt="Stargazers"></a>
+    <a href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/issues"><img src="https://img.shields.io/github/issues/vigneshwar-creates/No-BS-Just-Creative-Tools.svg?style=for-the-badge" alt="Issues"></a>
+    <a href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/network/members"><img src="https://img.shields.io/github/forks/vigneshwar-creates/No-BS-Just-Creative-Tools.svg?style=for-the-badge" alt="Forks"></a>
+    <a href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vigneshwar-creates/No-BS-Just-Creative-Tools.svg?style=for-the-badge" alt="License"></a>
+  </p>
+  
+  <p>
+    <b>Just Creative Tools</b> is a collection of super simple design tools.<br>
+    Everything runs completely on your computer inside your web browser.<br>
+    This means your files and photos are <b>100% safe</b>. They are never sent to any server or stored in the cloud.
+  </p>
+</div>
 
-Just Creative Tools is a collection of super simple design tools. Everything runs completely on your computer inside your web browser. This means your files and photos are 100% safe. They are never sent to any server or stored in the cloud.
+## Features 🎯
 
-## What is inside?
+- [x] **Canvas Image & Text Editor**: Add photos, draw sketches, add text layers, and import custom fonts. Adjust brightness, contrast, saturation, and more.
+- [x] **Portable .JCT Project Files**: Export your canvas workspace as a `.jct` file to back it up, share it, or import it later.
+- [x] **Smart Image Resizer**: Resize your photo for any social media site or platform without weird cropping.
+- [x] **Freehand & Shape Cropper**: Crop to standard sizes or draw a freehand line to cut out any shape.
+- [x] **Webcam Photo Cropper**: Take a photo using your computer's webcam and crop it instantly.
+- [x] **GIF Creator & Editor**: Make moving pictures (GIFs) and customize them with text overlays and fun emojis.
+- [x] **Secure Local Storage**: All of your designs are securely saved on your device using your browser's local storage.
 
-* **Canvas Image & Text Editor**: Add photos and transparent elements onto a multi-layer canvas. Draw sketches with the brush, add custom text layers, and import your own custom font files. Adjust colors using controls for brightness, contrast, saturation, hue, and blur. You can also re-order layers, hide layers, change opacity, and resize elements freely or with a locked aspect ratio.
-* **Portable .JCT Project Files**: Save your projects permanently. Similar to Photoshop's `.psd` or Pixlr's `.pxz`, you can export your canvas workspace as a `.jct` file on your hard drive to back it up, share it, or import it later to restore all your layers, data, and custom fonts.
-* **Smart Image Resizer**: Resize your photo for any social media site or platform without weird cropping. It fills in the background automatically.
-* **Freehand & Shape Cropper**: Crop your photos to standard sizes or draw a freehand line with your mouse to cut out any shape you want.
-* **Webcam Photo Cropper**: Take a photo using your computer's webcam and crop it instantly.
-* **GIF Creator & Editor**: Make moving pictures (GIFs) and customize them with text overlays, fun emojis, and custom drawings.
-* **Secure Local Storage**: All of your layers, custom fonts, drawings, and canvas designs are automatically and securely saved on your device using your browser's local storage. Your progress is restored when you open the page again.
+## How does it work? 💡
 
-## How does it work?
+Unlike other design sites, JCT **does not upload your images**. It uses modern web technology inside your browser to do all the processing locally. This makes the tools extremely fast and completely private.
 
-Unlike other design sites, JCT does not upload your images. It uses modern technology inside your browser to do all the processing locally. This makes the tools extremely fast and completely private.
+## Quick Start 🚀
 
-## How to run the project on your computer
-
-1. Make sure you have Node.js installed on your computer.
-2. Open your terminal in the project folder and install the dependencies:
+1. Make sure you have **Node.js** installed on your computer.
+2. Clone the repository and install dependencies:
    ```bash
+   git clone https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools.git
+   cd No-BS-Just-Creative-Tools
    npm install
    ```
 3. Start the local server:
    ```bash
    npm run dev
    ```
-4. Open the link shown in your terminal (usually http://localhost:5173) in your web browser.
+4. Open the link shown in your terminal (usually `http://localhost:5173`) in your web browser.
 
-## Built With
+## Built With 🛠️
 
-* **Vite + React**: For a fast and responsive interface.
-* **idb-keyval**: For saving your progress locally in your browser's IndexedDB.
-* **Lucide React**: For clean and simple icons.
+- **[Vite + React](https://vitejs.dev/)** - For a lightning-fast and responsive interface.
+- **[idb-keyval](https://github.com/jakearchibald/idb-keyval)** - For saving your progress locally in your browser's IndexedDB.
+- **[Lucide React](https://lucide.dev/)** - For clean and simple icons.
+
+<div align="center">
+  <p>
+    <sub>
+      Built with ❤️ for a No-BS creative workflow.
+    </sub>
+  </p>
+</div>
