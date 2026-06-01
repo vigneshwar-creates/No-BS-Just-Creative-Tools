@@ -10,6 +10,12 @@
     <a href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/blob/main/LICENSE"><img src="https://img.shields.io/github/license/vigneshwar-creates/No-BS-Just-Creative-Tools.svg?style=for-the-badge" alt="License"></a>
   </p>
   
+  <p align="center">
+    <a href="README_zh.md"><img src="https://img.shields.io/badge/Chinese-blue?style=for-the-badge" alt="Chinese"></a>
+    <a href="README.md"><img src="https://img.shields.io/badge/English-blue?style=for-the-badge" alt="English"></a>
+    <a href="README_ta.md"><img src="https://img.shields.io/badge/Tamil-blue?style=for-the-badge" alt="Tamil"></a>
+  </p>
+
   <p>
     <b>Just Creative Tools</b> is a collection of super simple design tools.<br>
     Everything runs completely on your computer inside your web browser.<br>
