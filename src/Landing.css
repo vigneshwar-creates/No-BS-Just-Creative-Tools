@@ -54,13 +54,13 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Position content near the top */
+  justify-content: flex-start;
   align-items: center;
   text-align: center;
-  padding: 7rem 2rem 10rem; /* Shift padding upwards so text sits near the top navbar */
-  min-height: 85vh; /* Extended vertical footprint (2x taller showcase) */
+  padding: 8rem 2rem 0; /* Shifted down to give space for sky, removed bottom padding */
+  min-height: 75vh; /* Adjusted to 75vh to show grid floor at the bottom */
   position: relative;
-  overflow: visible; /* Prevent clipping of overflowing bottom graphics! */
+  overflow: visible;
   background-color: #000;
   animation: floatUp 0.6s ease-out;
 }
@@ -98,34 +98,34 @@
   position: relative;
   z-index: 3;
   width: 90%;
-  max-width: 680px;
-  background: transparent; /* Background color removed! */
-  border: none; /* Borders removed! */
-  box-shadow: none; /* Shadow removed! */
-  padding: 1.5rem 1rem;
+  max-width: 1000px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 1rem; /* Push slightly down below nav */
-  margin-bottom: 12rem; /* Extended 8 lines down (1.5rem * 8 = 12rem) to create breathing room */
+  margin-top: 1rem;
+  margin-bottom: 0; /* Removed bottom margin so showcase image moves up */
 }
 
 /* Mathematically centers the transparent PNG/WebP showcase graphics exactly on the boundary between video hero and tools section */
 .hero-bottom-showcase-wrapper {
   position: absolute;
-  bottom: 4px; /* Shifted 4px upwards from the bottom edge! */
+  bottom: 0; /* Align directly to the bottom */
   left: 50%;
-  transform: translateX(-50%) translateY(20%); /* Adjusted 2% downwards (from 18% to 20%) */
-  z-index: 20; /* Brought forward over both sections! */
-  max-width: 960px; /* Scaled up in dimensions (approx. 4x larger display area!) */
-  width: 92%;
-  background: transparent; /* Seamless transparent card */
-  border: none; /* No box borders */
-  box-shadow: none; /* No box shadows */
+  transform: translateX(-50%) translateY(25%); /* Pushed down over the grid */
+  z-index: 20;
+  max-width: 1100px; /* Made the computers bigger */
+  width: 95%;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: none; /* Allows clicks to pass through transparent areas to tool cards underneath */
+  pointer-events: none;
 }
 
 .hero-bottom-showcase-img {
@@ -144,19 +144,18 @@
 }
 
 .hero-title {
-  font-family: 'Bebas Neue', sans-serif; /* High-fidelity tall long font */
-  font-size: 8.24rem; /* Large base size increased by 3% */
-  line-height: 0.95;
-  margin-bottom: 2.2rem; /* Adjusted margin so subtitle sits snugly and perfectly nested under the stretched text */
-  max-width: 800px;
-  letter-spacing: 3px;
-  color: #ffffff; /* Premium white color */
-  text-transform: uppercase; /* Spectacular look in Bebas Neue */
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); /* High contrast over background video */
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 11rem; /* Massively increased size */
+  line-height: 0.85;
+  margin-bottom: 0; /* Removed margin to allow computers to overlap subtitle */
+  max-width: 1000px;
+  letter-spacing: 2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   
-  /* Stretched font with increased width */
   display: inline-block;
-  transform: scale(0.95, 1.4); /* Increased width (0.95) and extra vertical stretch (1.4) */
+  transform: scale(0.9, 1.3);
   transform-origin: center top;
 }
 

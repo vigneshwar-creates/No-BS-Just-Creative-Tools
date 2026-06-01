@@ -135,9 +135,6 @@ export default function Landing({ onEnter }) {
           <h1 className="hero-title">
             Create <span className="highlight-text">freely</span>
           </h1>
-          <p className="hero-subtitle">
-            Your files stay on your device. Lightning-fast tools that feel like magic
-          </p>
         </div>
 
         {/* Tactile Centered Showcase Image anchored at the bottom edge transitioning to the next page */}
