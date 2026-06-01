@@ -5,6 +5,7 @@ import './Landing.css';
 import headerVideo from '../assets/videos/0530.mp4';
 import mediaImage from '../assets/images/media.jpg_202605301114.jpeg_202605301129.jpeg_202605301244.webp';
 import woodImage from '../assets/images/image.png';
+import logoSvg from '../assets/images/logo.svg';
 
 export default function Landing({ onEnter }) {
   const [searchQuery, setSearchQuery] = useState('');
@@ -104,7 +105,10 @@ export default function Landing({ onEnter }) {
   return (
     <div className="landing-container">
       <nav className="landing-nav">
-        <div className="logo">Just Creative Tools</div>
+        <div className="logo">
+          Just Creative Tools
+          <img src={logoSvg} alt="Logo" style={{ height: '32px', marginLeft: '12px', verticalAlign: 'middle' }} />
+        </div>
         <button className="btn" onClick={() => handleToolSelect('smart-fit')}>
           New Workspace
         </button>

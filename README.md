@@ -1,3 +1,5 @@
+![Banner](assets/images/JCT.jpeg)
+
 # Just Creative Tools (JCT)
 
 Just Creative Tools is a collection of super simple design tools. Everything runs completely on your computer inside your web browser. This means your files and photos are 100% safe. They are never sent to any server or stored in the cloud.

@@ -5,6 +5,7 @@
   font-style: normal;
 }
 
+
 .landing-container {
   min-height: 100vh;
   width: 100vw;
@@ -14,6 +15,11 @@
   overflow-x: hidden;
   padding-bottom: 4rem;
   position: relative; /* Context for absolute children to scroll with page content */
+  --color: #E1E1E1;
+    
+  background-image: linear-gradient(0deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent),
+      linear-gradient(90deg, transparent 24%, var(--color) 25%, var(--color) 26%, transparent 27%,transparent 74%, var(--color) 75%, var(--color) 76%, transparent 77%,transparent);
+  background-size: 55px 55px;
 }
 
 .landing-nav {
