@@ -5,7 +5,7 @@ import './Landing.css';
 import headerVideo from '../assets/videos/0530.mp4';
 import mediaImage from '../assets/images/media.jpg_202605301114.jpeg_202605301129.jpeg_202605301244.webp';
 import woodImage from '../assets/images/image.png';
-import logoSvg from '../assets/images/logo.svg';
+import logoSvg from '../assets/images/jct.svg';
 
 export default function Landing({ onEnter }) {
   const [searchQuery, setSearchQuery] = useState('');
