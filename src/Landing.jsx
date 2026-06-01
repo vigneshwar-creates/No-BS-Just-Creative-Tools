@@ -107,7 +107,6 @@ export default function Landing({ onEnter }) {
       <nav className="landing-nav">
         <div className="logo">
           Just Creative Tools
-          <img src={logoSvg} alt="Logo" style={{ height: '32px', marginLeft: '12px', verticalAlign: 'middle' }} />
         </div>
         <button className="btn" onClick={() => handleToolSelect('smart-fit')}>
           New Workspace
