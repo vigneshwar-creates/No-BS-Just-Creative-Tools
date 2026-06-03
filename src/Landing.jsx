@@ -115,9 +115,20 @@ export default function Landing({ onEnter }) {
         <div className="logo">
           Just Creative Tools
         </div>
-        <button className="btn" onClick={() => handleToolSelect('smart-fit')}>
-          New Workspace
-        </button>
+        <div style={{display: 'flex', gap: '0.5rem', alignItems: 'center'}}>
+          <a
+            href="https://github.com/vigneshwar-creates/No-BS-Just-Creative-Tools/issues/new/choose"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn"
+            style={{ fontSize: '13px', textDecoration: 'none' }}
+          >
+            🐛 Feedback
+          </a>
+          <button className="btn btn-primary" onClick={() => handleToolSelect('smart-fit')}>
+            New Workspace
+          </button>
+        </div>
       </nav>
 
       <main className="hero-section">
