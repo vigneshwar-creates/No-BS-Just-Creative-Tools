@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera, Layers } from 'lucide-react';
+import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera, Layers, Video } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import CameraCropper from './components/CameraCropper';
 import ImageCropper from './components/ImageCropper';
 import DesignCanvas from './components/DesignCanvas';
 import GifEditor from './components/GifEditor';
+import VideoEditor from './components/VideoEditor';
+import headerVideo from '../assets/videos/0530.mp4';
 
 export default function App({ activeTool, projectName, onBack }) {
   const [currentTool, setCurrentTool] = useState(activeTool);
@@ -135,6 +137,16 @@ export default function App({ activeTool, projectName, onBack }) {
     );
   }
 
+  // If the user selected the Video Clips Editor tool
+  if (currentTool === 'video-editor') {
+    return (
+      <VideoEditor 
+        onBack={onBack}
+        defaultVideoUrl={headerVideo}
+      />
+    );
+  }
+
   const renderSidebar = () => {
     if (!project) {
       return (
@@ -154,6 +166,9 @@ export default function App({ activeTool, projectName, onBack }) {
           </button>
           <button className={`btn ${currentTool === 'gif-editor' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('gif-editor')}>
             <Sparkles size={16} /> GIF Creator &amp; Editor
+          </button>
+          <button className={`btn ${currentTool === 'video-editor' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('video-editor')}>
+            <Video size={16} /> Video Editor (basic)
           </button>
         </div>
       );

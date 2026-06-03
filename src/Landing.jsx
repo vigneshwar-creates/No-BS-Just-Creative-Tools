@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers, Upload } from 'lucide-react';
+import { ArrowRight, Search, Image as ImageIcon, Sparkles, Camera, Scissors, Layers, Upload, Video } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import './Landing.css';
 import headerVideo from '../assets/videos/0530.mp4';
@@ -30,7 +30,8 @@ export default function Landing({ onEnter }) {
       'image-crop': 'Shape Cropper Project',
       'camera-crop': 'Webcam Cropper Project',
       'design-canvas': 'Canvas Editor Project',
-      'gif-editor': 'GIF Creator Project'
+      'gif-editor': 'GIF Creator Project',
+      'video-editor': 'Video Clips Project'
     };
     setNewProjectName(toolNames[toolId] || 'New Workspace Project');
     setShowNameModal(true);
@@ -99,6 +100,12 @@ export default function Landing({ onEnter }) {
       title: 'GIF Creator & Editor',
       desc: 'Make moving pictures (GIFs) and customize them with text overlays and custom drawings.',
       icon: <Sparkles size={32} className="tool-icon" style={{color: 'var(--accent-highlight)'}} />
+    },
+    {
+      id: 'video-editor',
+      title: 'Video Editor (basic)',
+      desc: 'Chop and crop your video clips. Trim start/end points, cut segments, and set aspect ratios — all in your browser.',
+      icon: <Video size={32} className="tool-icon" style={{color: 'var(--accent-primary)'}} />
     }
   ];
 
@@ -135,6 +142,9 @@ export default function Landing({ onEnter }) {
           <h1 className="hero-title">
             Create <span className="highlight-text">freely</span>
           </h1>
+          <p className="hero-subtitle">
+            Your files stay on your device. Lightning-fast tools that feel like magic
+          </p>
         </div>
 
         {/* Tactile Centered Showcase Image anchored at the bottom edge transitioning to the next page */}
