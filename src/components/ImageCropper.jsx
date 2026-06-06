@@ -421,14 +421,129 @@ export default function ImageCropper({ onBack, onSave }) {
       onMouseUp={handleMouseUp}
       ref={containerRef}
     >
-      <header className="cropper-header">
-        <button className="btn back-btn" onClick={onBack} style={{padding: '0.4rem', boxShadow: '2px 2px 0px black'}}>
-          <ArrowLeft size={16} />
-        </button>
-        <h2 className="header-font">Organic Image Cropper</h2>
+      <header className="image-cropper-header">
+        <div className="header-left">
+          <button className="btn" onClick={onBack} style={{padding: '0.4rem'}}>
+            <ArrowLeft size={16}/> Back
+          </button>
+          <h1 className="header-font" style={{fontSize: '18px', margin: 0}}>Freehand & Shape Cropper</h1>
+        </div>
+        <div className="header-right">
+        </div>
       </header>
 
-      <div className="cropper-workspace">
+      <div className="image-cropper-layout">
+        <aside className="image-cropper-sidebar">
+          <div className="sidebar-tab-content">
+            <h3 className="header-font" style={{fontSize: '18px', marginBottom: '1.5rem'}}>Cropper Tools</h3>
+            <p className="text-12" style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+              Standard aspect-ratio scaling or freehand lasso cutout.
+            </p>
+
+            {imageSrc && !croppedImage && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%' }}>
+                {/* Mode selection tabs */}
+                <div className="tool-section">
+                  <label className="tool-label">Crop Mode</label>
+                  <div className="mode-toggle-group">
+                    <button 
+                      className={`toggle-btn ${cropMode === 'standard' ? 'active' : ''}`}
+                      onClick={() => {
+                        setCropMode('standard');
+                        setLassoPoints([]);
+                      }}
+                    >
+                      Standard Rectangle
+                    </button>
+                    <button 
+                      className={`toggle-btn ${cropMode === 'free' ? 'active' : ''}`}
+                      onClick={() => setCropMode('free')}
+                    >
+                      Free Lasso Loop
+                    </button>
+                  </div>
+                </div>
+
+                {/* Standard Mode Ratios */}
+                {cropMode === 'standard' && (
+                  <div className="tool-section">
+                    <label className="tool-label">Preset Aspect Ratio</label>
+                    <div className="ratios-grid">
+                      {['free', '1:1', '16:9', '4:3', '9:16'].map(ratio => (
+                        <button 
+                          key={ratio}
+                          className={`ratio-btn ${aspectRatio === ratio ? 'active' : ''}`}
+                          onClick={() => handleAspectRatioChange(ratio)}
+                        >
+                          {ratio === 'free' ? 'Any Size' : ratio}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Free Mode drawing instructions */}
+                {cropMode === 'free' && (
+                  <div className="instructions-card card-imperfect">
+                    <h4 className="header-font" style={{ fontSize: '14px', marginBottom: '4px' }}>How to Lasso:</h4>
+                    <ol style={{ paddingLeft: '1.2rem', fontSize: '12px', color: 'var(--text-secondary)' }}>
+                      <li>Click &amp; hold on the image.</li>
+                      <li>Draw a loop around the object you want to extract.</li>
+                      <li>Release the mouse to close the selection loop.</li>
+                    </ol>
+                    {lassoPoints.length > 0 && (
+                      <button className="btn btn-danger" onClick={() => setLassoPoints([])} style={{ marginTop: '1rem', width: '100%', padding: '0.3rem', fontSize: '13px' }}>
+                        <Trash2 size={14} /> Clear Drawing
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Shared workspace actions */}
+                <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <button className="btn" onClick={handleReset}>
+                    <RefreshCw size={16} /> Reset Crop Selection
+                  </button>
+                  <button 
+                    className="btn btn-primary" 
+                    onClick={performCrop}
+                    disabled={cropMode === 'free' && lassoPoints.length < 3}
+                    style={{
+                      opacity: cropMode === 'free' && lassoPoints.length < 3 ? 0.6 : 1,
+                      cursor: cropMode === 'free' && lassoPoints.length < 3 ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    <Scissors size={16} /> Crop Image
+                  </button>
+                  <button className="btn" onClick={() => setImageSrc(null)} style={{ border: '2px solid #ea5455', color: '#ea5455' }}>
+                    <Trash2 size={16} /> Select New Image
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {croppedImage && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%', justifyContent: 'flex-end' }}>
+                <button className="btn" onClick={handleDownload} style={{ width: '100%', background: 'var(--accent-secondary)', color: 'white' }}>
+                  <Download size={16} /> Direct Download (PNG)
+                </button>
+                <button className="btn btn-primary" onClick={handleSaveProject} style={{ width: '100%' }}>
+                  <Check size={16} /> Send to Smart-Fit Workspace
+                </button>
+              </div>
+            )}
+
+            {!imageSrc && (
+              <div style={{ marginTop: 'auto', color: 'var(--text-muted)' }} className="text-12">
+                <p style={{ marginBottom: '8px' }}>High-fidelity Lasso selection</p>
+                <p style={{ marginBottom: '8px' }}>Transparent PNG cutout output</p>
+                <p>100% Secure &amp; local processing</p>
+              </div>
+            )}
+          </div>
+        </aside>
+
+        <main className="image-cropper-main">
         {!imageSrc && (
           <div 
             className="drop-zone"
@@ -535,118 +650,7 @@ export default function ImageCropper({ onBack, onSave }) {
             </div>
           </div>
         )}
-      </div>
-
-      <div className="sidebar">
-        <h2 className="header-font" style={{ fontSize: '20px', marginBottom: '8px' }}>Cropper Menu</h2>
-        <p className="text-12" style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-          Standard aspect-ratio scaling or freehand lasso cutout.
-        </p>
-
-        {imageSrc && !croppedImage && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', height: '100%' }}>
-            {/* Mode selection tabs */}
-            <div>
-              <label className="text-12 header-font" style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
-                Crop Mode
-              </label>
-              <div className="mode-toggle-group">
-                <button 
-                  className={`toggle-btn ${cropMode === 'standard' ? 'active' : ''}`}
-                  onClick={() => {
-                    setCropMode('standard');
-                    setLassoPoints([]);
-                  }}
-                >
-                  Standard Rectangle
-                </button>
-                <button 
-                  className={`toggle-btn ${cropMode === 'free' ? 'active' : ''}`}
-                  onClick={() => setCropMode('free')}
-                >
-                  Free Lasso Loop
-                </button>
-              </div>
-            </div>
-
-            {/* Standard Mode Ratios */}
-            {cropMode === 'standard' && (
-              <div>
-                <label className="text-12 header-font" style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>
-                  Preset Aspect Ratio
-                </label>
-                <div className="ratios-grid">
-                  {['free', '1:1', '16:9', '4:3', '9:16'].map(ratio => (
-                    <button 
-                      key={ratio}
-                      className={`ratio-btn ${aspectRatio === ratio ? 'active' : ''}`}
-                      onClick={() => handleAspectRatioChange(ratio)}
-                    >
-                      {ratio === 'free' ? 'Any Size' : ratio}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Free Mode drawing instructions */}
-            {cropMode === 'free' && (
-              <div className="instructions-card card-imperfect">
-                <h4 className="header-font" style={{ fontSize: '14px', marginBottom: '4px' }}>How to Lasso:</h4>
-                <ol style={{ paddingLeft: '1.2rem', fontSize: '12px', color: 'var(--text-secondary)' }}>
-                  <li>Click &amp; hold on the image.</li>
-                  <li>Draw a loop around the object you want to extract.</li>
-                  <li>Release the mouse to close the selection loop.</li>
-                </ol>
-                {lassoPoints.length > 0 && (
-                  <button className="btn btn-danger" onClick={() => setLassoPoints([])} style={{ marginTop: '1rem', width: '100%', padding: '0.3rem', fontSize: '13px' }}>
-                    <Trash2 size={14} /> Clear Drawing
-                  </button>
-                )}
-              </div>
-            )}
-
-            {/* Shared workspace actions */}
-            <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-              <button className="btn" onClick={handleReset}>
-                <RefreshCw size={16} /> Reset Crop Selection
-              </button>
-              <button 
-                className="btn btn-primary" 
-                onClick={performCrop}
-                disabled={cropMode === 'free' && lassoPoints.length < 3}
-                style={{
-                  opacity: cropMode === 'free' && lassoPoints.length < 3 ? 0.6 : 1,
-                  cursor: cropMode === 'free' && lassoPoints.length < 3 ? 'not-allowed' : 'pointer'
-                }}
-              >
-                <Scissors size={16} /> Crop Image
-              </button>
-              <button className="btn" onClick={() => setImageSrc(null)} style={{ border: '2px solid #ea5455', color: '#ea5455' }}>
-                <Trash2 size={16} /> Select New Image
-              </button>
-            </div>
-          </div>
-        )}
-
-        {croppedImage && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%', justifyContent: 'flex-end' }}>
-            <button className="btn" onClick={handleDownload} style={{ width: '100%', background: 'var(--accent-secondary)', color: 'white' }}>
-              <Download size={16} /> Direct Download (PNG)
-            </button>
-            <button className="btn btn-primary" onClick={handleSaveProject} style={{ width: '100%' }}>
-              <Check size={16} /> Send to Smart-Fit Workspace
-            </button>
-          </div>
-        )}
-
-        {!imageSrc && (
-          <div style={{ marginTop: 'auto', color: 'var(--text-muted)' }} className="text-12">
-            <p style={{ marginBottom: '8px' }}>High-fidelity Lasso selection</p>
-            <p style={{ marginBottom: '8px' }}>Transparent PNG cutout output</p>
-            <p>100% Secure &amp; local processing</p>
-          </div>
-        )}
+        </main>
       </div>
     </div>
   );
