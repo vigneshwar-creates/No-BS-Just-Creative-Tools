@@ -72,12 +72,6 @@ export default function Landing({ onEnter }) {
 
   const creativeTools = [
     {
-      id: 'smart-fit',
-      title: 'Smart Image Resizer',
-      desc: 'Resize your photos to fit any social media layout perfectly without losing details.',
-      icon: <ImageIcon size={32} className="tool-icon icon-image" />
-    },
-    {
       id: 'image-crop',
       title: 'Freehand & Shape Cropper',
       desc: 'Crop your photos into rectangles or draw a freehand loop to cut out any object.',
@@ -125,7 +119,7 @@ export default function Landing({ onEnter }) {
           >
             🐛 Feedback
           </a>
-          <button className="btn btn-primary" onClick={() => handleToolSelect('smart-fit')}>
+          <button className="btn btn-primary" onClick={() => handleToolSelect('design-canvas')}>
             New Workspace
           </button>
         </div>

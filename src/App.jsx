@@ -14,9 +14,6 @@ export default function App({ activeTool, projectName, onBack }) {
   const [toastMsg, setToastMsg] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   
-  // Smart-Fit specific state
-  const [smartFitMode, setSmartFitMode] = useState(false);
-  
   useEffect(() => {
     // Make sure currentTool keeps up if parent changes it
     setCurrentTool(activeTool);
@@ -76,12 +73,6 @@ export default function App({ activeTool, projectName, onBack }) {
   const clearProject = async () => {
     await set('jct-project', null);
     setProject(null);
-    setSmartFitMode(false);
-  };
-
-  const expandCanvas = () => {
-    setSmartFitMode(true);
-    showToast('AI generating missing background...');
   };
 
   // If the user selected the Camera Cropper tool directly
@@ -94,8 +85,8 @@ export default function App({ activeTool, projectName, onBack }) {
             newProj.name = projectName;
           }
           await saveProject(newProj);
-          setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
-          showToast('Image loaded into Smart-Fit Canvas');
+          setCurrentTool('design-canvas'); // Automatically open in Canvas after cropping
+          showToast('Image loaded into Canvas');
         }}
       />
     );
@@ -152,9 +143,6 @@ export default function App({ activeTool, projectName, onBack }) {
       return (
         <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           <h3 className="header-font" style={{fontSize: '16px'}}>Choose a Workspace</h3>
-          <button className={`btn ${currentTool === 'smart-fit' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('smart-fit')}>
-            <ImageIcon size={16} /> Smart Image Resizer
-          </button>
           <button className={`btn ${currentTool === 'image-crop' ? 'btn-primary' : ''}`} onClick={() => setCurrentTool('image-crop')}>
             <Scissors size={16} /> Freehand &amp; Shape Cropper
           </button>
@@ -177,22 +165,15 @@ export default function App({ activeTool, projectName, onBack }) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
         <div>
-          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Smart Image Resizer</h2>
+          <h2 className="header-font" style={{ fontSize: '18px', marginBottom: '8px' }}>Project Hub</h2>
           <p className="text-12" style={{ color: 'var(--text-secondary)' }}>
-            Resize your photos to fit any social media layout perfectly without losing details.
+            Your image is loaded in the local database. Choose a tool above to edit it.
           </p>
         </div>
-        
-        <button className="btn btn-primary" onClick={expandCanvas}>
-          <Sparkles size={16} /> Expand Canvas (AI)
-        </button>
         
         <div style={{ marginTop: 'auto', display: 'flex', gap: '8px' }}>
           <button className="btn" onClick={clearProject} style={{ flex: 1 }}>
             <RotateCcw size={16} /> Reset
-          </button>
-          <button className="btn" style={{ flex: 1 }}>
-            <Download size={16} /> Export
           </button>
         </div>
       </div>
@@ -232,30 +213,13 @@ export default function App({ activeTool, projectName, onBack }) {
       <div style={{ position: 'relative', width: '80%', height: '80%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <div style={{ 
           position: 'relative', 
-          transition: 'all 0.5s ease',
-          padding: smartFitMode ? '40px' : '0',
-          background: smartFitMode ? 'var(--bg-panel)' : 'transparent',
-          boxShadow: smartFitMode ? '4px 4px 0px var(--text-primary)' : 'none',
-          borderRadius: smartFitMode ? '16px' : '0',
-          border: smartFitMode ? '2px dashed var(--text-primary)' : 'none',
-          transform: smartFitMode ? 'rotate(0.5deg)' : 'none'
+          transition: 'all 0.5s ease'
         }}>
           <img 
             src={project.dataUrl} 
             alt="Project" 
             style={{ maxWidth: '100%', maxHeight: '60vh', objectFit: 'contain', display: 'block', borderRadius: '4px' }} 
           />
-          {smartFitMode && (
-            <>
-              <div className="crop-handle" style={{ top: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
-              <div className="crop-handle" style={{ bottom: '-8px', left: '50%', transform: 'translateX(-50%)' }} />
-              <div className="crop-handle" style={{ left: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
-              <div className="crop-handle" style={{ right: '-8px', top: '50%', transform: 'translateY(-50%)' }} />
-              <div style={{ position: 'absolute', bottom: '10px', left: '50%', transform: 'translateX(-50%)', color: 'var(--text-primary)', fontSize: '12px', fontWeight: 'bold', background: 'var(--accent-highlight)', border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px' }}>
-                AI Background Generated
-              </div>
-            </>
-          )}
         </div>
       </div>
     );
@@ -268,7 +232,7 @@ export default function App({ activeTool, projectName, onBack }) {
           <button className="btn" onClick={onBack} style={{padding: '0.4rem'}}>
             <ArrowLeft size={16}/> Back
           </button>
-          <h1 className="header-font" style={{fontSize: '18px', margin: 0}}>Smart Image Resizer</h1>
+          <h1 className="header-font" style={{fontSize: '18px', margin: 0}}>Workspace Hub</h1>
         </div>
         <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}></div>
       </header>
@@ -294,6 +258,6 @@ export default function App({ activeTool, projectName, onBack }) {
       </div>
 
       {toastMsg && <div className="toast">{toastMsg}</div>}
-    </>
+    </div>
   );
 }
