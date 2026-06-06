@@ -262,28 +262,35 @@ export default function App({ activeTool, projectName, onBack }) {
   };
 
   return (
-    <>
-      <div className="canvas-container" onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-        {renderCanvas()}
-      </div>
-      
-      <div className="sidebar">
-        <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <button className="btn back-btn" onClick={onBack} style={{padding: '0.4rem', boxShadow: '2px 2px 0px black'}}>
-            <ArrowLeft size={16} />
+    <div style={{display: 'flex', flexDirection: 'column', width: '100%', height: '100vh', overflow: 'hidden', backgroundColor: 'var(--bg-color)'}}>
+      <header style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 1.5rem', backgroundColor: 'var(--bg-panel)', borderBottom: '2px solid var(--text-primary)', height: '60px', flexShrink: 0, zIndex: 50}}>
+        <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}>
+          <button className="btn" onClick={onBack} style={{padding: '0.4rem'}}>
+            <ArrowLeft size={16}/> Back
           </button>
-          <h1 className="header-font" style={{ fontSize: '20px', letterSpacing: '-0.5px' }}>JCT</h1>
+          <h1 className="header-font" style={{fontSize: '18px', margin: 0}}>Smart Image Resizer</h1>
         </div>
-        
-        {renderSidebar()}
-        
-        {!project && (
-          <div style={{ marginTop: 'auto', color: 'var(--text-muted)' }} className="text-12">
-            <p style={{ marginBottom: '8px' }}>100% Client-Side</p>
-            <p style={{ marginBottom: '8px' }}>Local-First</p>
-            <p>Powered by WASM &amp; WebGPU</p>
+        <div style={{display: 'flex', alignItems: 'center', gap: '0.75rem'}}></div>
+      </header>
+
+      <div style={{display: 'flex', flex: 1, overflow: 'hidden'}}>
+        <aside style={{width: '300px', minWidth: '260px', backgroundColor: 'var(--bg-panel)', borderRight: '2px solid var(--text-primary)', display: 'flex', flexDirection: 'column', overflowY: 'auto', flexShrink: 0, zIndex: 40}}>
+          <div style={{padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1}}>
+            {renderSidebar()}
+            
+            {!project && (
+              <div style={{ marginTop: 'auto', color: 'var(--text-muted)' }} className="text-12">
+                <p style={{ marginBottom: '8px' }}>100% Client-Side</p>
+                <p style={{ marginBottom: '8px' }}>Local-First</p>
+                <p>Powered by WASM &amp; WebGPU</p>
+              </div>
+            )}
           </div>
-        )}
+        </aside>
+
+        <main onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop} style={{flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(0,0,0,0.1) 1px, transparent 0)', backgroundSize: '24px 24px'}}>
+          {renderCanvas()}
+        </main>
       </div>
 
       {toastMsg && <div className="toast">{toastMsg}</div>}

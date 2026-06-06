@@ -141,14 +141,59 @@ export default function CameraCropper({ onBack, onSave }) {
 
   return (
     <div className="camera-cropper-container" onMouseMove={handleMouseMove} onMouseUp={handleMouseUp}>
-      <header className="cropper-header">
-        <button className="btn back-btn" onClick={onBack}>
-          <ArrowLeft size={16} /> Back to Hub
-        </button>
-        <h2 className="header-font">Local Camera Cropper</h2>
+      <header className="camera-cropper-header">
+        <div className="header-left">
+          <button className="btn" onClick={onBack} style={{padding: '0.4rem'}}>
+            <ArrowLeft size={16}/> Back
+          </button>
+          <h1 className="header-font" style={{fontSize: '18px', margin: 0}}>Webcam Photo Cropper</h1>
+        </div>
+        <div className="header-right">
+        </div>
       </header>
 
-      <div className="cropper-workspace" ref={containerRef}>
+      <div className="camera-cropper-layout">
+        <aside className="camera-cropper-sidebar">
+          <div className="sidebar-tab-content">
+            <h3 className="header-font" style={{fontSize: '18px', marginBottom: '1.5rem'}}>Camera Tools</h3>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', height: '100%' }}>
+              {!capturedImage && !cameraError && (
+                 <p className="text-12" style={{color: 'var(--text-secondary)'}}>Allow camera access and click "Capture Frame" on the right to take a photo.</p>
+              )}
+
+              {capturedImage && !croppedImage && (
+                <>
+                  <p className="text-12" style={{color: 'var(--text-secondary)'}}>Drag the crop box over your photo to select the area to keep.</p>
+                  <div style={{marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <button className="btn btn-primary" onClick={performCrop}>
+                      <Scissors size={16} /> Crop Image
+                    </button>
+                    <button className="btn" onClick={startCamera}>
+                      <RefreshCw size={16} /> Retake Photo
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {croppedImage && (
+                <>
+                  <p className="text-12" style={{color: 'var(--text-secondary)'}}>Looking good! Save your cropped photo to the workspace.</p>
+                  <div style={{marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <button className="btn btn-primary" onClick={handleSaveProject}>
+                      <Check size={16} /> Send to Workspace
+                    </button>
+                    <button className="btn" onClick={() => setCroppedImage(null)}>
+                      <X size={16} /> Recrop
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </aside>
+
+        <main className="camera-cropper-main" ref={containerRef}>
         {!capturedImage && !cameraError && (
           <div className="camera-feed-wrapper">
             <video ref={videoRef} autoPlay playsInline muted className="camera-video"></video>
@@ -192,15 +237,6 @@ export default function CameraCropper({ onBack, onSave }) {
                 />
               </div>
             </div>
-            
-            <div className="crop-actions">
-              <button className="btn" onClick={startCamera}>
-                <RefreshCw size={16} /> Retake
-              </button>
-              <button className="btn btn-primary" onClick={performCrop}>
-                <Scissors size={16} /> Crop Image
-              </button>
-            </div>
           </div>
         )}
 
@@ -210,16 +246,9 @@ export default function CameraCropper({ onBack, onSave }) {
             <div className="cropped-preview-card">
               <img src={croppedImage} alt="Cropped result" className="cropped-img-preview" />
             </div>
-            <div className="crop-actions">
-              <button className="btn" onClick={() => setCroppedImage(null)}>
-                <X size={16} /> Recrop
-              </button>
-              <button className="btn btn-primary" onClick={handleSaveProject}>
-                <Check size={16} /> Save to Workspace
-              </button>
-            </div>
           </div>
         )}
+        </main>
       </div>
     </div>
   );
