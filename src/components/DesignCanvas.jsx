@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowLeft, Image as ImageIcon, Text as TextIcon, Edit3, Trash2, Eye, EyeOff, 
   Layers, Upload, Move, Maximize2, Minimize2, ChevronUp, ChevronDown, Check,
-  Download, Type, Compass, HelpCircle, ShieldAlert
+  Download, Type, Compass, HelpCircle, ShieldAlert, Sparkles
 } from 'lucide-react';
 import { get, set } from 'idb-keyval';
+import ColorPicker from './ColorPicker';
 import './DesignCanvas.css';
 
 export default function DesignCanvas({ onBack, projectName }) {
@@ -144,6 +145,72 @@ export default function DesignCanvas({ onBack, projectName }) {
       img.src = dataUrl;
     };
     reader.readAsDataURL(file);
+  };
+
+  // Generate Organic Background Layer
+  const generateOrganicBackground = async () => {
+    const w = 800;
+    const h = 600;
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#141413';
+    ctx.fillRect(0, 0, w, h);
+
+    const particles = Array.from({length: 3000}, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      life: Math.random() * 50
+    }));
+
+    ctx.lineWidth = 1;
+    for(let i=0; i<100; i++) {
+      for(let p of particles) {
+        if(p.life <= 0) continue;
+        const angle = Math.sin(p.x * 0.01) + Math.cos(p.y * 0.01) * Math.PI * 2;
+        const speed = 2;
+        const nx = p.x + Math.cos(angle) * speed;
+        const ny = p.y + Math.sin(angle) * speed;
+        
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(nx, ny);
+        
+        const hue = (p.x/w) * 60 + 200;
+        ctx.strokeStyle = `hsla(${hue}, 80%, 60%, 0.1)`;
+        ctx.stroke();
+        
+        p.x = nx;
+        p.y = ny;
+        p.life--;
+      }
+    }
+
+    const dataUrl = canvas.toDataURL('image/png');
+    const newLayer = {
+      id: Date.now(),
+      type: 'image',
+      name: 'Organic Pattern',
+      dataUrl,
+      x: 0,
+      y: 0,
+      width: w,
+      height: h,
+      aspectRatio: w / h,
+      opacity: 100,
+      visible: true,
+      brightness: 100,
+      contrast: 100,
+      saturation: 100,
+      blur: 0,
+      hueRotate: 0
+    };
+    
+    setLayers(prev => [newLayer, ...prev]);
+    setSelectedLayerId(newLayer.id);
+    setToolMode('select');
   };
 
   // Add a new Text Layer
@@ -547,12 +614,10 @@ export default function DesignCanvas({ onBack, projectName }) {
           <div className="control-section" style={{ background: 'var(--bg-panel-hover)', padding: '0.75rem', borderRadius: '8px', border: '2px solid var(--text-primary)' }}>
             <label className="control-title" style={{ fontSize: '12px' }}>Pen Configurations</label>
             <div className="color-picker-wrapper">
-              <span className="slider-label" style={{ fontSize: '12px', flex: 1 }}>Brush Color:</span>
-              <input 
-                type="color" 
-                value={brushColor} 
-                onChange={(e) => setBrushColor(e.target.value)}
-                className="color-dot-picker"
+              <span className="slider-label" style={{ fontSize: '12px', flex: 1, marginBottom: '8px' }}>Brush Color:</span>
+              <ColorPicker 
+                color={brushColor} 
+                onChange={setBrushColor}
               />
             </div>
             <div className="slider-group" style={{ marginTop: '0.5rem' }}>
@@ -633,13 +698,11 @@ export default function DesignCanvas({ onBack, projectName }) {
                     className="slider-input"
                   />
                 </div>
-                <div className="color-picker-wrapper">
-                  <span className="slider-label" style={{ flex: 1 }}>Text Color:</span>
-                  <input 
-                    type="color" 
-                    value={selectedLayer.color} 
-                    onChange={(e) => updateSelectedLayerProperty('color', e.target.value)}
-                    className="color-dot-picker"
+                <div className="color-picker-wrapper" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                  <span className="slider-label" style={{ marginBottom: '8px' }}>Text Color:</span>
+                  <ColorPicker 
+                    color={selectedLayer.color} 
+                    onChange={(c) => updateSelectedLayerProperty('color', c)}
                   />
                 </div>
               </div>
@@ -775,6 +838,11 @@ export default function DesignCanvas({ onBack, projectName }) {
             {/* Add text layer */}
             <button className="btn btn-small btn-primary" onClick={addTextLayer}>
               <TextIcon size={14} /> Add Text
+            </button>
+
+            {/* Generate Organic Background Layer */}
+            <button className="btn btn-small btn-primary" onClick={generateOrganicBackground}>
+              <Sparkles size={14} /> Add Pattern
             </button>
 
             {/* Export PNG */}

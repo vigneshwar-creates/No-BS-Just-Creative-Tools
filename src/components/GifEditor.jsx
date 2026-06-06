@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { parseGIF, decompressFrames } from 'gifuct-js';
 import { GIFEncoder, quantize, applyPalette } from 'gifenc';
+import ColorPicker from './ColorPicker';
 import './GifEditor.css';
 
 // Popular stickers and emojis for instant creative fun
@@ -724,30 +725,12 @@ export default function GifEditor({ onBack }) {
                 />
               </div>
               <div>
-                <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '4px'}}>Text Color</label>
-                <div className="brush-color-picker">
-                  {PRESET_COLORS.map(c => (
-                    <div 
-                      key={c} 
-                      className={`color-dot ${textColor === c ? 'active' : ''}`}
-                      style={{backgroundColor: c}}
-                      onClick={() => setTextColor(c)}
-                    />
-                  ))}
-                </div>
+                <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '8px'}}>Text Color</label>
+                <ColorPicker color={textColor} onChange={setTextColor} />
               </div>
               <div>
-                <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '4px'}}>Stroke Outline</label>
-                <div className="brush-color-picker">
-                  {PRESET_COLORS.map(c => (
-                    <div 
-                      key={c} 
-                      className={`color-dot ${textStrokeColor === c ? 'active' : ''}`}
-                      style={{backgroundColor: c}}
-                      onClick={() => setTextStrokeColor(c)}
-                    />
-                  ))}
-                </div>
+                <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '8px'}}>Stroke Outline</label>
+                <ColorPicker color={textStrokeColor} onChange={setTextStrokeColor} />
               </div>
               <button className="btn btn-primary" onClick={addTextLayer} style={{width: '100%'}}>
                 <Plus size={16}/> Add Text Layer
@@ -817,17 +800,8 @@ export default function GifEditor({ onBack }) {
                   </div>
                   {brushMode === 'draw' && (
                     <div>
-                      <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '4px'}}>Brush Color</label>
-                      <div className="brush-color-picker">
-                        {PRESET_COLORS.map(c => (
-                          <div 
-                            key={c} 
-                            className={`color-dot ${brushColor === c ? 'active' : ''}`}
-                            style={{backgroundColor: c}}
-                            onClick={() => setBrushColor(c)}
-                          />
-                        ))}
-                      </div>
+                      <label className="text-12" style={{fontWeight: 'bold', display: 'block', marginBottom: '8px'}}>Brush Color</label>
+                      <ColorPicker color={brushColor} onChange={setBrushColor} />
                     </div>
                   )}
                   <button className="btn" onClick={clearDrawing} style={{width: '100%'}}>
