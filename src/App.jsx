@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon, Download, RotateCcw, Sparkles, ArrowLeft, Scissors, Camera, Layers, Video } from 'lucide-react';
 import { get, set } from 'idb-keyval';
-import CameraCropper from './components/CameraCropper';
-import ImageCropper from './components/ImageCropper';
-import DesignCanvas from './components/DesignCanvas';
-import GifEditor from './components/GifEditor';
-import VideoEditor from './components/VideoEditor';
+const CameraCropper = React.lazy(() => import('./components/CameraCropper'));
+const ImageCropper = React.lazy(() => import('./components/ImageCropper'));
+const DesignCanvas = React.lazy(() => import('./components/DesignCanvas'));
+const GifEditor = React.lazy(() => import('./components/GifEditor'));
+const VideoEditor = React.lazy(() => import('./components/VideoEditor'));
 import headerVideo from '../assets/videos/0530.mp4';
 
 export default function App({ activeTool, projectName, onBack }) {
@@ -78,63 +78,73 @@ export default function App({ activeTool, projectName, onBack }) {
   // If the user selected the Camera Cropper tool directly
   if (currentTool === 'camera-crop') {
     return (
-      <CameraCropper 
-        onBack={onBack} 
-        onSave={async (newProj) => {
-          if (projectName) {
-            newProj.name = projectName;
-          }
-          await saveProject(newProj);
-          setCurrentTool('design-canvas'); // Automatically open in Canvas after cropping
-          showToast('Image loaded into Canvas');
-        }}
-      />
+      <React.Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading tool...</div>}>
+        <CameraCropper 
+          onBack={onBack} 
+          onSave={async (newProj) => {
+            if (projectName) {
+              newProj.name = projectName;
+            }
+            await saveProject(newProj);
+            setCurrentTool('design-canvas'); // Automatically open in Canvas after cropping
+            showToast('Image loaded into Canvas');
+          }}
+        />
+      </React.Suspense>
     );
   }
 
   // If the user selected the Organic Image Cropper tool
   if (currentTool === 'image-crop') {
     return (
-      <ImageCropper 
-        onBack={onBack} 
-        onSave={async (newProj) => {
-          if (projectName) {
-            newProj.name = projectName;
-          }
-          await saveProject(newProj);
-          setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
-          showToast('Image loaded into Smart-Fit Canvas');
-        }}
-      />
+      <React.Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading tool...</div>}>
+        <ImageCropper 
+          onBack={onBack} 
+          onSave={async (newProj) => {
+            if (projectName) {
+              newProj.name = projectName;
+            }
+            await saveProject(newProj);
+            setCurrentTool('smart-fit'); // Automatically open in Smart-Fit Canvas after cropping!
+            showToast('Image loaded into Smart-Fit Canvas');
+          }}
+        />
+      </React.Suspense>
     );
   }
 
   // If the user selected the Advanced Design Canvas tool
   if (currentTool === 'design-canvas') {
     return (
-      <DesignCanvas 
-        onBack={onBack} 
-        projectName={projectName}
-      />
+      <React.Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading tool...</div>}>
+        <DesignCanvas 
+          onBack={onBack} 
+          projectName={projectName}
+        />
+      </React.Suspense>
     );
   }
 
   // If the user selected the Creative GIF Editor tool
   if (currentTool === 'gif-editor') {
     return (
-      <GifEditor 
-        onBack={onBack}
-      />
+      <React.Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading tool...</div>}>
+        <GifEditor 
+          onBack={onBack}
+        />
+      </React.Suspense>
     );
   }
 
   // If the user selected the Video Clips Editor tool
   if (currentTool === 'video-editor') {
     return (
-      <VideoEditor 
-        onBack={onBack}
-        defaultVideoUrl={headerVideo}
-      />
+      <React.Suspense fallback={<div style={{padding: '2rem', textAlign: 'center'}}>Loading tool...</div>}>
+        <VideoEditor 
+          onBack={onBack}
+          defaultVideoUrl={headerVideo}
+        />
+      </React.Suspense>
     );
   }
 
