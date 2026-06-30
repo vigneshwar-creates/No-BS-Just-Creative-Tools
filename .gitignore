@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Exclude sensitive documentation and agents
+.agents/
+docs/
