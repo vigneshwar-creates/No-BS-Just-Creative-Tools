@@ -153,7 +153,8 @@ export default function VideoEditor({ onBack }) {
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.playbackRate = playbackSpeed;
-      videoRef.current.volume = volume;
+      // HTML5 video volume must be between 0 and 1 to prevent DOMException
+      videoRef.current.volume = Math.min(1, Math.max(0, volume));
     }
   }, [playbackSpeed, volume]);
 
