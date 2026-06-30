@@ -26,3 +26,4 @@ dist-ssr
 # Exclude sensitive documentation and agents
 .agents/
 docs/
+lint-output.txt
