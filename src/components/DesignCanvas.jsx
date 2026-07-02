@@ -11,6 +11,7 @@ import './DesignCanvas.css';
 export default function DesignCanvas({ onBack, projectName }) {
   const [layers, setLayers] = useState([]);
   const [selectedLayerId, setSelectedLayerId] = useState(null);
+  const [editingTextId, setEditingTextId] = useState(null);
   const [toolMode, setToolMode] = useState('select'); // 'select', 'draw', 'text'
   const [canvasSize] = useState({ width: 800, height: 600 });
   const [isSecureStore, setIsSecureStore] = useState(true);
@@ -313,6 +314,7 @@ export default function DesignCanvas({ onBack, projectName }) {
   // Selection Dragging and Resizing Logic
   const handleViewportMouseDown = (e, layer, handle = 'move') => {
     if (toolMode !== 'select') return;
+    if (editingTextId === layer.id) return; // Don't drag while editing text
     e.preventDefault();
     e.stopPropagation();
     setSelectedLayerId(layer.id);
@@ -858,7 +860,10 @@ export default function DesignCanvas({ onBack, projectName }) {
         </div>
 
         {/* The design workspace */}
-        <div className="design-workspace" onClick={() => setSelectedLayerId(null)}>
+        <div className="design-workspace" onClick={() => {
+          setSelectedLayerId(null);
+          setEditingTextId(null);
+        }}>
           <div 
             ref={viewportRef}
             className={`canvas-viewport ${toolMode === 'draw' ? 'drawing-mode' : ''}`}
@@ -894,13 +899,54 @@ export default function DesignCanvas({ onBack, projectName }) {
                       onDragStart={(e) => e.preventDefault()}
                     />
                   ) : (
-                    <p style={{ 
-                      fontSize: `${layer.fontSize}px`, 
-                      fontFamily: `"${layer.fontFamily}", sans-serif`,
-                      color: layer.color
-                    }}>
-                      {layer.text}
-                    </p>
+                    <div 
+                      onDoubleClick={(e) => {
+                        e.stopPropagation();
+                        setEditingTextId(layer.id);
+                        setSelectedLayerId(layer.id);
+                      }}
+                      style={{ width: '100%', height: '100%' }}
+                    >
+                      {editingTextId === layer.id ? (
+                        <textarea
+                          autoFocus
+                          value={layer.text}
+                          onChange={(e) => {
+                            setLayers(prev => prev.map(l => l.id === layer.id ? { ...l, text: e.target.value } : l));
+                          }}
+                          onBlur={() => setEditingTextId(null)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Escape') {
+                              setEditingTextId(null);
+                            }
+                          }}
+                          style={{
+                            fontSize: `${layer.fontSize}px`, 
+                            fontFamily: `"${layer.fontFamily}", sans-serif`,
+                            color: layer.color,
+                            width: '100%',
+                            height: '100%',
+                            background: 'transparent',
+                            border: 'none',
+                            outline: 'none',
+                            resize: 'none',
+                            padding: 0,
+                            margin: 0,
+                            overflow: 'hidden'
+                          }}
+                        />
+                      ) : (
+                        <p style={{ 
+                          fontSize: `${layer.fontSize}px`, 
+                          fontFamily: `"${layer.fontFamily}", sans-serif`,
+                          color: layer.color,
+                          margin: 0,
+                          padding: 0
+                        }}>
+                          {layer.text}
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
               );
