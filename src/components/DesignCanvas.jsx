@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowLeft, Image as ImageIcon, Text as TextIcon, Edit3, Trash2, Eye, EyeOff, 
   Layers, Upload, Move, Maximize2, Minimize2, ChevronUp, ChevronDown, Check,
-  Download, Type, Compass, HelpCircle, ShieldAlert, Sparkles
+  Download, Type, Compass, HelpCircle, ShieldAlert, Sparkles, MousePointer2, PenTool, Menu
 } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import ColorPicker from './ColorPicker';
@@ -35,6 +35,9 @@ export default function DesignCanvas({ onBack, projectName }) {
 
   const drawingCanvasRef = useRef(null);
   const viewportRef = useRef(null);
+  
+  // UI State
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   // Load project state from IndexedDB (Secure client-side persistence) on mount
   useEffect(() => {
@@ -418,9 +421,9 @@ export default function DesignCanvas({ onBack, projectName }) {
   };
 
   // Layer Arrangement ordering
-  const moveLayer = (direction) => {
-    if (!selectedLayerId) return;
-    const index = layers.findIndex(l => l.id === selectedLayerId);
+  const moveLayer = (direction, targetId = selectedLayerId) => {
+    if (!targetId) return;
+    const index = layers.findIndex(l => l.id === targetId);
     if (index === -1) return;
 
     const newLayers = [...layers];
@@ -582,283 +585,135 @@ export default function DesignCanvas({ onBack, projectName }) {
   const selectedLayer = getSelectedLayer();
 
   return (
-    <div className="design-canvas-container">
-      {/* LEFT SIDEBAR: Adjustments and Editing Tools */}
-      <aside className="design-left-panel">
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-          <button className="btn back-btn" onClick={onBack} style={{ padding: '0.4rem', boxShadow: '2px 2px 0px black' }}>
-            <ArrowLeft size={16} />
-          </button>
-          <h1 className="header-font" style={{ fontSize: '18px' }}>Design Canvas</h1>
-        </div>
-
-        {/* Toolbar Modes */}
-        <div className="control-section">
-          <label className="control-title">Tools</label>
-          <div className="toggle-group">
-            <button 
-              className={`toggle-btn ${toolMode === 'select' ? 'active' : ''}`}
-              onClick={() => setToolMode('select')}
-            >
-              Select &amp; Resize
-            </button>
-            <button 
-              className={`toggle-btn ${toolMode === 'draw' ? 'active' : ''}`}
-              onClick={() => setToolMode('draw')}
-            >
-              Pen Tool
-            </button>
+    <div className="design-canvas-container" onClick={() => setActiveDropdown(null)}>
+      {/* TOP MENU BAR */}
+      <header className="design-top-menu" onClick={e => e.stopPropagation()}>
+        <button className="btn back-btn" onClick={onBack} style={{ padding: '0.2rem', boxShadow: '1px 1px 0px black' }}>
+          <ArrowLeft size={16} />
+        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          {/* File Menu */}
+          <div className="top-menu-item" onClick={() => setActiveDropdown(activeDropdown === 'file' ? null : 'file')}>
+            File
+            {activeDropdown === 'file' && (
+              <div className="top-menu-dropdown">
+                <label className="dropdown-item">
+                  <Upload size={14}/> Import .JCT
+                  <input type="file" accept=".jct" onChange={(e) => { handleJCTImport(e); setActiveDropdown(null); }} style={{display: 'none'}} />
+                </label>
+                <div className="dropdown-item" onClick={() => { exportAsJCT(); setActiveDropdown(null); }}>
+                  <Download size={14}/> Export .JCT
+                </div>
+                <div className="dropdown-item" style={{ borderTop: '1px solid var(--border-color)' }} onClick={() => { exportCanvasAsPNG(); setActiveDropdown(null); }}>
+                  <Download size={14}/> Export PNG
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Edit Menu */}
+          <div className="top-menu-item" onClick={() => setActiveDropdown(activeDropdown === 'edit' ? null : 'edit')}>
+            Edit
+            {activeDropdown === 'edit' && (
+              <div className="top-menu-dropdown">
+                <div className="dropdown-item" onClick={() => { setLayers([]); setActiveDropdown(null); }}>
+                  <Trash2 size={14}/> Clear Canvas
+                </div>
+              </div>
+            )}
+          </div>
+          {/* Layer Menu */}
+          <div className="top-menu-item" onClick={() => setActiveDropdown(activeDropdown === 'layer' ? null : 'layer')}>
+            Layer
+            {activeDropdown === 'layer' && (
+              <div className="top-menu-dropdown">
+                <label className="dropdown-item">
+                  <ImageIcon size={14}/> Add Image
+                  <input type="file" accept="image/*" onChange={(e) => { handleImageUpload(e); setActiveDropdown(null); }} style={{display: 'none'}} />
+                </label>
+                <div className="dropdown-item" onClick={() => { addTextLayer(); setActiveDropdown(null); }}>
+                  <TextIcon size={14}/> Add Text
+                </div>
+                <div className="dropdown-item" onClick={() => { generateOrganicBackground(); setActiveDropdown(null); }}>
+                  <Sparkles size={14}/> Add Pattern Layer
+                </div>
+              </div>
+            )}
+          </div>
+          {/* View Menu */}
+          <div className="top-menu-item" onClick={() => setActiveDropdown(activeDropdown === 'view' ? null : 'view')}>
+            View
+            {activeDropdown === 'view' && (
+              <div className="top-menu-dropdown">
+                <div className="dropdown-item" onClick={() => { setIsRatioLocked(!isRatioLocked); setActiveDropdown(null); }}>
+                  <Maximize2 size={14}/> {isRatioLocked ? 'Unlock Aspect Ratio' : 'Lock Aspect Ratio'}
+                </div>
+              </div>
+            )}
           </div>
         </div>
+        
+        {/* Help / Secure status */}
+        <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-secondary)' }}>
+          <Compass size={14} />
+          <span style={{ fontSize: '11px', fontWeight: 'bold' }}>SECURE LOCAL WORKSPACE</span>
+        </div>
+      </header>
 
-        {/* Pen Tool configurations */}
+      {/* OPTIONS BAR (Contextual tool settings) */}
+      <div className="design-options-bar">
         {toolMode === 'draw' && (
-          <div className="control-section" style={{ background: 'var(--bg-panel-hover)', padding: '0.75rem', borderRadius: '8px', border: '2px solid var(--text-primary)' }}>
-            <label className="control-title" style={{ fontSize: '12px' }}>Pen Configurations</label>
-            <div className="color-picker-wrapper">
-              <span className="slider-label" style={{ fontSize: '12px', flex: 1, marginBottom: '8px' }}>Brush Color:</span>
-              <ColorPicker 
-                color={brushColor} 
-                onChange={setBrushColor}
-              />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '12px' }}>
+              <span>Brush Color:</span>
+              <ColorPicker color={brushColor} onChange={setBrushColor} />
             </div>
-            <div className="slider-group" style={{ marginTop: '0.5rem' }}>
-              <div className="slider-label">
-                <span>Brush Width:</span>
-                <span>{brushWidth}px</span>
-              </div>
-              <input 
-                type="range" 
-                min="1" 
-                max="50" 
-                value={brushWidth} 
-                onChange={(e) => setBrushWidth(parseInt(e.target.value))}
-                className="slider-input"
-              />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '12px' }}>
+              <span>Brush Size:</span>
+              <input type="range" min="1" max="50" value={brushWidth} onChange={(e) => setBrushWidth(parseInt(e.target.value))} style={{ width: '100px' }} />
+              <span>{brushWidth}px</span>
             </div>
           </div>
         )}
-
-        {/* Selected Layer Properties */}
-        {selectedLayer && (
-          <div className="control-section" style={{ background: 'var(--bg-panel-hover)', padding: '0.75rem', borderRadius: '8px', border: '2px solid var(--text-primary)' }}>
-            <label className="control-title" style={{ fontSize: '12px' }}>Layer Settings</label>
-            
-            {/* Opacity slider for all layers */}
-            <div className="slider-group">
-              <div className="slider-label">
-                <span>Opacity:</span>
-                <span>{selectedLayer.opacity}%</span>
-              </div>
-              <input 
-                type="range" 
-                min="0" 
-                max="100" 
-                value={selectedLayer.opacity} 
-                onChange={(e) => updateSelectedLayerProperty('opacity', parseInt(e.target.value))}
-                className="slider-input"
-              />
-            </div>
-
-            {/* Text Customizations */}
-            {selectedLayer.type === 'text' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-                <div className="slider-group">
-                  <span className="slider-label" style={{ fontSize: '12px' }}>Text Content:</span>
-                  <input 
-                    type="text" 
-                    value={selectedLayer.text} 
-                    onChange={(e) => updateSelectedLayerProperty('text', e.target.value)}
-                    style={{ border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px', width: '100%', fontSize: '14px' }}
-                  />
-                </div>
-                <div className="slider-group">
-                  <span className="slider-label">Font Family:</span>
-                  <select 
-                    value={selectedLayer.fontFamily} 
-                    onChange={(e) => updateSelectedLayerProperty('fontFamily', e.target.value)}
-                    style={{ border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px', fontSize: '13px' }}
-                  >
-                    <option value="Inter">Standard (Inter)</option>
-                    <option value="Space Grotesk">Headline (Space Grotesk)</option>
-                    {importedFonts.map(font => (
-                      <option key={font.name} value={font.name}>{font.name} (Custom)</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Font Size:</span>
-                    <span>{selectedLayer.fontSize}px</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="10" 
-                    max="100" 
-                    value={selectedLayer.fontSize} 
-                    onChange={(e) => updateSelectedLayerProperty('fontSize', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-                <div className="color-picker-wrapper" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                  <span className="slider-label" style={{ marginBottom: '8px' }}>Text Color:</span>
-                  <ColorPicker 
-                    color={selectedLayer.color} 
-                    onChange={(c) => updateSelectedLayerProperty('color', c)}
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* Image Adjustments & Color Grading */}
-            {selectedLayer.type === 'image' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Brightness:</span>
-                    <span>{selectedLayer.brightness}%</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="200" 
-                    value={selectedLayer.brightness} 
-                    onChange={(e) => updateSelectedLayerProperty('brightness', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Contrast:</span>
-                    <span>{selectedLayer.contrast}%</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="200" 
-                    value={selectedLayer.contrast} 
-                    onChange={(e) => updateSelectedLayerProperty('contrast', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Saturation:</span>
-                    <span>{selectedLayer.saturation}%</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="200" 
-                    value={selectedLayer.saturation} 
-                    onChange={(e) => updateSelectedLayerProperty('saturation', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Hue Rotate:</span>
-                    <span>{selectedLayer.hueRotate}°</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="360" 
-                    value={selectedLayer.hueRotate} 
-                    onChange={(e) => updateSelectedLayerProperty('hueRotate', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-                <div className="slider-group">
-                  <div className="slider-label">
-                    <span>Blur:</span>
-                    <span>{selectedLayer.blur}px</span>
-                  </div>
-                  <input 
-                    type="range" 
-                    min="0" 
-                    max="20" 
-                    value={selectedLayer.blur} 
-                    onChange={(e) => updateSelectedLayerProperty('blur', parseInt(e.target.value))}
-                    className="slider-input"
-                  />
-                </div>
-              </div>
-            )}
+        {toolMode === 'select' && selectedLayer && selectedLayer.type === 'text' && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', fontSize: '12px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', background: 'var(--bg-panel)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--text-primary)' }}>
+              <Upload size={12} /> Import Font
+              <input type="file" accept=".ttf,.otf,.woff,.woff2" onChange={handleFontUpload} style={{ display: 'none' }} />
+            </label>
+            <select value={selectedLayer.fontFamily} onChange={(e) => updateSelectedLayerProperty('fontFamily', e.target.value)} style={{ background: 'var(--bg-panel)', color: 'var(--text-primary)', border: '1px solid var(--text-primary)', padding: '2px 4px' }}>
+              <option value="Inter">Inter</option>
+              <option value="Space Grotesk">Space Grotesk</option>
+              {importedFonts.map(font => <option key={font.name} value={font.name}>{font.name}</option>)}
+            </select>
+            <ColorPicker color={selectedLayer.color} onChange={(c) => updateSelectedLayerProperty('color', c)} />
+            <input type="range" min="10" max="100" value={selectedLayer.fontSize} onChange={(e) => updateSelectedLayerProperty('fontSize', parseInt(e.target.value))} style={{ width: '80px' }} />
+            <span>{selectedLayer.fontSize}px</span>
           </div>
         )}
-      </aside>
+      </div>
 
-      {/* MIDDLE WORKSPACE: Canvas and Viewport */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-        {/* Canvas Toolbar Header */}
-        <div className="canvas-top-bar">
-          <div className="tool-group-horizontal">
-            {/* Aspect ratio control */}
-            <button 
-              className={`btn btn-small ${isRatioLocked ? 'btn-primary' : ''}`}
-              onClick={() => setIsRatioLocked(!isRatioLocked)}
-            >
-              {isRatioLocked ? 'Ratio: Locked' : 'Ratio: Free'}
-            </button>
-
-            {/* Custom font import */}
-            <label className="btn btn-small" style={{ cursor: 'pointer' }}>
-              <Upload size={14} /> Import Font
-              <input 
-                type="file" 
-                accept=".ttf,.otf,.woff,.woff2" 
-                onChange={handleFontUpload} 
-                style={{ display: 'none' }} 
-              />
-            </label>
-
-            {/* Custom .jct file import */}
-            <label className="btn btn-small" style={{ cursor: 'pointer', background: 'rgba(116, 160, 137, 0.15)', border: '2px solid var(--accent-secondary)' }}>
-              <Upload size={14} /> Import .JCT
-              <input 
-                type="file" 
-                accept=".jct" 
-                onChange={handleJCTImport} 
-                style={{ display: 'none' }} 
-              />
-            </label>
-          </div>
-
-          <div className="tool-group-horizontal">
-            {/* Import photo / elements */}
-            <label className="btn btn-small btn-primary" style={{ cursor: 'pointer' }}>
-              <ImageIcon size={14} /> Add Image
-              <input 
-                type="file" 
-                accept="image/*" 
-                onChange={handleImageUpload} 
-                style={{ display: 'none' }} 
-              />
-            </label>
-
-            {/* Add text layer */}
-            <button className="btn btn-small btn-primary" onClick={addTextLayer}>
-              <TextIcon size={14} /> Add Text
-            </button>
-
-            {/* Generate Organic Background Layer */}
-            <button className="btn btn-small btn-primary" onClick={generateOrganicBackground}>
-              <Sparkles size={14} /> Add Pattern
-            </button>
-
-            {/* Export PNG */}
-            <button className="btn btn-small" style={{ background: 'var(--accent-highlight)' }} onClick={exportCanvasAsPNG}>
-              <Download size={14} /> Export PNG
-            </button>
-
-            {/* Export .jct project */}
-            <button className="btn btn-small btn-primary" onClick={exportAsJCT}>
-              <Download size={14} /> Export .JCT
-            </button>
-          </div>
-        </div>
-
+      <div className="design-workspace-layout">
+        {/* SLIM LEFT TOOLBAR */}
+        <aside className="design-toolbar">
+          <button className={`toolbar-btn ${toolMode === 'select' ? 'active' : ''}`} onClick={() => setToolMode('select')} title="Select Tool (V)">
+            <MousePointer2 size={18} />
+          </button>
+          <button className={`toolbar-btn ${toolMode === 'draw' ? 'active' : ''}`} onClick={() => setToolMode('draw')} title="Pen Tool (P)">
+            <PenTool size={18} />
+          </button>
+          
+          <div style={{ height: '1px', width: '30px', background: 'var(--border-color)', margin: '0.5rem 0' }} />
+          
+          <label className="toolbar-btn" title="Add Image">
+            <ImageIcon size={18} />
+            <input type="file" accept="image/*" onChange={handleImageUpload} style={{ display: 'none' }} />
+          </label>
+          <button className="toolbar-btn" onClick={addTextLayer} title="Add Text">
+            <Type size={18} />
+          </button>
+        </aside>
+        
+        <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
         {/* The design workspace */}
         <div className="design-workspace" onClick={() => {
           setSelectedLayerId(null);
@@ -992,6 +847,66 @@ export default function DesignCanvas({ onBack, projectName }) {
 
       {/* RIGHT SIDEBAR: Layers List and Depth Arrangements */}
       <aside className="design-right-panel">
+        
+        {/* Selected Layer Properties */}
+        {selectedLayer && (
+          <div className="control-section" style={{ background: 'var(--bg-panel-hover)', padding: '0.75rem', borderRadius: '8px', border: '2px solid var(--text-primary)' }}>
+            <label className="control-title" style={{ fontSize: '12px' }}>Layer Settings</label>
+            
+            <div className="slider-group">
+              <div className="slider-label">
+                <span>Opacity:</span>
+                <span>{selectedLayer.opacity}%</span>
+              </div>
+              <input 
+                type="range" min="0" max="100" 
+                value={selectedLayer.opacity} 
+                onChange={(e) => updateSelectedLayerProperty('opacity', parseInt(e.target.value))}
+                className="slider-input"
+              />
+            </div>
+
+            {selectedLayer.type === 'text' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+                <div className="slider-group">
+                  <span className="slider-label" style={{ fontSize: '12px' }}>Text Content:</span>
+                  <input 
+                    type="text" 
+                    value={selectedLayer.text} 
+                    onChange={(e) => updateSelectedLayerProperty('text', e.target.value)}
+                    style={{ border: '2px solid var(--text-primary)', padding: '4px 8px', borderRadius: '4px', width: '100%', fontSize: '14px' }}
+                  />
+                </div>
+              </div>
+            )}
+
+            {selectedLayer.type === 'image' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
+                <div className="slider-group">
+                  <div className="slider-label"><span>Brightness:</span><span>{selectedLayer.brightness}%</span></div>
+                  <input type="range" min="0" max="200" value={selectedLayer.brightness} onChange={(e) => updateSelectedLayerProperty('brightness', parseInt(e.target.value))} className="slider-input" />
+                </div>
+                <div className="slider-group">
+                  <div className="slider-label"><span>Contrast:</span><span>{selectedLayer.contrast}%</span></div>
+                  <input type="range" min="0" max="200" value={selectedLayer.contrast} onChange={(e) => updateSelectedLayerProperty('contrast', parseInt(e.target.value))} className="slider-input" />
+                </div>
+                <div className="slider-group">
+                  <div className="slider-label"><span>Saturation:</span><span>{selectedLayer.saturation}%</span></div>
+                  <input type="range" min="0" max="200" value={selectedLayer.saturation} onChange={(e) => updateSelectedLayerProperty('saturation', parseInt(e.target.value))} className="slider-input" />
+                </div>
+                <div className="slider-group">
+                  <div className="slider-label"><span>Hue Rotate:</span><span>{selectedLayer.hueRotate}°</span></div>
+                  <input type="range" min="0" max="360" value={selectedLayer.hueRotate} onChange={(e) => updateSelectedLayerProperty('hueRotate', parseInt(e.target.value))} className="slider-input" />
+                </div>
+                <div className="slider-group">
+                  <div className="slider-label"><span>Blur:</span><span>{selectedLayer.blur}px</span></div>
+                  <input type="range" min="0" max="20" value={selectedLayer.blur} onChange={(e) => updateSelectedLayerProperty('blur', parseInt(e.target.value))} className="slider-input" />
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Layer depth controls */}
         {selectedLayer && (
           <div className="control-section">
@@ -1034,6 +949,20 @@ export default function DesignCanvas({ onBack, projectName }) {
                 </div>
                 <span className="layer-name">{layer.name}</span>
                 
+                {/* Reorder up/down */}
+                <button 
+                  className="layer-action-btn"
+                  onClick={(e) => { e.stopPropagation(); moveLayer('forward', layer.id); }}
+                >
+                  <ChevronUp size={14} />
+                </button>
+                <button 
+                  className="layer-action-btn"
+                  onClick={(e) => { e.stopPropagation(); moveLayer('backward', layer.id); }}
+                >
+                  <ChevronDown size={14} />
+                </button>
+
                 {/* Visibility toggler */}
                 <button 
                   className="layer-action-btn"
@@ -1089,6 +1018,7 @@ export default function DesignCanvas({ onBack, projectName }) {
           </div>
         </div>
       </aside>
+      </div>
     </div>
   );
 }
