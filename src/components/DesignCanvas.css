@@ -168,7 +168,7 @@
 /* Layer rendering styles */
 .canvas-layer-element {
   position: absolute;
-  transform-origin: top left;
+  transform-origin: center;
   user-select: none;
 }
 

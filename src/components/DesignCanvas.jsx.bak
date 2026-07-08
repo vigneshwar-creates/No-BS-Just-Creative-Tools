@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
   ArrowLeft, Image as ImageIcon, Text as TextIcon, Edit3, Trash2, Eye, EyeOff, 
   Layers, Upload, Move, Maximize2, Minimize2, ChevronUp, ChevronDown, Check,
-  Download, Type, Compass, HelpCircle, ShieldAlert, Sparkles, MousePointer2, PenTool, Menu,
-  Lock, Unlock
+  Download, Type, Compass, HelpCircle, ShieldAlert, Sparkles, MousePointer2, PenTool, Menu
 } from 'lucide-react';
 import { get, set } from 'idb-keyval';
 import ColorPicker from './ColorPicker';
@@ -39,83 +38,6 @@ export default function DesignCanvas({ onBack, projectName }) {
   
   // UI State
   const [activeDropdown, setActiveDropdown] = useState(null);
-
-  // Phase 1: History State
-  const [history, setHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const skipHistoryRecord = useRef(false);
-
-  // Phase 1: Viewport & Zoom
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isSpaceDown, setIsSpaceDown] = useState(false);
-  const [isPanning, setIsPanning] = useState(false);
-  const panStart = useRef({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (skipHistoryRecord.current) {
-      skipHistoryRecord.current = false;
-      return;
-    }
-    
-    const timeout = setTimeout(() => {
-      if (layers.length > 0) {
-        setHistory(prev => {
-          const newHistory = prev.slice(0, historyIndex + 1);
-          // avoid duplicate identical states
-          if (newHistory.length > 0 && JSON.stringify(newHistory[newHistory.length - 1]) === JSON.stringify(layers)) {
-             return prev;
-          }
-          setHistoryIndex(newHistory.length);
-          return [...newHistory, layers];
-        });
-      }
-    }, 400); // 400ms debounce
-
-    return () => clearTimeout(timeout);
-  }, [layers]);
-
-  const undo = () => {
-    if (historyIndex > 0) {
-      skipHistoryRecord.current = true;
-      setHistoryIndex(prev => prev - 1);
-      setLayers(history[historyIndex - 1]);
-      setSelectedLayerId(null);
-    }
-  };
-
-  const redo = () => {
-    if (historyIndex < history.length - 1) {
-      skipHistoryRecord.current = true;
-      setHistoryIndex(prev => prev + 1);
-      setLayers(history[historyIndex + 1]);
-      setSelectedLayerId(null);
-    }
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
-        e.preventDefault();
-        if (e.shiftKey) redo();
-        else undo();
-      }
-      if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        setIsSpaceDown(true);
-      }
-    };
-    const handleKeyUp = (e) => {
-      if (e.code === 'Space') setIsSpaceDown(false);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('keyup', handleKeyUp);
-    };
-  }, [historyIndex, history, layers]);
 
   // Load project state from IndexedDB (Secure client-side persistence) on mount
   useEffect(() => {
@@ -206,14 +128,13 @@ export default function DesignCanvas({ onBack, projectName }) {
           type: 'image',
           name: file.name,
           dataUrl,
-          x: (canvasSize.width - w) / 2 - (pan.x / zoom),
-          y: (canvasSize.height - h) / 2 - (pan.y / zoom),
+          x: (canvasSize.width - w) / 2,
+          y: (canvasSize.height - h) / 2,
           width: w,
           height: h,
           aspectRatio: w / h,
           opacity: 100,
           visible: true,
-          rotation: 0,
           brightness: 100,
           contrast: 100,
           saturation: 100,
@@ -334,8 +255,8 @@ export default function DesignCanvas({ onBack, projectName }) {
     setIsDrawing(true);
     const canvas = drawingCanvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / zoom;
-    const y = (e.clientY - rect.top) / zoom;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const ctx = canvas.getContext('2d');
     ctx.beginPath();
@@ -348,8 +269,8 @@ export default function DesignCanvas({ onBack, projectName }) {
     if (!isDrawing || toolMode !== 'draw') return;
     const canvas = drawingCanvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / zoom;
-    const y = (e.clientY - rect.top) / zoom;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
 
     const ctx = canvas.getContext('2d');
     ctx.lineTo(x, y);
@@ -402,23 +323,14 @@ export default function DesignCanvas({ onBack, projectName }) {
     setSelectedLayerId(layer.id);
     setActiveHandle(handle);
     setDragStart({ x: e.clientX, y: e.clientY });
-    setLayerStartPos({ x: layer.x, y: layer.y, width: layer.width, height: layer.height, fontSize: layer.fontSize, rotation: layer.rotation || 0 });
+    setLayerStartPos({ x: layer.x, y: layer.y, width: layer.width, height: layer.height });
   };
 
   useEffect(() => {
     const handleMouseMove = (e) => {
-      if (isSpaceDown && isPanning) {
-        setPan(prev => ({
-          x: prev.x + (e.clientX - panStart.current.x),
-          y: prev.y + (e.clientY - panStart.current.y)
-        }));
-        panStart.current = { x: e.clientX, y: e.clientY };
-        return;
-      }
       if (!activeHandle || selectedLayerId === null) return;
-      
-      const dx = (e.clientX - dragStart.x) / zoom;
-      const dy = (e.clientY - dragStart.y) / zoom;
+      const dx = e.clientX - dragStart.x;
+      const dy = e.clientY - dragStart.y;
 
       setLayers(prev => prev.map(layer => {
         if (layer.id !== selectedLayerId) return layer;
@@ -437,48 +349,42 @@ export default function DesignCanvas({ onBack, projectName }) {
         let x = layerStartPos.x;
         let y = layerStartPos.y;
 
-        const layerAspectRatio = layer.aspectRatio || (layerStartPos.width / layerStartPos.height) || 1;
-        const keepRatio = isRatioLocked || layer.type === 'image' || layer.type === 'text';
-
-        let actualDx = dx;
-        let actualDy = dy;
-        if (layer.rotation) {
-          const angle = -(layer.rotation * Math.PI) / 180;
-          actualDx = dx * Math.cos(angle) - dy * Math.sin(angle);
-          actualDy = dx * Math.sin(angle) + dy * Math.cos(angle);
-        }
-
         if (activeHandle.includes('se')) {
-          w = Math.max(20, layerStartPos.width + actualDx);
-          if (keepRatio) h = w / layerAspectRatio;
-          else h = Math.max(20, layerStartPos.height + actualDy);
+          w = Math.max(20, layerStartPos.width + dx);
+          if (isRatioLocked) {
+            h = w / layer.aspectRatio;
+          } else {
+            h = Math.max(20, layerStartPos.height + dy);
+          }
         } else if (activeHandle.includes('ne')) {
-          w = Math.max(20, layerStartPos.width + actualDx);
-          if (keepRatio) h = w / layerAspectRatio;
-          else h = Math.max(20, layerStartPos.height - actualDy);
+          w = Math.max(20, layerStartPos.width + dx);
+          if (isRatioLocked) {
+            h = w / layer.aspectRatio;
+          } else {
+            h = Math.max(20, layerStartPos.height - dy);
+          }
           y = layerStartPos.y - (h - layerStartPos.height);
         } else if (activeHandle.includes('sw')) {
-          w = Math.max(20, layerStartPos.width - actualDx);
+          w = Math.max(20, layerStartPos.width - dx);
           x = layerStartPos.x + (layerStartPos.width - w);
-          if (keepRatio) h = w / layerAspectRatio;
-          else h = Math.max(20, layerStartPos.height + actualDy);
+          if (isRatioLocked) {
+            h = w / layer.aspectRatio;
+          } else {
+            h = Math.max(20, layerStartPos.height + dy);
+          }
         } else if (activeHandle.includes('nw')) {
-          w = Math.max(20, layerStartPos.width - actualDx);
+          w = Math.max(20, layerStartPos.width - dx);
           x = layerStartPos.x + (layerStartPos.width - w);
-          if (keepRatio) h = w / layerAspectRatio;
-          else h = Math.max(20, layerStartPos.height - actualDy);
+          if (isRatioLocked) {
+            h = w / layer.aspectRatio;
+          } else {
+            h = Math.max(20, layerStartPos.height - dy);
+          }
           y = layerStartPos.y - (h - layerStartPos.height);
-        }
-        
-        let extraProps = {};
-        if (layer.type === 'text') {
-            const oldW = layerStartPos.width || 1;
-            extraProps.fontSize = Math.max(8, (layerStartPos.fontSize || 24) * (w / oldW));
         }
 
         return {
           ...layer,
-          ...extraProps,
           x, y, width: w, height: h
         };
       }));
@@ -705,11 +611,10 @@ export default function DesignCanvas({ onBack, projectName }) {
             )}
           </div>
           {/* Edit Menu */}
-          <div className="top-menu-item" style={{display: 'none'}} onClick={() => setActiveDropdown(activeDropdown === 'edit' ? null : 'edit')}>
+          <div className="top-menu-item" onClick={() => setActiveDropdown(activeDropdown === 'edit' ? null : 'edit')}>
             Edit
             {activeDropdown === 'edit' && (
               <div className="top-menu-dropdown">
-                <div className="dropdown-separator" style={{ height: '1px', background: 'var(--border-color)', margin: '4px 0' }} />
                 <div className="dropdown-item" onClick={() => { setLayers([]); setActiveDropdown(null); }}>
                   <Trash2 size={14}/> Clear Canvas
                 </div>
@@ -824,48 +729,14 @@ export default function DesignCanvas({ onBack, projectName }) {
         
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column', position: 'relative' }}>
         {/* The design workspace */}
-        <div 
-          className={`design-workspace ${isSpaceDown ? 'panning' : ''}`} 
-          style={{ cursor: isSpaceDown ? (isPanning ? 'grabbing' : 'grab') : 'default', position: 'relative', overflow: 'hidden' }}
-          onMouseDown={(e) => {
-            if (isSpaceDown) {
-              setIsPanning(true);
-              panStart.current = { x: e.clientX, y: e.clientY };
-            }
-          }}
-          onMouseUp={() => setIsPanning(false)}
-          onMouseLeave={() => setIsPanning(false)}
-          onWheel={(e) => {
-            if (e.ctrlKey || e.metaKey) {
-              e.preventDefault();
-              setZoom(prev => Math.min(Math.max(0.1, prev - e.deltaY * 0.01), 5));
-            }
-          }}
-          onClick={() => {
-            if (!isPanning) {
-              setSelectedLayerId(null);
-              setEditingTextId(null);
-            }
-          }}
-        >
-          {/* View Controls Overlay */}
-          <div style={{ position: 'absolute', bottom: '16px', right: '16px', display: 'flex', gap: '8px', zIndex: 1000, background: 'var(--bg-panel)', padding: '4px', borderRadius: '8px', border: '1px solid var(--text-primary)' }}>
-            <button className="btn btn-small" onClick={(e) => { e.stopPropagation(); setZoom(prev => Math.max(0.1, prev - 0.1)); }}>-</button>
-            <span style={{ fontSize: '12px', padding: '0 8px', alignSelf: 'center', color: 'var(--text-primary)' }}>{Math.round(zoom * 100)}%</span>
-            <button className="btn btn-small" onClick={(e) => { e.stopPropagation(); setZoom(prev => Math.min(5, prev + 0.1)); }}>+</button>
-            <button className="btn btn-small" onClick={(e) => { e.stopPropagation(); setZoom(1); setPan({x: 0, y: 0}); }}>Reset</button>
-          </div>
-
+        <div className="design-workspace" onClick={() => {
+          setSelectedLayerId(null);
+          setEditingTextId(null);
+        }}>
           <div 
             ref={viewportRef}
             className={`canvas-viewport ${toolMode === 'draw' ? 'drawing-mode' : ''}`}
-            style={{ 
-              width: `${canvasSize.width}px`, height: `${canvasSize.height}px`,
-              transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
-              transformOrigin: 'center center',
-              transition: isPanning ? 'none' : 'transform 0.1s ease-out',
-              position: 'relative'
-            }}
+            style={{ width: `${canvasSize.width}px`, height: `${canvasSize.height}px` }}
           >
             {/* Render Layers */}
             {layers.map(layer => {
@@ -881,8 +752,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                     width: `${layer.width}px`,
                     height: `${layer.height}px`,
                     zIndex: layers.findIndex(l => l.id === layer.id) + 1,
-                    opacity: layer.opacity / 100,
-                    transform: `rotate(${layer.rotation || 0}deg)`
+                    opacity: layer.opacity / 100
                   }}
                   onMouseDown={(e) => handleViewportMouseDown(e, layer, 'move')}
                   onClick={(e) => e.stopPropagation()}
@@ -893,12 +763,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                     <img 
                       src={layer.dataUrl} 
                       alt={layer.name}
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'fill', 
-                        filter: getFilterString(layer) 
-                      }}
+                      style={{ filter: getFilterString(layer) }}
                       draggable="false"
                       onDragStart={(e) => e.preventDefault()}
                     />
@@ -931,7 +796,6 @@ export default function DesignCanvas({ onBack, projectName }) {
                             width: '100%',
                             height: '100%',
                             background: 'transparent',
-                            textAlign: layer.textAlign || 'left',
                             border: 'none',
                             outline: 'none',
                             resize: 'none',
@@ -980,8 +844,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                   top: `${selectedLayer.y}px`,
                   width: `${selectedLayer.width}px`,
                   height: `${selectedLayer.height}px`,
-                  zIndex: 9999,
-                  transform: `rotate(${selectedLayer.rotation || 0}deg)`
+                  zIndex: 9999
                 }}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -990,32 +853,6 @@ export default function DesignCanvas({ onBack, projectName }) {
                 <div className="resize-handle handle-ne" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'ne')} onClick={(e) => e.stopPropagation()} />
                 <div className="resize-handle handle-sw" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'sw')} onClick={(e) => e.stopPropagation()} />
                 <div className="resize-handle handle-se" onMouseDown={(e) => handleViewportMouseDown(e, selectedLayer, 'se')} onClick={(e) => e.stopPropagation()} />
-                
-                {/* Visual indicator for rotation, rotation is controlled via the right panel for mathematical stability */}
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '-30px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    width: '1px',
-                    height: '30px',
-                    backgroundColor: 'var(--accent-primary)',
-                    zIndex: 9999
-                  }}
-                />
-                <div 
-                  className="resize-handle"
-                  title="Rotate (Use Right Panel)"
-                  style={{
-                    top: '-35px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    borderRadius: '50%',
-                    cursor: 'grab'
-                  }}
-                  onClick={(e) => e.stopPropagation()}
-                />
               </div>
             )}
           </div>
@@ -1042,43 +879,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                 className="slider-input"
               />
             </div>
-            
-            <div className="slider-group" style={{marginTop: '0.75rem'}}>
-              <div className="slider-label">
-                <span>Rotation:</span>
-                <span>{selectedLayer.rotation || 0}°</span>
-              </div>
-              <input 
-                type="range" min="-180" max="180" 
-                value={selectedLayer.rotation || 0} 
-                onChange={(e) => updateSelectedLayerProperty('rotation', parseInt(e.target.value))}
-                className="slider-input"
-              />
-            </div>
 
-            {selectedLayer.type === 'text' && (
-              <div style={{ display: 'flex', gap: '0.25rem', marginTop: '0.75rem' }}>
-                <button 
-                  className={`btn btn-small ${selectedLayer.textAlign === 'left' ? 'active' : ''}`} 
-                  style={{flex:1}} 
-                  onClick={() => updateSelectedLayerProperty('textAlign', 'left')}>
-                  Left
-                </button>
-                <button 
-                  className={`btn btn-small ${selectedLayer.textAlign === 'center' ? 'active' : ''}`} 
-                  style={{flex:1}} 
-                  onClick={() => updateSelectedLayerProperty('textAlign', 'center')}>
-                  Center
-                </button>
-                <button 
-                  className={`btn btn-small ${selectedLayer.textAlign === 'right' ? 'active' : ''}`} 
-                  style={{flex:1}} 
-                  onClick={() => updateSelectedLayerProperty('textAlign', 'right')}>
-                  Right
-                </button>
-              </div>
-            )}
-            
             {selectedLayer.type === 'text' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '0.5rem' }}>
                 <div className="slider-group">
@@ -1108,7 +909,7 @@ export default function DesignCanvas({ onBack, projectName }) {
                   <input type="range" min="0" max="200" value={selectedLayer.saturation} onChange={(e) => updateSelectedLayerProperty('saturation', parseInt(e.target.value))} className="slider-input" />
                 </div>
                 <div className="slider-group">
-                  <div className="slider-label"><span>Hue Rotate:</span><span>{selectedLayer.hueRotate}&deg;</span></div>
+                  <div className="slider-label"><span>Hue Rotate:</span><span>{selectedLayer.hueRotate}°</span></div>
                   <input type="range" min="0" max="360" value={selectedLayer.hueRotate} onChange={(e) => updateSelectedLayerProperty('hueRotate', parseInt(e.target.value))} className="slider-input" />
                 </div>
                 <div className="slider-group">
@@ -1176,14 +977,6 @@ export default function DesignCanvas({ onBack, projectName }) {
                   <ChevronDown size={14} />
                 </button>
 
-                {/* Lock toggler */}
-                <button 
-                  className="layer-action-btn"
-                  onClick={(e) => { e.stopPropagation(); setLayers(prev => prev.map(l => l.id === layer.id ? { ...l, locked: !l.locked } : l)); }}
-                  title={layer.locked ? "Unlock layer" : "Lock layer"}
-                >
-                  {layer.locked ? <Lock size={14} /> : <Unlock size={14} style={{opacity: 0.5}} />} 
-                </button>
                 {/* Visibility toggler */}
                 <button 
                   className="layer-action-btn"
